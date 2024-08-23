@@ -1,39 +1,45 @@
-import React from "react";
 import { useState } from "react";
 import "../styling/Login.css"; // Import the CSS file
 import PrimaryButton from "../components/PrimaryButton"; // Import your button component
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
 import {
 	Checkbox,
 	TextField,
 	FormGroup,
 	FormControlLabel,
 } from "@mui/material";
+import * as api from "../apiControllers/userController";
+import { registerBody } from "../models/registerBody";
 
-const Register = () => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [mailingList, setMailingList] = useState(false);
+const Register = (): JSX.Element => {
+	const [registerBody, setRegisterBody] = useState<registerBody>({
+		email: "",
+		password: "",
+		mailingList: false,
+	});
+
+	const navigate = useNavigate();
 
 	const handleRegister = async () => {
-		try {
-			const response = await fetch("http://localhost:5050/api/users/", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ email, password, mailingList }),
+		console.log(registerBody);
+		api
+			.createUser(registerBody)
+			.then(() => {
+				navigate("/");
+			})
+			.catch((error) => {
+				console.log(error);
 			});
+	};
 
-			if (!response.ok) {
-				throw new Error("Registration failed");
-			}
-
-			const data = await response.json();
-			console.log("Registration successful", data);
-		} catch (error) {
-			console.error("Error:", error);
+	const handleFormChange = async (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		const { name, value, checked } = event.target;
+		if (name === "mailingList") {
+			setRegisterBody((prevState) => ({ ...prevState, [name]: checked }));
 		}
+		setRegisterBody((prevState) => ({ ...prevState, [name]: value }));
 	};
 
 	return (
@@ -47,8 +53,8 @@ const Register = () => {
 					fullWidth
 					margin="normal"
 					required
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
+					name="email"
+					onChange={handleFormChange}
 				/>
 				<TextField
 					className="login-field"
@@ -58,13 +64,13 @@ const Register = () => {
 					fullWidth
 					margin="normal"
 					required
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
+					name="password"
+					onChange={handleFormChange}
 				/>
 				<FormGroup className="checkbox-container">
 					<FormControlLabel
 						control={
-							<Checkbox onChange={(e) => setMailingList(e.target.checked)} />
+							<Checkbox name="mailingList" onChange={handleFormChange} />
 						}
 						label="Notify me when new products drop"
 						className="notify-checkbox"

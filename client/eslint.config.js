@@ -1,16 +1,32 @@
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import parser from '@typescript-eslint/parser';
 
-export default tseslint.config(
-  eslint.configs.recommended,
+const typescriptPlugin = {
+  rules: {
+    // Add rules from "@typescript-eslint/recommended" here
+    '@typescript-eslint/explicit-module-boundary-types': 'warn',
+    // ... other rules
+  }
+};
 
-  ...tseslint.configs.recommendedTypeChecked,
+export default [
   {
+    files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
+      parser: parser,
       parserOptions: {
-        projectService: true,
+        project: './tsconfig.app.json',
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    rules: {
+      // Add any specific rules or overrides here
+      ...typescriptPlugin.rules,
+    },
+    plugins: {
+      '@typescript-eslint': tseslint,
+    },
+    ignores: ["vite.config.ts"], // Exclude specific files
   },
-);
+];

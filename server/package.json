@@ -6,6 +6,7 @@
 	"scripts": {
 		"start": "ts-node src/server.ts",
 		"build": "tsc",
+		"lint": "tsc --noEmit && eslint .",
 		"dev": "nodemon src/server.ts"
 	},
 	"keywords": [],

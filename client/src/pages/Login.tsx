@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 import "../styling/Login.css"; // Import the CSS file
 import PrimaryButton from "../components/PrimaryButton"; // Import your button component
@@ -7,7 +6,7 @@ import { TextField } from "@mui/material";
 import Cookies from "js-cookie";
 import { loginResponse } from "../models/loginResponse";
 
-const Login = () => {
+const Login = (): JSX.Element => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 

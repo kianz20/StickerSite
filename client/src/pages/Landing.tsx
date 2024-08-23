@@ -1,11 +1,10 @@
-import React from "react";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
 import { checkAuthStatus } from "../utils/authUtils"; // Import the utility function
 
-const Landing = () => {
+const Landing = (): JSX.Element => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 	useEffect(() => {

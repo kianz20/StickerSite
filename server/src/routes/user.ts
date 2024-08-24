@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
 		const users = await User.find(); // Mongoose method to get all users
 		res.status(200).json(users);
 	} catch (error) {
-		res.status(500).json({ error: "Failed to fetch users" });
+		res.status(500).json({ error: "Failed to fetch users" + error });
 	}
 });
 
@@ -36,11 +36,26 @@ router.post("/", async (req, res) => {
 
 		const encryptedPass = await bcrypt.hash(password, 10);
 		// Create a new user instance
-		const newUser = new User({ email, password: encryptedPass, mailingList });
+		const newUser = new User({
+			email,
+			password: encryptedPass,
+			mailingList,
+			role: "user",
+		});
 		// Save the new user to the database
 		await newUser.save();
-		// Respond with the created user
-		res.status(201).json(newUser);
+		const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
+			expiresIn: "1h",
+		});
+		res.json({
+			message: "Register successful",
+			token, // Send the token to the client
+			user: {
+				id: newUser._id,
+				email: newUser.email,
+				role: newUser.role,
+			},
+		});
 	} catch (error) {
 		if (error instanceof Error) {
 			res
@@ -81,6 +96,7 @@ router.post("/login", async (req, res) => {
 			user: {
 				id: user._id,
 				email: user.email,
+				role: user.role,
 			},
 		});
 	} catch (error) {

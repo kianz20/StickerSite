@@ -1,36 +1,46 @@
-import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
-import { checkAuthStatus } from "../utils/authUtils"; // Import the utility function
+import { checkAuthStatus, getRole } from "../utils/authUtils"; // Import the utility function
+import NavigationBar from "../components/navigationBar";
+import { Link } from "react-router-dom";
 
 const Landing = (): JSX.Element => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [userRole, setUserRole] = useState("logged_out");
 
 	useEffect(() => {
-		setIsAuthenticated(checkAuthStatus());
+		const loggedIn = checkAuthStatus();
+		setIsAuthenticated(loggedIn);
+		if (loggedIn) {
+			const fetchUserRole = getRole();
+			if (fetchUserRole !== undefined) {
+				setUserRole(fetchUserRole);
+			}
+		}
 	}, []);
-
-	const logout = () => {
-		Cookies.remove("token");
-		setIsAuthenticated(false);
-	};
 
 	return (
 		<>
-			<h1>Animori</h1>
-			<p>Welcome to Animori, where you can get all your anime memorabilia</p>
+			<NavigationBar />
+			<p>Welcome to Animori, where you can get all your anime memorabilia!</p>
+
 			<div className="button-container">
 				{isAuthenticated ? (
 					<>
-						<PrimaryButton text="Access Dashboard" />
-						<PrimaryButton text="logout" onClick={logout} />
+						<p>Welcome, {userRole}</p>
+						{userRole === "admin" ? (
+							<>
+								<p>I'm an admin</p>
+							</>
+						) : (
+							<>
+								<p>I'm a user</p>
+							</>
+						)}
 					</>
 				) : (
 					<>
-						<Link to="/login">
-							<PrimaryButton text="Login" />
-						</Link>
+						<p>Check out our store or login above</p>
 						<PrimaryButton text="Find out more!" />
 					</>
 				)}

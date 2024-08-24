@@ -9,3 +9,7 @@ export const getToken = (): string | undefined => {
 export const checkAuthStatus = (): boolean => {
 	return !!getToken(); // Returns true if token exists, otherwise false
 };
+
+export const getRole = (): string | undefined => {
+	return Cookies.get("role");
+};

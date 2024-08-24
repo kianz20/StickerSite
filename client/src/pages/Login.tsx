@@ -6,7 +6,8 @@ import { TextField } from "@mui/material";
 import { loginBody } from "../models/loginBody";
 import * as api from "../apiControllers/userController";
 import Cookies from "js-cookie";
-import NavigationBar from "../components/navigationBar";
+import NavigationBar from "../components/NavigationBar";
+import { loginResponse } from "../models";
 
 const Login = (): JSX.Element => {
 	const [loginBody, setLoginBody] = useState<loginBody>({
@@ -18,13 +19,18 @@ const Login = (): JSX.Element => {
 
 	const handleLogin = async () => {
 		try {
-			const data = await api.loginUser(loginBody);
+			const data: loginResponse = await api.loginUser(loginBody);
 			Cookies.set("token", data.token, {
 				expires: 1,
 				sameSite: "None",
 				secure: true,
 			});
 			Cookies.set("role", data.user.role, {
+				expires: 1,
+				sameSite: "None",
+				secure: true,
+			});
+			Cookies.set("id", data.user.id, {
 				expires: 1,
 				sameSite: "None",
 				secure: true,

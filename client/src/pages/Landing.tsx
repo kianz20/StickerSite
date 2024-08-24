@@ -1,23 +1,9 @@
-import { useState, useEffect } from "react";
 import PrimaryButton from "../components/PrimaryButton";
-import { checkAuthStatus, getRole } from "../utils/authUtils"; // Import the utility function
-import NavigationBar from "../components/navigationBar";
-import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import NavigationBar from "../components/NavigationBar";
 
 const Landing = (): JSX.Element => {
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	const [userRole, setUserRole] = useState("logged_out");
-
-	useEffect(() => {
-		const loggedIn = checkAuthStatus();
-		setIsAuthenticated(loggedIn);
-		if (loggedIn) {
-			const fetchUserRole = getRole();
-			if (fetchUserRole !== undefined) {
-				setUserRole(fetchUserRole);
-			}
-		}
-	}, []);
+	const { isAuthenticated, userRole } = useAuth();
 
 	return (
 		<>

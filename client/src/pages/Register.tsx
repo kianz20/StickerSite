@@ -11,7 +11,8 @@ import {
 import * as api from "../apiControllers/userController";
 import { registerBody } from "../models/registerBody";
 import Cookies from "js-cookie";
-import NavigationBar from "../components/navigationBar";
+import NavigationBar from "../components/NavigationBar";
+import { loginResponse } from "../models";
 
 const Register = (): JSX.Element => {
 	const [registerBody, setRegisterBody] = useState<registerBody>({
@@ -24,11 +25,18 @@ const Register = (): JSX.Element => {
 
 	const handleRegister = async () => {
 		try {
-			console.log(registerBody);
-
-			const data = await api.createUser(registerBody);
-
+			const data: loginResponse = await api.createUser(registerBody);
 			Cookies.set("token", data.token, {
+				expires: 1,
+				sameSite: "None",
+				secure: true,
+			});
+			Cookies.set("role", data.user.role, {
+				expires: 1,
+				sameSite: "None",
+				secure: true,
+			});
+			Cookies.set("id", data.user.id, {
 				expires: 1,
 				sameSite: "None",
 				secure: true,

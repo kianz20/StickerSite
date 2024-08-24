@@ -2,29 +2,10 @@ import "../styling/NavigationBar.css";
 import animoriLogo from "../resources/animori-logo.png";
 import { Link } from "react-router-dom";
 import PrimaryButton from "./PrimaryButton";
-import { useEffect, useState } from "react";
-import { checkAuthStatus, getRole } from "../utils/authUtils";
-import Cookies from "js-cookie";
+import { useAuth } from "../hooks/useAuth";
 
 const NavigationBar: React.FC<{}> = () => {
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	const [userRole, setUserRole] = useState("logged_out");
-
-	useEffect(() => {
-		const loggedIn = checkAuthStatus();
-		setIsAuthenticated(loggedIn);
-		if (loggedIn) {
-			const fetchUserRole = getRole();
-			if (fetchUserRole !== undefined) {
-				setUserRole(fetchUserRole);
-			}
-		}
-	}, []);
-
-	const logout = () => {
-		Cookies.remove("token");
-		setIsAuthenticated(false);
-	};
+	const { isAuthenticated, userRole, userID, logout } = useAuth();
 
 	return (
 		<div className="top-navigation">
@@ -42,7 +23,7 @@ const NavigationBar: React.FC<{}> = () => {
 							</Link>
 						</>
 					)}
-					<Link to="/profile">
+					<Link to={`/profile/${userID}`}>
 						<PrimaryButton text="My Profile" />
 					</Link>
 					<PrimaryButton text="logout" onClick={logout} />

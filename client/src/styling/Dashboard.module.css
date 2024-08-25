@@ -1,0 +1,33 @@
+.dashboardUtils {
+  display: flex;
+  gap: 20px; /* Optional: space between the items */
+}
+
+.addProduct, .removeProduct {
+  flex: 1; /* Optional: makes each item take up equal space */
+}
+
+.addProductField {
+  margin: 8px;
+  border-radius: 5px;
+}
+
+.addProductField .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: #6269e4; /* Default border color */
+}
+
+.addProductField .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: white; /* Border color on hover */
+}
+
+.addProductField .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: rgb(255, 255, 255); /* Border color when focused */
+}
+
+.addProductField .MuiInputLabel-root {
+  color: #e9e9e9; /* Label color */
+}
+
+.addProductField .MuiInputBase-input {
+  color: white; /* Input text color */
+}

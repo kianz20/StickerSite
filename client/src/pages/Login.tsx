@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styling/Login.css";
+import styles from "../styling/Login.module.css";
 import PrimaryButton from "../components/PrimaryButton";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
@@ -17,24 +17,21 @@ const Login = (): JSX.Element => {
 
 	const navigate = useNavigate();
 
+	const setCookie = (name: string, value: string) => {
+		Cookies.set(name, value, {
+			expires: 1,
+			sameSite: "None",
+			secure: true,
+		});
+	};
+
 	const handleLogin = async () => {
 		try {
 			const data: loginResponse = await api.loginUser(loginBody);
-			Cookies.set("token", data.token, {
-				expires: 1,
-				sameSite: "None",
-				secure: true,
-			});
-			Cookies.set("role", data.user.role, {
-				expires: 1,
-				sameSite: "None",
-				secure: true,
-			});
-			Cookies.set("id", data.user.id, {
-				expires: 1,
-				sameSite: "None",
-				secure: true,
-			});
+			setCookie("token", data.token);
+			setCookie("role", data.user.role);
+			setCookie("id", data.user.id);
+			setCookie("email", data.user.email);
 
 			// Navigate to the home page after successful login
 			navigate("/");
@@ -57,7 +54,7 @@ const Login = (): JSX.Element => {
 	return (
 		<>
 			<NavigationBar />
-			<div className="login-container">
+			<div className={styles.loginContainer}>
 				<h1>Login</h1>
 				<form>
 					<TextField

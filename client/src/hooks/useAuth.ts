@@ -6,35 +6,51 @@ interface AuthData {
 	userRole: string | undefined;
 	userID: string | undefined;
 	userToken: string | undefined;
+	userEmail: string | undefined;
 	logout: () => void;
 }
 
 export const useAuth = (): AuthData => {
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	const [userRole, setUserRole] = useState<string | undefined>("");
-	const [userID, setUserID] = useState<string | undefined>("");
-	const [userToken, setUserToken] = useState<string | undefined>("");
+	const [authData, setAuthData] = useState<{
+		isAuthenticated: boolean;
+		userRole: string | undefined;
+		userID: string | undefined;
+		userToken: string | undefined;
+		userEmail: string | undefined;
+	}>({
+		isAuthenticated: false,
+		userRole: undefined,
+		userID: undefined,
+		userToken: undefined,
+		userEmail: undefined,
+	});
 
 	useEffect(() => {
-		const loggedIn = !!Cookies.get("token");
-		setIsAuthenticated(loggedIn);
+		const token = Cookies.get("token");
+		const isAuthenticated = !!token;
 
-		if (loggedIn) {
-			setUserRole(Cookies.get("role"));
-			setUserID(Cookies.get("id"));
-			setUserToken(Cookies.get("token"));
-		}
+		setAuthData({
+			isAuthenticated,
+			userRole: Cookies.get("role"),
+			userID: Cookies.get("id"),
+			userToken: token,
+			userEmail: Cookies.get("email"),
+		});
 	}, []);
 
 	const logout = useCallback(() => {
 		Cookies.remove("token");
 		Cookies.remove("role");
 		Cookies.remove("id");
-		setIsAuthenticated(false);
-		setUserRole(undefined);
-		setUserID(undefined);
-		setUserToken(undefined);
+		Cookies.remove("email");
+		setAuthData({
+			isAuthenticated: false,
+			userRole: undefined,
+			userID: undefined,
+			userToken: undefined,
+			userEmail: undefined,
+		});
 	}, []);
 
-	return { isAuthenticated, userRole, userID, userToken, logout };
+	return { ...authData, logout };
 };

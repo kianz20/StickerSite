@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styling/Login.css"; // Import the CSS file
+import styles from "../styling/Login.module.css"; // Import the CSS file
 import PrimaryButton from "../components/PrimaryButton"; // Import your button component
 import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
 import {
@@ -20,26 +20,23 @@ const Register = (): JSX.Element => {
 		mailingList: false,
 	});
 
+	const setCookie = (name: string, value: string) => {
+		Cookies.set(name, value, {
+			expires: 1,
+			sameSite: "None",
+			secure: true,
+		});
+	};
+
 	const navigate = useNavigate();
 
 	const handleRegister = async () => {
 		try {
 			const data: loginResponse = await api.createUser(registerBody);
-			Cookies.set("token", data.token, {
-				expires: 1,
-				sameSite: "None",
-				secure: true,
-			});
-			Cookies.set("role", data.user.role, {
-				expires: 1,
-				sameSite: "None",
-				secure: true,
-			});
-			Cookies.set("id", data.user.id, {
-				expires: 1,
-				sameSite: "None",
-				secure: true,
-			});
+			setCookie("token", data.token);
+			setCookie("role", data.user.role);
+			setCookie("id", data.user.id);
+			setCookie("email", data.user.email);
 
 			// Navigate to the home page
 			navigate("/");
@@ -62,11 +59,11 @@ const Register = (): JSX.Element => {
 	return (
 		<>
 			<NavigationBar />
-			<div className="login-container">
+			<div className={styles.loginContainer}>
 				<h2>Register for an Animori Account!</h2>
 				<form>
 					<TextField
-						className="login-field"
+						className={styles.loginField}
 						label="Email"
 						variant="outlined"
 						fullWidth

@@ -1,0 +1,10 @@
+.detailList {
+	margin: 0 auto;
+	width: 50vw;
+	height: 50vh;
+	text-align: left;
+	background-color: #ededed;
+	box-shadow: 12px 12px 2px 1px #aea3ff97;
+	padding: 50px;
+	color: black;
+}

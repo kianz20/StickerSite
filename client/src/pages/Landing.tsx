@@ -1,17 +1,34 @@
 import PrimaryButton from "../components/PrimaryButton";
 import { useAuth } from "../hooks/useAuth";
 import NavigationBar from "../components/NavigationBar";
+import styles from "../styling/Landing.module.css";
+import stickerCategoryPicture from "../resources/stickerCategoryShort.png";
+import lightupCategoryPicture from "../resources/lightupFrameCategoryShort.png";
+import badgesCategoryPicture from "../resources/badgesCategoryShort.png";
 
 const Landing = (): JSX.Element => {
-	const { userToken, userRole } = useAuth();
+	// const { userToken, userRole } = useAuth();
 
 	return (
 		<>
 			<NavigationBar />
-			<p>Welcome to Animori, where you can get all your anime memorabilia!</p>
-
-			<div className="button-container">
-				{userToken ? (
+			<div className={styles.categoriesContainer}>
+				<img
+					src={stickerCategoryPicture}
+					alt="stickers"
+					className={styles.categoryPicture}
+				/>
+				<img
+					src={lightupCategoryPicture}
+					alt="lightUpFrame"
+					className={styles.categoryPicture}
+				/>
+				<img
+					src={badgesCategoryPicture}
+					alt="badges"
+					className={styles.categoryPicture}
+				/>
+				{/* {userToken ? (
 					<>
 						<p>Welcome, {userRole}</p>
 						{userRole === "admin" ? (
@@ -26,10 +43,12 @@ const Landing = (): JSX.Element => {
 					</>
 				) : (
 					<>
-						<p>Check out our store or login above</p>
+						<p className={styles.description}>
+							Check out our store or login above
+						</p>
 						<PrimaryButton text="Find out more!" />
 					</>
-				)}
+				)} */}
 			</div>
 		</>
 	);

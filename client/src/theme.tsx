@@ -1,11 +1,17 @@
 // src/theme.ts
 import { createTheme } from "@mui/material/styles";
 
-// Define your custom theme
+const primaryColor = "#000000";
+const animoriPurple = "#aea3ff";
+
+const defaultColor = "#ffffff";
+const hoverColor = "#646cff";
+const focusColor = "#ffffff";
+
 const theme = createTheme({
 	palette: {
 		primary: {
-			main: "#646cff",
+			main: primaryColor,
 		},
 		secondary: {
 			main: "#19857b",
@@ -15,6 +21,40 @@ const theme = createTheme({
 		},
 		background: {
 			default: "#fff",
+		},
+	},
+	components: {
+		MuiOutlinedInput: {
+			styleOverrides: {
+				root: {
+					"&:hover .MuiOutlinedInput-notchedOutline": {
+						borderColor: hoverColor, // Hover state
+					},
+					"&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+						borderColor: animoriPurple, // Focused state
+					},
+					".MuiOutlinedInput-notchedOutline": {
+						borderColor: primaryColor, // Default state
+					},
+				},
+			},
+		},
+		MuiInputLabel: {
+			styleOverrides: {
+				root: {
+					color: primaryColor, // Default label color
+					"&.Mui-focused": {
+						color: animoriPurple, // Label color when focused
+					},
+				},
+			},
+		},
+		MuiInputBase: {
+			styleOverrides: {
+				input: {
+					color: primaryColor, // Input text color
+				},
+			},
 		},
 	},
 });

@@ -1,10 +1,9 @@
-import PrimaryButton from "../components/PrimaryButton";
-import { useAuth } from "../hooks/useAuth";
 import NavigationBar from "../components/NavigationBar";
 import styles from "../styling/Landing.module.css";
 import stickerCategoryPicture from "../resources/stickerCategoryShort.png";
 import lightupCategoryPicture from "../resources/lightupFrameCategoryShort.png";
 import badgesCategoryPicture from "../resources/badgesCategoryShort.png";
+import SearchBar from "../components/SearchBar";
 
 const Landing = (): JSX.Element => {
 	// const { userToken, userRole } = useAuth();
@@ -12,6 +11,7 @@ const Landing = (): JSX.Element => {
 	return (
 		<>
 			<NavigationBar />
+			<SearchBar />
 			<div className={styles.categoriesContainer}>
 				<img
 					src={stickerCategoryPicture}

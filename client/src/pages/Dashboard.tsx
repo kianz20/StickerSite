@@ -6,7 +6,7 @@ import { TextField } from "@mui/material";
 
 const Dashboard = (): JSX.Element => {
 	const { isAuthenticated, userID, userToken, userRole } = useAuth();
-	if (isAuthenticated === undefined || userRole === "") {
+	if (isAuthenticated === undefined || userRole === undefined) {
 		return <div>Loading...</div>; // Handle loading state or redirect
 	}
 	if (userRole !== "admin") {

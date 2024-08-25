@@ -5,7 +5,8 @@
 	padding: 10px; /* Adds some padding around the navigation bar */
 	position: sticky; /* Makes the nav bar sticky at the top */
 	top: 0; /* Positions the nav bar at the very top */
-	width: 100vw; /* Makes the nav bar span the entire width of the viewport */
+	width: 100%; /* Makes the nav bar span the entire width of the viewport */
+	box-sizing: border-box; /* Ensure padding and border are included in the width */
 
 	background: #aea3ff url("../resources/navbarStarter.png") no-repeat left
 		center;
@@ -31,7 +32,7 @@
 .accountIcon {
 	transform: scale(2); /* Scales the account icon to twice its original size */
 	color: white;
-	margin-right: 40px;
+	margin-right: 20px;
 }
 
 .accountName {

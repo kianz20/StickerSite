@@ -1,0 +1,18 @@
+.searchBarContainer {
+	padding: 10px;
+	background-color: rgb(224, 216, 255);
+}
+
+.searchButton {
+	height: 56px;
+}
+
+.searchBar {
+	width: 500px;
+	padding-left: 10px;
+	background-color: white;
+}
+
+.categorySelect {
+	width: 180px;
+}

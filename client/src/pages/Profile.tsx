@@ -5,6 +5,7 @@ import * as api from "../apiControllers/userController";
 import { useEffect, useState } from "react";
 import { userDetails } from "../models";
 import styles from "../styling/Profile.module.css";
+import SearchBar from "../components/SearchBar";
 
 const Profile = (): JSX.Element => {
 	const { isAuthenticated, userID, userToken } = useAuth();
@@ -44,6 +45,7 @@ const Profile = (): JSX.Element => {
 	return (
 		<>
 			<NavigationBar />
+			<SearchBar />
 			<h2>My Account</h2>
 			<div className={styles.detailList}>
 				<div className={styles.personalDetails}>

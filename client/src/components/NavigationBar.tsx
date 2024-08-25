@@ -29,6 +29,13 @@ const NavigationBar: React.FC<{}> = () => {
 					<InstagramIcon className={styles.socialIcon} />
 				</Link>
 			</div>
+			{userRole === "admin" && (
+				<>
+					<Link to={`/dashboard/${userID}`}>
+						<PrimaryButton text="Admin Dashboard" />
+					</Link>
+				</>
+			)}
 			{isAuthenticated && (
 				<Button className={styles.logoutButton} onClick={logout}>
 					logout
@@ -43,17 +50,6 @@ const NavigationBar: React.FC<{}> = () => {
 				</div>
 				<AccountCircleIcon className={styles.accountIcon} />
 			</Link>
-
-			{/* {userRole === "admin" && (
-						<>
-							<Link to={`/dashboard/${userID}`}>
-								<PrimaryButton text="Admin Dashboard" />
-							</Link>
-						</>
-					)}
-					<Link to={`/profile/${userID}`}>
-						<PrimaryButton text="Profile Settings" />
-					</Link> */}
 		</div>
 	);
 };

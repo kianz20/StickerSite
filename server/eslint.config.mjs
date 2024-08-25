@@ -9,6 +9,7 @@ export default [
   {languageOptions: {
     parser: parser,
     parserOptions: {
+      parser: '@typescript-eslint/parser',
       project: './tsconfig.json',
       tsconfigRootDir: import.meta.dirname,
     },
@@ -16,4 +17,5 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
+  
 ];

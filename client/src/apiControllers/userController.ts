@@ -1,11 +1,9 @@
-import { registerBody, loginResponse, loginBody } from "../models";
+import { userDetails, loginResponse, loginBody } from "../models";
 
 const deployed = false;
 const url = deployed ? "https://deployedURL.com" : "http://localhost:5050";
 
-export const createUser = async (
-	user: registerBody
-): Promise<loginResponse> => {
+export const createUser = async (user: userDetails): Promise<loginResponse> => {
 	try {
 		const response = await fetch(`${url}/api/users/`, {
 			method: "POST",
@@ -47,6 +45,32 @@ export const loginUser = async (user: loginBody): Promise<loginResponse> => {
 		return data;
 	} catch (error) {
 		console.error("Error in loginUser:", error);
+		throw error;
+	}
+};
+
+export const getProfileData = async (
+	userID: string,
+	token: string
+): Promise<userDetails> => {
+	try {
+		const response = await fetch(`${url}/api/users/${userID}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (!response.ok) {
+			const errorMessage = `HTTP error! Status: ${response.status}, Status Text: ${response.statusText}`;
+			throw new Error(errorMessage);
+		}
+
+		const data: userDetails = await response.json();
+		return data;
+	} catch (error) {
+		console.error("Error fetching profile data:", error);
 		throw error;
 	}
 };

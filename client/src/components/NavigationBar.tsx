@@ -9,7 +9,9 @@ const NavigationBar: React.FC<{}> = () => {
 
 	return (
 		<div className="top-navigation">
-			<img src={animoriLogo} alt="Animori Logo" className="animori-logo" />
+			<Link to="/">
+				<img src={animoriLogo} alt="Animori Logo" className="animori-logo" />
+			</Link>
 			{!isAuthenticated ? (
 				<Link to="/login">
 					<PrimaryButton text="Login or Register Here!" />
@@ -18,7 +20,7 @@ const NavigationBar: React.FC<{}> = () => {
 				<>
 					{userRole === "admin" && (
 						<>
-							<Link to="/:id/dashboard">
+							<Link to={`/dashboard/${userID}`}>
 								<PrimaryButton text="Admin Dashboard" />
 							</Link>
 						</>

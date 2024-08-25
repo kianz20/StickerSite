@@ -3,7 +3,7 @@ import { useAuth } from "../hooks/useAuth";
 import NavigationBar from "../components/NavigationBar";
 
 const Landing = (): JSX.Element => {
-	const { isAuthenticated, userRole } = useAuth();
+	const { userToken, userRole } = useAuth();
 
 	return (
 		<>
@@ -11,7 +11,7 @@ const Landing = (): JSX.Element => {
 			<p>Welcome to Animori, where you can get all your anime memorabilia!</p>
 
 			<div className="button-container">
-				{isAuthenticated ? (
+				{userToken ? (
 					<>
 						<p>Welcome, {userRole}</p>
 						{userRole === "admin" ? (

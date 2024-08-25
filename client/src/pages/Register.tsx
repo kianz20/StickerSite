@@ -9,15 +9,14 @@ import {
 	FormControlLabel,
 } from "@mui/material";
 import * as api from "../apiControllers/userController";
-import { registerBody } from "../models/registerBody";
+import { userDetails } from "../models/userDetails";
 import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
 
 const Register = (): JSX.Element => {
-	const [registerBody, setRegisterBody] = useState<registerBody>({
+	const [registerBody, setRegisterBody] = useState<userDetails>({
 		email: "",
-		password: "",
 		mailingList: false,
 	});
 

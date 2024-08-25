@@ -2,13 +2,14 @@ import express from "express";
 import User from "../models/User"; // Correctly import the User model
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import authenticateToken from "../middleware/authMiddleware";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 
 const router = express.Router();
 
 // Get all users from DB
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
 	try {
 		const users = await User.find(); // Mongoose method to get all users
 		res.status(200).json(users);
@@ -44,9 +45,13 @@ router.post("/", async (req, res) => {
 		});
 		// Save the new user to the database
 		await newUser.save();
-		const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
-			expiresIn: "1h",
-		});
+		const token = jwt.sign(
+			{ userId: newUser._id, email: newUser.email },
+			JWT_SECRET,
+			{
+				expiresIn: "1h",
+			}
+		);
 		res.json({
 			message: "Register successful",
 			token, // Send the token to the client
@@ -86,9 +91,13 @@ router.post("/login", async (req, res) => {
 			return res.status(401).json({ error: "Invalid password" });
 		}
 		// Generate a JWT token
-		const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-			expiresIn: "1h",
-		});
+		const token = jwt.sign(
+			{ userId: user._id, email: user.email },
+			JWT_SECRET,
+			{
+				expiresIn: "1h",
+			}
+		);
 		// Send the token and user data
 		res.json({
 			message: "Login successful",
@@ -102,6 +111,22 @@ router.post("/login", async (req, res) => {
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Failed to login" });
+	}
+});
+
+router.get("/:id", authenticateToken, async (req, res) => {
+	try {
+		const { id } = req.params;
+		if (!id) {
+			return res.status(400).json({ error: "ID is required" });
+		}
+		const user = await User.findById(id);
+		if (!user) {
+			return res.status(404).json({ error: "No user was found" });
+		}
+		res.status(200).json({ email: user.email, mailingList: user.mailingList });
+	} catch (error) {
+		res.status(500).json({ error: "An error occurred", details: error });
 	}
 });
 

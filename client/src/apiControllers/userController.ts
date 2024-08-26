@@ -40,15 +40,14 @@ export const loginUser = async (user: loginBody): Promise<loginResponse> => {
 		});
 
 		if (!response.ok) {
-			throw new Error("Login failed");
+			const errorData = await response.json();
+			return { error: errorData.error || "Something went wrong" };
 		}
 
 		const data: loginResponse = await response.json();
-		console.log("Login successful", data);
 		return data;
 	} catch (error) {
-		console.error("Error in loginUser: ", error);
-		throw error;
+		return { error: (error as Error).message };
 	}
 };
 

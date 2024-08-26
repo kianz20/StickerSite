@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "../styling/Login.module.css"; // Import the CSS file
+import styles from "../styles/Login.module.css"; // Import the CSS file
 import PrimaryButton from "../components/PrimaryButton"; // Import your button component
 import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
 import {

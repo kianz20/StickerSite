@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import NavigationBar from "../components/NavigationBar";
 import { useAuth } from "../hooks/useAuth";
-import styles from "../styling/Dashboard.module.css";
+import styles from "../styles/Dashboard.module.css";
 import { TextField } from "@mui/material";
 import { productDetails } from "../models/productDetails";
 import { useState } from "react";

@@ -1,5 +1,5 @@
 import NavigationBar from "../components/NavigationBar";
-import styles from "../styling/Landing.module.css";
+import styles from "../styles/Landing.module.css";
 import stickerCategoryPicture from "../resources/stickerCategoryShort.png";
 import lightupCategoryPicture from "../resources/lightupFrameCategoryShort.png";
 import badgesCategoryPicture from "../resources/badgesCategoryShort.png";

@@ -1,5 +1,5 @@
 import { Button, MenuItem, TextField } from "@mui/material";
-import styles from "../styling/SearchBar.module.css";
+import styles from "../styles/SearchBar.module.css";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 

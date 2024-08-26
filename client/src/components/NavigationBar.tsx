@@ -1,4 +1,4 @@
-import styles from "../styling/NavigationBar.module.css";
+import styles from "../styles/NavigationBar.module.css";
 import animoriLogo from "../resources/animori-logo.png";
 import { Link } from "react-router-dom";
 import PrimaryButton from "./PrimaryButton";

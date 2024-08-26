@@ -4,7 +4,7 @@ import { Navigate, useParams } from "react-router-dom";
 import * as api from "../apiControllers/userController";
 import { useEffect, useState } from "react";
 import { userDetails } from "../models";
-import styles from "../styling/Profile.module.css";
+import styles from "../styles/Profile.module.css";
 import SearchBar from "../components/SearchBar";
 
 const Profile = (): JSX.Element => {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "../styling/Login.module.css";
+import styles from "../styles/Login.module.css";
 import PrimaryButton from "../components/PrimaryButton";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";

@@ -16,6 +16,7 @@ const Dashboard = (): JSX.Element => {
 		name: "",
 		price: "",
 		details: "",
+		_id: "",
 	});
 	const [errorDetails, setErrorDetails] = useState<{
 		text: string;

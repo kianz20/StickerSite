@@ -30,3 +30,21 @@ export const addProduct = async (
 		return { error: (error as Error).message };
 	}
 };
+
+export const getAllProducts = async (): Promise<{ allProducts?: productDetails[]; error?: string }> => {
+	try {
+		const response = await fetch(`${url}/api/products/`, {
+			method: "GET",
+		});
+
+		if (!response.ok) {
+			const errorData = await response.json();
+			return { error: errorData.error || "Something went wrong" };
+		}
+
+		const allProducts: productDetails[] = await response.json();
+		return { allProducts };
+	} catch (error) {
+		return { error: (error as Error).message };
+	}
+}

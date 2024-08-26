@@ -7,10 +7,10 @@ import authenticateToken from "../middleware/authMiddleware";
 const router = express.Router();
 
 // Get all products from DB
-router.get("/", authenticateToken, async (req, res) => {
+router.get("/", async (req, res) => {
 	try {
-		const users = await Product.find(); // Mongoose method to get all users
-		res.status(200).json(users);
+		const products = await Product.find(); // Mongoose method to get all users
+		res.status(200).json(products);
 	} catch (error) {
 		res.status(500).json({ error: "Failed to fetch products" + error });
 	}

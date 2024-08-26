@@ -13,8 +13,7 @@ import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
 import { registerBody } from "../models/registerBody";
-import ErrorMessage from "../components/ErrorMessage";
-import { Severity } from "../components/ErrorMessage";
+import ErrorMessage, { Severity } from "../components/ErrorMessage";
 
 const Register = (): JSX.Element => {
 	const [registerBody, setRegisterBody] = useState<registerBody>({

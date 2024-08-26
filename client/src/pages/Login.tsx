@@ -8,8 +8,7 @@ import * as api from "../apiControllers/userController";
 import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
-import ErrorMessage from "../components/ErrorMessage";
-import { Severity } from "../components/ErrorMessage";
+import ErrorMessage, { Severity } from "../components/ErrorMessage";
 
 const Login = (): JSX.Element => {
 	const [loginBody, setLoginBody] = useState<loginBody>({

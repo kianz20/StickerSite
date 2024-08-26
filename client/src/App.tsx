@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Unauthorized from "./pages/Unauthorized";
+import Products from "./pages/Products"
 import "./App.css";
 
 const App = (): JSX.Element => {
@@ -17,6 +18,7 @@ const App = (): JSX.Element => {
 				<Route path="/profile/:id" element={<Profile />} />
 				<Route path="/dashboard/:id" element={<Dashboard />} />
 				<Route path="/unauthorized" element={<Unauthorized />} />
+				<Route path="/products" element={<Products />} />
 			</Routes>
 		</BrowserRouter>
 	);

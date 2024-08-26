@@ -1,0 +1,11 @@
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.singleProduct {
+    background-color: #ccc5ff;
+    color: black;
+    margin: 1rem;
+    border-radius: 10px;
+}

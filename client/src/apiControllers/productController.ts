@@ -4,7 +4,8 @@ const deployed = false;
 const url = deployed ? "https://deployedURL.com" : "http://localhost:5050";
 
 export const addProduct = async (
-	product: productDetails
+	product: productDetails,
+	token: string
 ): Promise<{ message?: string; error?: string }> => {
 	try {
 		if (!product.details || !product.name || !product.price) {
@@ -15,6 +16,7 @@ export const addProduct = async (
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(product),
 		});
@@ -31,13 +33,19 @@ export const addProduct = async (
 	}
 };
 
-export const getProducts = async (): Promise<{
+export const getProducts = async (
+	token: string
+): Promise<{
 	products?: productDetails[];
 	error?: string;
 }> => {
 	try {
 		const response = await fetch(`${url}/api/products/`, {
 			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
 		});
 
 		if (!response.ok) {

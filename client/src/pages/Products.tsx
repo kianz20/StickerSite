@@ -5,13 +5,17 @@ import * as api from "../apiControllers/productController";
 import { productDetails } from "../models";
 import { useEffect, useState } from "react";
 import SingleProduct from "../components/SingleProduct";
+import { useAuth } from "../hooks/useAuth";
 
 const Products = (): JSX.Element => {
 	const [products, setProducts] = useState<productDetails[]>();
+	const { userToken } = useAuth();
 
 	const handleGetAllProducts = async () => {
-		const data = await api.getProducts();
-		setProducts(data.products);
+		if (userToken) {
+			const data = await api.getProducts(userToken);
+			setProducts(data.products);
+		}
 	};
 
 	useEffect(() => {

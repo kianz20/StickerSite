@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 // Add new product
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
 	try {
 		// Extract product data from the request body
 		const { name, price, details } = req.body;
@@ -46,8 +46,7 @@ router.post("/", async (req, res) => {
 	} catch (error) {
 		if (error instanceof Error) {
 			res.status(500).json({
-				error: "Error during product creation",
-				details: error.message,
+				error: error.message,
 			});
 		}
 	}

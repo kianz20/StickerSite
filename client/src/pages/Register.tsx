@@ -13,7 +13,7 @@ import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
 import { registerBody } from "../models/registerBody";
-import ErrorMessage, { Severity } from "../components/ErrorMessage";
+import AlertMessage, { Severity } from "../components/AlertMessage";
 
 const Register = (): JSX.Element => {
 	const [registerBody, setRegisterBody] = useState<registerBody>({
@@ -22,7 +22,7 @@ const Register = (): JSX.Element => {
 		mailingList: false,
 	});
 
-	const [errorDetails, setErrorDetails] = useState<{
+	const [alertDetails, setAlertDetails] = useState<{
 		text: string;
 		visible: boolean;
 		severity: Severity;
@@ -47,7 +47,7 @@ const Register = (): JSX.Element => {
 			const data: loginResponse = await api.createUser(registerBody);
 			if (data.error) {
 				console.error("Login failed: ", data.error);
-				setErrorDetails({
+				setAlertDetails({
 					text: data.error,
 					visible: true,
 					severity: "error",
@@ -66,7 +66,7 @@ const Register = (): JSX.Element => {
 					// Navigate to the home page after successful login
 					navigate("/");
 				} else {
-					setErrorDetails({
+					setAlertDetails({
 						text: "Something has gone wrong. Please refresh",
 						visible: true,
 						severity: "error",
@@ -138,7 +138,7 @@ const Register = (): JSX.Element => {
 				</Link>
 				<br />
 				<br />
-				<ErrorMessage {...errorDetails} />
+				<AlertMessage {...alertDetails} />
 			</div>
 		</>
 	);

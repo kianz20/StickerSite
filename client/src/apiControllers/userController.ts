@@ -64,8 +64,8 @@ export const getProfileData = async (
 		});
 
 		if (!response.ok) {
-			const errorMessage = `HTTP error! Status: ${response.status}, Status Text: ${response.statusText}`;
-			throw new Error(errorMessage);
+			const AlertMessage = `HTTP error! Status: ${response.status}, Status Text: ${response.statusText}`;
+			throw new Error(AlertMessage);
 		}
 
 		const data: userDetails = await response.json();

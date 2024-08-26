@@ -7,10 +7,10 @@ import { productDetails } from "../models/productDetails";
 import { useEffect, useState } from "react";
 import * as api from "../apiControllers/productController";
 import PrimaryButton from "../components/PrimaryButton";
-import ErrorMessage, { Severity } from "../components/ErrorMessage";
+import AlertMessage, { Severity } from "../components/AlertMessage";
 
 const Dashboard = (): JSX.Element => {
-	const { isAuthenticated, userRole } = useAuth();
+	const { isAuthenticated, userRole, userToken } = useAuth();
 
 	// Contains the details used when adding new products
 	const [newProductDetails, setNewProductDetails] = useState<productDetails>({
@@ -23,7 +23,7 @@ const Dashboard = (): JSX.Element => {
 	const [productDetails, setProductDetails] = useState<productDetails[]>();
 
 	// Contains the error shown to the user
-	const [errorDetails, setErrorDetails] = useState<{
+	const [alertDetails, setAlertDetails] = useState<{
 		text: string;
 		visible: boolean;
 		severity: Severity;
@@ -34,10 +34,10 @@ const Dashboard = (): JSX.Element => {
 	});
 
 	const getProductData = async () => {
-		const data = await api.getProducts();
+		const data = await api.getProducts(userToken!);
 		if (data.error) {
 			console.error("Fetch products failed: ", data.error);
-			setErrorDetails({
+			setAlertDetails({
 				text: data.error,
 				visible: true,
 				severity: "error",
@@ -49,8 +49,10 @@ const Dashboard = (): JSX.Element => {
 	};
 
 	useEffect(() => {
-		getProductData();
-	}, []);
+		if (userToken && userRole === "admin") {
+			getProductData();
+		}
+	}, [userToken]);
 
 	// Controls which page is displayed (Add product or View products)
 	const [page, setPage] = useState("add");
@@ -64,17 +66,31 @@ const Dashboard = (): JSX.Element => {
 
 	// Sends the request to create a new product
 	const handleAddProduct = async () => {
-		const data = await api.addProduct(newProductDetails);
+		if (userToken) {
+			const data = await api.addProduct(newProductDetails, userToken);
 
-		if (data.error) {
-			console.error("Add product failed: ", data.error);
-			setErrorDetails({
-				text: data.error,
+			if (data.error) {
+				console.error("Add product failed: ", data.error);
+				setAlertDetails({
+					text: data.error,
+					visible: true,
+					severity: "error",
+				});
+			} else {
+				console.log("Product added successfully: ", data.message);
+				setAlertDetails({
+					text: "Product has been added",
+					visible: true,
+					severity: "success",
+				});
+				getProductData();
+			}
+		} else {
+			setAlertDetails({
+				text: "Your session has expired. Please log in again",
 				visible: true,
 				severity: "error",
 			});
-		} else {
-			console.log("Product added successfully: ", data.message);
 		}
 	};
 
@@ -90,6 +106,11 @@ const Dashboard = (): JSX.Element => {
 
 	const handlePageChange = (page: string) => {
 		setPage(page);
+		setAlertDetails({
+			text: "",
+			visible: false,
+			severity: "error",
+		});
 	};
 
 	return (
@@ -148,7 +169,7 @@ const Dashboard = (): JSX.Element => {
 						<PrimaryButton text="Add Product" onClick={handleAddProduct} />
 						<br />
 						<br />
-						<ErrorMessage {...errorDetails} />
+						<AlertMessage {...alertDetails} />
 					</div>
 				)}
 				{page === "view" && (
@@ -158,10 +179,9 @@ const Dashboard = (): JSX.Element => {
 								<p key={product._id}>{product.name}</p>
 							))}
 						</div>
-						<PrimaryButton text="Add Product" onClick={handleAddProduct} />
 						<br />
 						<br />
-						<ErrorMessage {...errorDetails} />
+						<AlertMessage {...alertDetails} />
 					</div>
 				)}
 			</div>

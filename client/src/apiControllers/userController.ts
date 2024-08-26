@@ -1,10 +1,13 @@
-import { userDetails, loginResponse, loginBody } from "../models";
+import { userDetails, loginResponse, loginBody, registerBody } from "../models";
 
 const deployed = false;
 const url = deployed ? "https://deployedURL.com" : "http://localhost:5050";
 
-export const createUser = async (user: userDetails): Promise<loginResponse> => {
+export const createUser = async (
+	user: registerBody
+): Promise<loginResponse> => {
 	try {
+		console.log(user);
 		const response = await fetch(`${url}/api/users/`, {
 			method: "POST",
 			headers: {
@@ -44,7 +47,7 @@ export const loginUser = async (user: loginBody): Promise<loginResponse> => {
 		console.log("Login successful", data);
 		return data;
 	} catch (error) {
-		console.error("Error in loginUser:", error);
+		console.error("Error in loginUser: ", error);
 		throw error;
 	}
 };

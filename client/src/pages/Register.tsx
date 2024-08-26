@@ -13,10 +13,12 @@ import { userDetails } from "../models/userDetails";
 import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
+import { registerBody } from "../models/registerBody";
 
 const Register = (): JSX.Element => {
-	const [registerBody, setRegisterBody] = useState<userDetails>({
+	const [registerBody, setRegisterBody] = useState<registerBody>({
 		email: "",
+		password: "",
 		mailingList: false,
 	});
 

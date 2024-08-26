@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/user";
+import productRoutes from "./routes/product";
 dotenv.config();
 
 const app: Express = express();
@@ -23,7 +24,8 @@ const uri: string = process.env.ATLAS_URI || "";
 	}
 })();
 
-app.use("/api/users", userRoutes); // Use the users route
+app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
 
 const PORT: string | number = process.env.PORT || 3000;
 

@@ -44,7 +44,7 @@ const theme = createTheme({
 				root: {
 					color: primaryColor, // Default label color
 					"&.Mui-focused": {
-						color: animoriPurple, // Label color when focused
+						color: primaryColor, // Label color when focused
 					},
 				},
 			},

@@ -7,12 +7,11 @@ import { productDetails } from "../models/productDetails";
 import { useState } from "react";
 import * as api from "../apiControllers/productController";
 import PrimaryButton from "../components/PrimaryButton";
-import { errorDetails } from "../models";
 import ErrorMessage from "../components/ErrorMessage";
 import { Severity } from "../components/ErrorMessage";
 
 const Dashboard = (): JSX.Element => {
-	const { isAuthenticated, userID, userToken, userRole } = useAuth();
+	const { isAuthenticated, userRole } = useAuth();
 	const [productDetails, setProductDetails] = useState<productDetails>({
 		name: "",
 		price: "",

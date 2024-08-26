@@ -8,11 +8,22 @@ import * as api from "../apiControllers/userController";
 import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
+import ErrorMessage, { Severity } from "../components/ErrorMessage";
 
 const Login = (): JSX.Element => {
 	const [loginBody, setLoginBody] = useState<loginBody>({
 		email: "",
 		password: "",
+	});
+
+	const [errorDetails, setErrorDetails] = useState<{
+		text: string;
+		visible: boolean;
+		severity: Severity;
+	}>({
+		text: "",
+		visible: false,
+		severity: "error",
 	});
 
 	const navigate = useNavigate();
@@ -28,13 +39,34 @@ const Login = (): JSX.Element => {
 	const handleLogin = async () => {
 		try {
 			const data: loginResponse = await api.loginUser(loginBody);
-			setCookie("token", data.token);
-			setCookie("role", data.user.role);
-			setCookie("id", data.user.id);
-			setCookie("email", data.user.email);
+			if (data.error) {
+				console.error("Login failed: ", data.error);
+				setErrorDetails({
+					text: data.error,
+					visible: true,
+					severity: "error",
+				});
+			} else {
+				if (data.user) {
+					const token = data.token ?? "";
+					const role = data.user.role;
+					const id = data.user.id;
+					const email = data.user.email;
 
-			// Navigate to the home page after successful login
-			navigate("/");
+					setCookie("token", token);
+					setCookie("role", role);
+					setCookie("id", id);
+					setCookie("email", email);
+					// Navigate to the home page after successful login
+					navigate("/");
+				} else {
+					setErrorDetails({
+						text: "Something has gone wrong. Please refresh",
+						visible: true,
+						severity: "error",
+					});
+				}
+			}
 		} catch (error) {
 			// Handle any errors that occur during login
 			console.error("Error during login:", error);
@@ -88,6 +120,9 @@ const Login = (): JSX.Element => {
 				<Link to="/">
 					<PrimaryButton text="Back to main menu" />
 				</Link>
+				<br />
+				<br />
+				<ErrorMessage {...errorDetails} />
 			</div>
 		</>
 	);

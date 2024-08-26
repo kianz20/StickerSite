@@ -25,9 +25,7 @@ router.post("/", async (req, res) => {
 		const { email, password, mailingList } = req.body;
 		// Validate the input
 		if (!email || !password) {
-			return res
-				.status(400)
-				.json({ error: "Email, password, and notify args are required" });
+			return res.status(400).json({ error: "Email and Password are required" });
 		}
 
 		const existingUser = await User.findOne({ email });

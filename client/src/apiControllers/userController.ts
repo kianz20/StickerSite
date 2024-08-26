@@ -17,15 +17,14 @@ export const createUser = async (
 		});
 
 		if (!response.ok) {
-			const errorText = await response.text();
-			throw new Error(`Registration failed: ${errorText}`);
+			const errorData = await response.json();
+			return { error: errorData.error || "Something went wrong" };
 		}
 
 		const data: loginResponse = await response.json();
 		return data;
 	} catch (error) {
-		console.error("Error in createUser:", error);
-		throw error;
+		return { error: (error as Error).message };
 	}
 };
 

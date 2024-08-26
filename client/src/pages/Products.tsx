@@ -19,8 +19,6 @@ const Products = (): JSX.Element => {
         handleGetAllProducts()
     }, []);
 
-    console.log(allProducts)
-
     return (
         <>
             <NavigationBar/>

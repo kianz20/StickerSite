@@ -7,11 +7,11 @@ import { useEffect, useState } from "react";
 import SingleProduct from "../components/SingleProduct";
 
 const Products = (): JSX.Element => {
-	const [allProducts, setAllProducts] = useState<productDetails[]>();
+	const [products, setProducts] = useState<productDetails[]>();
 
 	const handleGetAllProducts = async () => {
-		const data = await api.getAllProducts();
-		setAllProducts(data.allProducts);
+		const data = await api.getProducts();
+		setProducts(data.products);
 	};
 
 	useEffect(() => {
@@ -23,7 +23,7 @@ const Products = (): JSX.Element => {
 			<NavigationBar />
 			<SearchBar />
 			<div className={styles.productGrid}>
-				{allProducts?.map((product) => (
+				{products?.map((product) => (
 					<SingleProduct {...product} key={product._id} />
 				))}
 			</div>

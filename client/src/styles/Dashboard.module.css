@@ -1,7 +1,7 @@
 .dashboardUtils {
 	margin: 0 auto;
-	width: 700px;
-	height: 600px;
+	width: 70vw;
+	min-width: 800px;
 	text-align: left;
 	background-color: #ededed;
 	box-shadow: 12px 12px 2px 1px #aea3ff97;

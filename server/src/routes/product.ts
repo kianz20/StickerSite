@@ -81,4 +81,26 @@ router.put("/edit/:id", authenticateToken, async (req, res) => {
 	}
 });
 
+router.delete("/:id", authenticateToken, async (req, res) => {
+	try {
+		const { id } = req.params;
+		if (!id) {
+			return res.status(400).json({ error: "Product ID is required" });
+		}
+		const deletedProduct = await Product.findOneAndDelete({ _id: id });
+		if (!deletedProduct) {
+			return res.status(404).json({ error: "Product not found" });
+		}
+		res.status(200).json({
+			message: "Product deleted successfully",
+		});
+	} catch (error) {
+		if (error instanceof Error) {
+			res.status(500).json({ error: error.message });
+		} else {
+			res.status(500).json({ error: "An unexpected error occurred" });
+		}
+	}
+});
+
 export default router;

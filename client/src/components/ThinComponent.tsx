@@ -54,11 +54,13 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 				visible: false,
 				severity: "error",
 			});
-		}, 3000); // 3000 milliseconds = 3 seconds
+		}, 3000); // 3 seconds
 	};
 
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [editMode, setEditMode] = useState(false);
+	const [removeState, setRemoveState] = useState(false);
+	const [isVisible, setIsVisible] = useState(true);
 
 	const showDetails = () => {
 		setIsExpanded(!isExpanded);
@@ -110,6 +112,40 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 		}
 	};
 
+	const removeProduct = async () => {
+		if (!userToken) {
+			setAlertDetails({
+				text: "Your session has expired. Please log in again",
+				visible: true,
+				severity: "error",
+			});
+			return;
+		}
+		try {
+			const data: { message?: string; error?: string } =
+				await api.removeProduct(_id, userToken);
+			if (data.error) {
+				setAlertDetails({
+					text: data.error,
+					visible: true,
+					severity: "error",
+				});
+			} else {
+				showAlert("Product has been removed", "success");
+				setTimeout(() => {
+					setIsVisible(false);
+				}, 3000);
+			}
+		} catch (error) {
+			console.error("Error removing product:", error);
+			setAlertDetails({
+				text: "Something went wrong",
+				visible: true,
+				severity: "error",
+			});
+		}
+	};
+
 	const handleFormChange = async (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
@@ -119,6 +155,8 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 			[name]: value,
 		}));
 	};
+
+	if (!isVisible) return null;
 
 	return (
 		<div className={styles.container} style={{ backgroundColor: color }}>
@@ -186,12 +224,30 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 						) : (
 							<>
 								<div className={styles.buttons}>
-									<PrimaryButton
-										text="Edit"
-										onClick={() => setEditMode(true)}
-									/>
-									<PrimaryButton text="Remove" />
-									<PrimaryButton text="Out of Stock" />
+									{removeState ? (
+										<>
+											<Typography color={"red"}>Are you sure?</Typography>
+											<PrimaryButton
+												text="Confirm Removal"
+												onClick={removeProduct}
+											/>
+											<PrimaryButton
+												text="Cancel Remove"
+												onClick={() => setRemoveState(false)}
+											/>
+										</>
+									) : (
+										<>
+											<PrimaryButton
+												text="Edit"
+												onClick={() => setEditMode(true)}
+											/>
+											<PrimaryButton
+												text="Remove"
+												onClick={() => setRemoveState(true)}
+											/>
+										</>
+									)}
 								</div>
 							</>
 						)}

@@ -92,3 +92,28 @@ export const editProduct = async (
 		return { error: (error as Error).message };
 	}
 };
+
+export const removeProduct = async (
+	productId: string,
+	token: string
+): Promise<{ message?: string; error?: string }> => {
+	try {
+		const response = await fetch(`${url}/api/products/${productId}`, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (!response.ok) {
+			const errorData = await response.json();
+			return { error: errorData.error || "Something went wrong" };
+		}
+
+		const message: string = await response.text();
+		return { message };
+	} catch (error) {
+		return { error: (error as Error).message };
+	}
+};

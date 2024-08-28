@@ -17,11 +17,12 @@ interface EditFormDetails {
 
 interface ThinComponentProps extends productDetails {
 	color: string;
+	onRemove: (id: string) => void;
 }
 
 const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 	const { userToken } = useAuth();
-	const { _id, name, details, price, color } = props;
+	const { _id, name, details, price, color, onRemove } = props;
 
 	const [formState, setFormState] = useState<EditFormDetails>({
 		name: name,
@@ -60,7 +61,6 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [editMode, setEditMode] = useState(false);
 	const [removeState, setRemoveState] = useState(false);
-	const [isVisible, setIsVisible] = useState(true);
 
 	const showDetails = () => {
 		setIsExpanded(!isExpanded);
@@ -133,7 +133,7 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 			} else {
 				showAlert("Product has been removed", "success");
 				setTimeout(() => {
-					setIsVisible(false);
+					onRemove(_id);
 				}, 3000);
 			}
 		} catch (error) {
@@ -155,8 +155,6 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 			[name]: value,
 		}));
 	};
-
-	if (!isVisible) return null;
 
 	return (
 		<div className={styles.container} style={{ backgroundColor: color }}>

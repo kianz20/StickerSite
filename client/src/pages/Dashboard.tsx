@@ -123,6 +123,23 @@ const Dashboard = (): JSX.Element => {
 		});
 	};
 
+	const handleRemoveProduct = async (id: string) => {
+		if (!userToken) {
+			setAlertDetails({
+				text: "Your session has expired. Please log in again",
+				visible: true,
+				severity: "error",
+			});
+			return;
+		}
+		try {
+			setProductDetails((prevProducts) =>
+				prevProducts ? prevProducts.filter((product) => product._id !== id) : []
+			);
+		} catch (error) {
+			console.error("Error removing product:", error);
+		}
+	};
 	return (
 		<>
 			<NavigationBar />
@@ -191,6 +208,7 @@ const Dashboard = (): JSX.Element => {
 									key={product._id}
 									color={index % 2 === 0 ? "#ccc5e3" : "#d9d7e0"} // Alternates between red and blue
 									{...product}
+									onRemove={handleRemoveProduct}
 								/>
 							))}
 						</div>

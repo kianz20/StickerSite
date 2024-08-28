@@ -40,7 +40,6 @@ export const addProduct = async (
 };
 
 export const getProducts = async (
-	token: string
 ): Promise<{
 	products?: productDetails[];
 	error?: string;
@@ -50,7 +49,6 @@ export const getProducts = async (
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
 			},
 		});
 

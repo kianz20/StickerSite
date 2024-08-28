@@ -220,34 +220,32 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 								<PrimaryButton text="Save Changes" onClick={editProduct} />
 							</div>
 						) : (
-							<>
-								<div className={styles.buttons}>
-									{removeState ? (
-										<>
-											<Typography color={"red"}>Are you sure?</Typography>
-											<PrimaryButton
-												text="Confirm Removal"
-												onClick={removeProduct}
-											/>
-											<PrimaryButton
-												text="Cancel Remove"
-												onClick={() => setRemoveState(false)}
-											/>
-										</>
-									) : (
-										<>
-											<PrimaryButton
-												text="Edit"
-												onClick={() => setEditMode(true)}
-											/>
-											<PrimaryButton
-												text="Remove"
-												onClick={() => setRemoveState(true)}
-											/>
-										</>
-									)}
-								</div>
-							</>
+							<div className={styles.buttons}>
+								{removeState ? (
+									<>
+										<Typography color={"red"}>Are you sure?</Typography>
+										<PrimaryButton
+											text="Confirm Removal"
+											onClick={removeProduct}
+										/>
+										<PrimaryButton
+											text="Cancel Remove"
+											onClick={() => setRemoveState(false)}
+										/>
+									</>
+								) : (
+									<>
+										<PrimaryButton
+											text="Edit"
+											onClick={() => setEditMode(true)}
+										/>
+										<PrimaryButton
+											text="Remove"
+											onClick={() => setRemoveState(true)}
+										/>
+									</>
+								)}
+							</div>
 						)}
 					</div>
 				</div>

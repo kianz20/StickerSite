@@ -1,4 +1,4 @@
-export interface alertDetails {
+export interface AlertDetails {
 	text: string;
 	visible: boolean;
 	severity: string;

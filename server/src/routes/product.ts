@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 // Add new product
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
 	try {
 		// Extract product data from the request body
 		const { name, price, details } = req.body;
@@ -46,9 +46,59 @@ router.post("/", async (req, res) => {
 	} catch (error) {
 		if (error instanceof Error) {
 			res.status(500).json({
-				error: "Error during product creation",
-				details: error.message,
+				error: error.message,
 			});
+		}
+	}
+});
+
+router.put("/edit/:id", authenticateToken, async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { name, price, details } = req.body;
+		if (!id) {
+			return res.status(400).json({ error: "Product ID is required" });
+		}
+		const updatedProduct = await Product.findOneAndUpdate(
+			{ _id: id },
+			{ $set: { name, price, details } },
+			{ new: true } // Return the updated document
+		);
+		if (!updatedProduct) {
+			return res
+				.status(404)
+				.json({ error: "Product ID does not match a product" });
+		}
+		res.status(200).json({
+			message: "Product updated successfully",
+		});
+	} catch (error) {
+		if (error instanceof Error) {
+			res.status(500).json({ error: error.message });
+		} else {
+			res.status(500).json({ error: "An unexpected error occurred" });
+		}
+	}
+});
+
+router.delete("/:id", authenticateToken, async (req, res) => {
+	try {
+		const { id } = req.params;
+		if (!id) {
+			return res.status(400).json({ error: "Product ID is required" });
+		}
+		const deletedProduct = await Product.findOneAndDelete({ _id: id });
+		if (!deletedProduct) {
+			return res.status(404).json({ error: "Product not found" });
+		}
+		res.status(200).json({
+			message: "Product deleted successfully",
+		});
+	} catch (error) {
+		if (error instanceof Error) {
+			res.status(500).json({ error: error.message });
+		} else {
+			res.status(500).json({ error: "An unexpected error occurred" });
 		}
 	}
 });

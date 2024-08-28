@@ -5,13 +5,17 @@ import * as api from "../apiControllers/productController";
 import { productDetails } from "../models";
 import { useEffect, useState } from "react";
 import SingleProduct from "../components/SingleProduct";
+import { useAuth } from "../hooks/useAuth";
 
 const Products = (): JSX.Element => {
-	const [allProducts, setAllProducts] = useState<productDetails[]>();
+	const [products, setProducts] = useState<productDetails[]>();
+	const { userToken } = useAuth();
 
 	const handleGetAllProducts = async () => {
-		const data = await api.getAllProducts();
-		setAllProducts(data.allProducts);
+		if (userToken) {
+			const data = await api.getProducts(userToken);
+			setProducts(data.products);
+		}
 	};
 
 	useEffect(() => {
@@ -23,7 +27,7 @@ const Products = (): JSX.Element => {
 			<NavigationBar />
 			<SearchBar />
 			<div className={styles.productGrid}>
-				{allProducts?.map((product) => (
+				{products?.map((product) => (
 					<SingleProduct {...product} key={product._id} />
 				))}
 			</div>

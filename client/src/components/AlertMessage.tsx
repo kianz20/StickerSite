@@ -1,12 +1,12 @@
 import { Alert } from "@mui/material";
 
-interface ErrorMessageProps {
+interface AlertMessageProps {
 	text: string;
 	visible: boolean;
 	severity: "error" | "warning" | "info" | "success";
 }
 
-const ErrorMessage: React.FC<ErrorMessageProps> = ({
+const AlertMessage: React.FC<AlertMessageProps> = ({
 	text,
 	visible,
 	severity,
@@ -14,6 +14,6 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
 	return visible && <Alert severity={severity}>{text}</Alert>;
 };
 
-export default ErrorMessage;
+export default AlertMessage;
 
-export type Severity = "error" | "warning" | "info";
+export type Severity = "error" | "warning" | "info" | "success";

@@ -8,7 +8,7 @@ import * as api from "../apiControllers/userController";
 import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
-import ErrorMessage, { Severity } from "../components/ErrorMessage";
+import AlertMessage, { Severity } from "../components/AlertMessage";
 
 const Login = (): JSX.Element => {
 	const [loginBody, setLoginBody] = useState<loginBody>({
@@ -16,7 +16,7 @@ const Login = (): JSX.Element => {
 		password: "",
 	});
 
-	const [errorDetails, setErrorDetails] = useState<{
+	const [alertDetails, setAlertDetails] = useState<{
 		text: string;
 		visible: boolean;
 		severity: Severity;
@@ -41,7 +41,7 @@ const Login = (): JSX.Element => {
 			const data: loginResponse = await api.loginUser(loginBody);
 			if (data.error) {
 				console.error("Login failed: ", data.error);
-				setErrorDetails({
+				setAlertDetails({
 					text: data.error,
 					visible: true,
 					severity: "error",
@@ -60,7 +60,7 @@ const Login = (): JSX.Element => {
 					// Navigate to the home page after successful login
 					navigate("/");
 				} else {
-					setErrorDetails({
+					setAlertDetails({
 						text: "Something has gone wrong. Please refresh",
 						visible: true,
 						severity: "error",
@@ -122,7 +122,7 @@ const Login = (): JSX.Element => {
 				</Link>
 				<br />
 				<br />
-				<ErrorMessage {...errorDetails} />
+				<AlertMessage {...alertDetails} />
 			</div>
 		</>
 	);

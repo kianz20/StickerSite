@@ -28,23 +28,21 @@ const Login = (): JSX.Element => {
 		});
 	};
 
-	const handleLogin = async () => {
+	const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
 		try {
+			event.preventDefault();
 			const data: loginResponse = await api.loginUser(loginBody);
 			if (data.error) {
 				console.error("Login failed: ", data.error);
 				showAlert(data.error, "error");
 			} else {
-				if (data.user) {
-					const token = data.token ?? "";
-					const role = data.user.role;
-					const id = data.user.id;
-					const email = data.user.email;
-
-					setCookie("token", token);
+				if (data.user && data.token) {
+					const { role, id, email } = data.user;
+					setCookie("token", data.token);
 					setCookie("role", role);
 					setCookie("id", id);
 					setCookie("email", email);
+
 					// Navigate to the home page after successful login
 					navigate("/");
 				} else {
@@ -52,14 +50,12 @@ const Login = (): JSX.Element => {
 				}
 			}
 		} catch (error) {
-			// Handle any errors that occur during login
 			console.error("Error during login:", error);
+			showAlert("Error during login. Please try again.", "error");
 		}
 	};
 
-	const handleFormChange = async (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
+	const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
 		setLoginBody((prevState) => ({
 			...prevState,
@@ -72,9 +68,9 @@ const Login = (): JSX.Element => {
 			<NavigationBar />
 			<div className={styles.loginContainer}>
 				<h1>Login</h1>
-				<form>
+				<form onSubmit={handleLogin}>
 					<TextField
-						className="login-field"
+						className={styles.loginField}
 						label="Email"
 						variant="outlined"
 						fullWidth
@@ -84,7 +80,7 @@ const Login = (): JSX.Element => {
 						onChange={handleFormChange}
 					/>
 					<TextField
-						className="login-field"
+						className={styles.loginField}
 						label="Password"
 						type="password"
 						variant="outlined"
@@ -96,7 +92,7 @@ const Login = (): JSX.Element => {
 					/>
 					<br />
 					<br />
-					<PrimaryButton text="Login" onClick={handleLogin} />
+					<PrimaryButton text="Login" type="submit" />
 				</form>
 				<p>
 					Don&apos;t have an account? <Link to="/register">Register</Link>

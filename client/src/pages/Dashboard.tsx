@@ -62,12 +62,13 @@ const Dashboard = (): JSX.Element => {
 	}
 
 	// Sends the request to create a new product
-	const handleAddProduct = async () => {
+	const handleAddProduct = async (event: React.FormEvent<HTMLFormElement>) => {
 		if (!userToken) {
 			showAlert("Your session has expired. Please log in again", "error");
 			return;
 		}
 		try {
+			event.preventDefault();
 			const data = await api.addProduct(newProductDetails, userToken);
 			if (data.error) {
 				console.error("Add product failed: ", data.error);
@@ -76,6 +77,12 @@ const Dashboard = (): JSX.Element => {
 				console.log("Product added successfully: ", data.message);
 				showAlert("Product has been added", "success");
 				getProductData();
+				setNewProductDetails({
+					name: "",
+					price: "",
+					details: "",
+					_id: "",
+				});
 			}
 		} catch (error) {
 			console.error("Error retreiving products:", error);
@@ -131,40 +138,45 @@ const Dashboard = (): JSX.Element => {
 				<hr />
 				{page === "add" && (
 					<div className={styles.addProduct}>
-						<TextField
-							className={styles.addProductField}
-							label="Product Name"
-							variant="outlined"
-							fullWidth
-							margin="normal"
-							required
-							name="name"
-							onChange={handleFormChange}
-						/>
-						<TextField
-							className={styles.addProductField}
-							label="Price"
-							variant="outlined"
-							fullWidth
-							margin="normal"
-							required
-							name="price"
-							onChange={handleFormChange}
-						/>
+						<form onSubmit={handleAddProduct}>
+							<TextField
+								className={styles.addProductField}
+								label="Product Name"
+								variant="outlined"
+								fullWidth
+								margin="normal"
+								required
+								name="name"
+								value={newProductDetails.name}
+								onChange={handleFormChange}
+							/>
+							<TextField
+								className={styles.addProductField}
+								label="Price"
+								variant="outlined"
+								fullWidth
+								margin="normal"
+								required
+								name="price"
+								value={newProductDetails.price}
+								onChange={handleFormChange}
+							/>
 
-						<TextField
-							className={styles.addProductField}
-							label="Details"
-							variant="outlined"
-							fullWidth
-							margin="normal"
-							required
-							name="details"
-							multiline={true}
-							rows={4}
-							onChange={handleFormChange}
-						/>
-						<PrimaryButton text="Add Product" onClick={handleAddProduct} />
+							<TextField
+								className={styles.addProductField}
+								label="Details"
+								variant="outlined"
+								fullWidth
+								margin="normal"
+								required
+								name="details"
+								multiline={true}
+								rows={4}
+								value={newProductDetails.details}
+								onChange={handleFormChange}
+							/>
+							<PrimaryButton text="Add Product" type="submit" />
+						</form>
 						<br />
 						<br />
 						<AlertMessage {...alertDetails} />

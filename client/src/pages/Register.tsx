@@ -17,7 +17,7 @@ import AlertMessage from "../components/AlertMessage";
 import { useAlert } from "../hooks/useAlert";
 
 const Register = (): JSX.Element => {
-	const { alertDetails, showAlert, clearAlert } = useAlert();
+	const { alertDetails, showAlert } = useAlert();
 	const [registerBody, setRegisterBody] = useState<registerBody>({
 		email: "",
 		password: "",
@@ -34,42 +34,34 @@ const Register = (): JSX.Element => {
 		});
 	};
 
-	const handleRegister = async () => {
+	const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
 		try {
+			event.preventDefault();
 			const data: loginResponse = await api.createUser(registerBody);
 			if (data.error) {
 				console.error("Login failed: ", data.error);
 				showAlert(data.error, "error");
 			} else {
-				if (data.user) {
-					const token = data.token ?? "";
-					const role = data.user.role;
-					const id = data.user.id;
-					const email = data.user.email;
-
-					setCookie("token", token);
+				if (data.user && data.token) {
+					const { role, id, email } = data.user;
+					setCookie("token", data.token);
 					setCookie("role", role);
 					setCookie("id", id);
 					setCookie("email", email);
+
 					// Navigate to the home page after successful login
 					navigate("/");
 				} else {
-					setAlertDetails({
-						text: "Something has gone wrong. Please refresh",
-						visible: true,
-						severity: "error",
-					});
+					showAlert("Something has gone wrong. Please refresh", "error");
 				}
 			}
 		} catch (error) {
-			// Handle any errors that occur during login
 			console.error("Error during login:", error);
+			showAlert("Error during registration. Please try again.", "error");
 		}
 	};
 
-	const handleFormChange = async (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
+	const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value, checked, type } = event.target;
 		setRegisterBody((prevState) => ({
 			...prevState,
@@ -82,7 +74,7 @@ const Register = (): JSX.Element => {
 			<NavigationBar />
 			<div className={styles.loginContainer}>
 				<h2>Register for an Animori Account!</h2>
-				<form>
+				<form onSubmit={handleRegister}>
 					<TextField
 						className={styles.loginField}
 						label="Email"
@@ -94,7 +86,7 @@ const Register = (): JSX.Element => {
 						onChange={handleFormChange}
 					/>
 					<TextField
-						className="login-field"
+						className={styles.loginField}
 						label="Password"
 						type="password"
 						variant="outlined"
@@ -115,7 +107,7 @@ const Register = (): JSX.Element => {
 					</FormGroup>
 					<br />
 					<br />
-					<PrimaryButton text="Register" onClick={handleRegister} />
+					<PrimaryButton text="Register" type="submit" />
 				</form>
 				<br />
 				<Link to="/">

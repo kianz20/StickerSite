@@ -20,12 +20,12 @@ router.get("/", async (req, res) => {
 router.post("/", authenticateToken, async (req, res) => {
 	try {
 		// Extract product data from the request body
-		const { name, price, details } = req.body;
+		const { name, price, description } = req.body;
 		// Validate the input
-		if (!name || !price || !details) {
+		if (!name || !price || !description) {
 			return res
 				.status(400)
-				.json({ error: "name, price, and details args are required" });
+				.json({ error: "name, price, and description args are required" });
 		}
 
 		const existingProduct = await Product.findOne({ name });
@@ -36,7 +36,7 @@ router.post("/", authenticateToken, async (req, res) => {
 		const newProduct = new Product({
 			name,
 			price,
-			details,
+			description,
 		});
 		// Save the new user to the database
 		await newProduct.save();
@@ -55,13 +55,13 @@ router.post("/", authenticateToken, async (req, res) => {
 router.put("/edit/:id", authenticateToken, async (req, res) => {
 	try {
 		const { id } = req.params;
-		const { name, price, details } = req.body;
+		const { name, price, description } = req.body;
 		if (!id) {
 			return res.status(400).json({ error: "Product ID is required" });
 		}
 		const updatedProduct = await Product.findOneAndUpdate(
 			{ _id: id },
-			{ $set: { name, price, details } },
+			{ $set: { name, price, description } },
 			{ new: true } // Return the updated document
 		);
 		if (!updatedProduct) {

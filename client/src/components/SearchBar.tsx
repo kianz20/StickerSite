@@ -69,15 +69,15 @@ const SearchBar: React.FC<{}> = () => {
                 aria-label="search"
                 variant="contained"
                 className={styles.searchButton}
-                onClick={() => console.log(searchQuery)}
             >
                 <SearchIcon fontSize="large" />
             </Button>
-            {productDetails
-                ?.filter((product) => product.name.includes(searchQuery))
-                ?.map((product, _) => (
-                    <SingleSearchResult key={product._id} {...product} />
-                ))}
+            {searchQuery &&
+                productDetails
+                    ?.filter((product) => product.name.includes(searchQuery))
+                    ?.map((product) => (
+                        <SingleSearchResult key={product._id} {...product} />
+                    ))}
         </div>
     );
 };

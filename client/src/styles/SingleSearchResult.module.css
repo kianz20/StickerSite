@@ -1,0 +1,32 @@
+.container {
+    background-color: aliceblue;
+	margin-bottom: 10px; /* Ensure some space around the component */
+	border-bottom: thick double #32a1ce;
+	border-radius: 15px;
+}
+
+.productDisplayImage {
+    width: 10px;
+    height: 20px;
+}
+
+.productName {
+    color: black;
+    flex: 1;
+	padding: 7px;
+	text-align: left;
+}
+
+.productPrice {
+    color: black;
+	flex: 1;
+	padding: 7px;
+	text-align: left;
+}
+
+.productReviewBar {
+    color: black;
+	flex: 1;
+	padding: 7px;
+	text-align: left;
+}

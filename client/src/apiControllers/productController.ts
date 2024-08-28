@@ -6,7 +6,7 @@ const url = deployed ? "https://deployedURL.com" : "http://localhost:5050";
 interface EditFormDetails {
 	name: string;
 	price: string;
-	details: string;
+	description: string;
 }
 
 export const addProduct = async (
@@ -14,7 +14,7 @@ export const addProduct = async (
 	token: string
 ): Promise<{ message?: string; error?: string }> => {
 	try {
-		if (!product.details || !product.name || !product.price) {
+		if (!product.description || !product.name || !product.price) {
 			return { error: "All fields are required" };
 		}
 

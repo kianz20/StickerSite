@@ -10,6 +10,7 @@ interface Product extends Document {
 
 // Mongoose schema for the Product model
 const ProductSchema: Schema<Product> = new Schema({
+	_id: { type: Schema.Types.ObjectId, required: false },
 	name: { type: String, required: true },
 	price: { type: String, required: true },
 	details: { type: String, required: true },

@@ -1,50 +1,51 @@
 .container {
-    margin-bottom: 10px; /* Ensure some space around the component */
-    border-bottom: thick double #32a1ce;
+	margin-bottom: 10px; /* Ensure some space around the component */
+	border-bottom: thick double #32a1ce;
 	border-radius: 15px;
 }
 
 .productLine {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 15px;
-    padding: 10px;
-    cursor: pointer; /* Indicates the component is clickable */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-radius: 15px;
+	padding: 10px;
 }
 
 .productLineExpanded {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 15px;
-    padding: 10px;
-    cursor: pointer; /* Indicates the component is clickable */
+	height: 260px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-radius: 15px;
+	padding: 10px;
 }
 
-.productDetail, .nameDetail {
-    flex: 1;
-    padding: 7px;
-    text-align: left;
+.productDetail,
+.nameDetail {
+	flex: 1;
+	padding: 7px;
+	text-align: left;
 }
 
 .buttonDiv {
-    display: flex;
-    gap: 10px;
-    align-items: flex-end; /* Align items to the bottom of the container */
-    height: 100px; /* Example height */
-    flex-direction: column; /* Ensure items stack vertically */
+	display: flex;
+	gap: 10px;
+	align-items: flex-end; /* Align items to the bottom of the container */
+	justify-content: space-between;
+	flex-direction: column; /* Ensure items stack vertically */
+	height: 100%;
 }
-
-.buttonDiv > * {
-    margin-top: auto; /* Push items to the bottom */
-}
-
 
 .moreDetails {
 	display: block;
-    padding: 10px;
-    background-color: #f0f0f0; /* Slightly different background for more details */
-    border-radius: 0 0 15px 15px; /* Rounded corners to match the parent */
+	padding: 10px;
+	background-color: #f0f0f0; /* Slightly different background for more details */
+	border-radius: 0 0 15px 15px; /* Rounded corners to match the parent */
 }
 
+.editField {
+	display: flex;
+	border-radius: 15px;
+	padding: 10px;
+}

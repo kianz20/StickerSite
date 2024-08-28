@@ -52,4 +52,33 @@ router.post("/", authenticateToken, async (req, res) => {
 	}
 });
 
+router.put("/edit/:id", authenticateToken, async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { name, price, details } = req.body;
+		if (!id) {
+			return res.status(400).json({ error: "Product ID is required" });
+		}
+		const updatedProduct = await Product.findOneAndUpdate(
+			{ _id: id },
+			{ $set: { name, price, details } },
+			{ new: true } // Return the updated document
+		);
+		if (!updatedProduct) {
+			return res
+				.status(404)
+				.json({ error: "Product ID does not match a product" });
+		}
+		res.status(200).json({
+			message: "Product updated successfully",
+		});
+	} catch (error) {
+		if (error instanceof Error) {
+			res.status(500).json({ error: error.message });
+		} else {
+			res.status(500).json({ error: "An unexpected error occurred" });
+		}
+	}
+});
+
 export default router;

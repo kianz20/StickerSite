@@ -1,69 +1,218 @@
 import React, { useState } from "react";
 import { productDetails } from "../models";
 import styles from "../styles/ThinComponent.module.css";
-import { Button, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import PrimaryButton from "./PrimaryButton";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import * as api from "../apiControllers/productController";
+import { useAuth } from "../hooks/useAuth";
+import AlertMessage, { Severity } from "./AlertMessage";
 
-interface ThinComponentProps extends productDetails {
-    color: string;
+interface EditFormDetails {
+	name: string;
+	price: string;
+	details: string;
 }
 
-const ThinComponent: React.FC<ThinComponentProps> = ({
-    name,
-    details,
-    price,
-    color,
-}) => {
-    const [isExpanded, setIsExpanded] = useState(false);
+interface ThinComponentProps extends productDetails {
+	color: string;
+}
 
-    const toggleDetails = () => {
-        setIsExpanded(!isExpanded);
-    };
-    return (
-        <div className={styles.container} style={{ backgroundColor: color }}>
-            {!isExpanded ? (
-                <div className={styles.productLine}>
-                    <Typography className={styles.nameDetail}>
-                        <b>Name:</b> {name}
-                    </Typography>
-                    <Typography className={styles.productDetail}>
-                        <b>Price:</b> {price}
-                    </Typography>
-                    <Button variant="text" onClick={toggleDetails}>
-                        <ArrowDropDownIcon />
-                    </Button>
-                </div>
-            ) : (
-                <div className={styles.productExpanded}>
-                    <div className={styles.productLineExpanded}>
-                        <div className={styles.expandedDetails}>
-                            <Typography className={styles.nameDetail}>
-                                <b>Name:</b> {name}
-                            </Typography>
-                            <Typography className={styles.productDetail}>
-                                <b>Price:</b> {price}
-                            </Typography>
-                            <Typography className={styles.productDetail}>
-                                <b>Description:</b> {details}
-                            </Typography>
-                        </div>
-                        <div className={styles.buttonDiv}>
-                            <Button variant="text" onClick={toggleDetails}>
-                                <ArrowDropUpIcon />
-                            </Button>
-                            <div className={styles.buttoms}>
-                                <PrimaryButton text="Edit" />
-                                <PrimaryButton text="Remove" />
-                                <PrimaryButton text="Out of Stock" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
-    );
+const ThinComponent: React.FC<ThinComponentProps> = (props) => {
+	const { userToken } = useAuth();
+	const { _id, name, details, price, color } = props;
+
+	const [formState, setFormState] = useState<EditFormDetails>({
+		name: name,
+		price: price,
+		details: details,
+	});
+
+	// Contains the error shown to the user
+	const [alertDetails, setAlertDetails] = useState<{
+		text: string;
+		visible: boolean;
+		severity: Severity;
+	}>({
+		text: "",
+		visible: false,
+		severity: "error",
+	});
+
+	const showAlert = (text: string, severity: Severity) => {
+		setAlertDetails({
+			text,
+			visible: true,
+			severity,
+		});
+
+		// Reset the alert after 3 seconds
+		setTimeout(() => {
+			setAlertDetails({
+				text: "",
+				visible: false,
+				severity: "error",
+			});
+		}, 3000); // 3000 milliseconds = 3 seconds
+	};
+
+	const [isExpanded, setIsExpanded] = useState(false);
+	const [editMode, setEditMode] = useState(false);
+
+	const showDetails = () => {
+		setIsExpanded(!isExpanded);
+	};
+
+	const hideDetails = () => {
+		setIsExpanded(!isExpanded);
+		setEditMode(false);
+		setFormState({ ...props });
+	};
+
+	const cancelEdit = () => {
+		setEditMode(false);
+		setFormState({ ...props });
+	};
+
+	const editProduct = async () => {
+		if (!userToken) {
+			setAlertDetails({
+				text: "Your session has expired. Please log in again",
+				visible: true,
+				severity: "error",
+			});
+			return;
+		}
+
+		try {
+			const data: { message?: string; error?: string } = await api.editProduct(
+				_id,
+				formState,
+				userToken
+			);
+			if (data.error) {
+				setAlertDetails({
+					text: data.error,
+					visible: true,
+					severity: "error",
+				});
+			} else {
+				showAlert("Product has been edited", "success");
+			}
+		} catch (error) {
+			console.error("Error editing products:", error);
+			setAlertDetails({
+				text: "Something went wrong",
+				visible: true,
+				severity: "error",
+			});
+		}
+	};
+
+	const handleFormChange = async (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		const { name, value } = event.target;
+		setFormState((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+	};
+
+	return (
+		<div className={styles.container} style={{ backgroundColor: color }}>
+			{isExpanded ? (
+				<div className={styles.productLineExpanded}>
+					<div className={styles.expandedDetails}>
+						{editMode ? (
+							<>
+								<div className={styles.editField}>
+									<Typography className={styles.nameDetail}>
+										<b>Name:</b>
+									</Typography>
+									<TextField
+										name="name"
+										value={formState.name}
+										onChange={handleFormChange}
+									/>
+								</div>
+								<div className={styles.editField}>
+									<Typography className={styles.productDetail}>
+										<b>Price:</b>
+									</Typography>
+									<TextField
+										name="price"
+										value={formState.price}
+										onChange={handleFormChange}
+									/>
+								</div>
+								<div className={styles.editField}>
+									<Typography className={styles.productDetail}>
+										<b>Description:</b>
+									</Typography>
+									<TextField
+										name="details"
+										multiline
+										rows={3}
+										value={formState.details}
+										onChange={handleFormChange}
+									/>
+								</div>
+							</>
+						) : (
+							<>
+								<Typography className={styles.nameDetail}>
+									<b>Name:</b> {name}
+								</Typography>
+								<Typography className={styles.productDetail}>
+									<b>Price:</b> {price}
+								</Typography>
+								<Typography className={styles.productDetail}>
+									<b>Description:</b> {details}
+								</Typography>
+							</>
+						)}
+					</div>
+					<div className={styles.buttonDiv}>
+						<Button variant="text" onClick={hideDetails}>
+							<ArrowDropUpIcon />
+						</Button>
+						{editMode ? (
+							<div className={styles.buttons}>
+								<PrimaryButton text="Cancel Edit" onClick={cancelEdit} />
+								<PrimaryButton text="Save Changes" onClick={editProduct} />
+							</div>
+						) : (
+							<>
+								<div className={styles.buttons}>
+									<PrimaryButton
+										text="Edit"
+										onClick={() => setEditMode(true)}
+									/>
+									<PrimaryButton text="Remove" />
+									<PrimaryButton text="Out of Stock" />
+								</div>
+							</>
+						)}
+					</div>
+				</div>
+			) : (
+				<div className={styles.productLine}>
+					<Typography className={styles.nameDetail}>
+						<b>Name:</b> {name}
+					</Typography>
+					<Typography className={styles.productDetail}>
+						<b>Price:</b> {price}
+					</Typography>
+					<Button variant="text" onClick={showDetails}>
+						<ArrowDropDownIcon />
+					</Button>
+				</div>
+			)}
+			<AlertMessage {...alertDetails} />
+		</div>
+	);
 };
 
 export default ThinComponent;

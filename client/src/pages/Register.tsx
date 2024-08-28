@@ -12,24 +12,16 @@ import * as api from "../apiControllers/userController";
 import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
-import { registerBody } from "../models/registerBody";
-import AlertMessage, { Severity } from "../components/AlertMessage";
+import { registerBody } from "../models/RegisterBody";
+import AlertMessage from "../components/AlertMessage";
+import { useAlert } from "../hooks/useAlert";
 
 const Register = (): JSX.Element => {
+	const { alertDetails, showAlert, clearAlert } = useAlert();
 	const [registerBody, setRegisterBody] = useState<registerBody>({
 		email: "",
 		password: "",
 		mailingList: false,
-	});
-
-	const [alertDetails, setAlertDetails] = useState<{
-		text: string;
-		visible: boolean;
-		severity: Severity;
-	}>({
-		text: "",
-		visible: false,
-		severity: "error",
 	});
 
 	const navigate = useNavigate();
@@ -47,11 +39,7 @@ const Register = (): JSX.Element => {
 			const data: loginResponse = await api.createUser(registerBody);
 			if (data.error) {
 				console.error("Login failed: ", data.error);
-				setAlertDetails({
-					text: data.error,
-					visible: true,
-					severity: "error",
-				});
+				showAlert(data.error, "error");
 			} else {
 				if (data.user) {
 					const token = data.token ?? "";

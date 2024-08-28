@@ -3,27 +3,19 @@ import styles from "../styles/Login.module.css";
 import PrimaryButton from "../components/PrimaryButton";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
-import { loginBody } from "../models/loginBody";
+import { loginBody } from "../models/LoginBody";
 import * as api from "../apiControllers/userController";
 import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
-import AlertMessage, { Severity } from "../components/AlertMessage";
+import AlertMessage from "../components/AlertMessage";
+import { useAlert } from "../hooks/useAlert";
 
 const Login = (): JSX.Element => {
+	const { alertDetails, showAlert } = useAlert();
 	const [loginBody, setLoginBody] = useState<loginBody>({
 		email: "",
 		password: "",
-	});
-
-	const [alertDetails, setAlertDetails] = useState<{
-		text: string;
-		visible: boolean;
-		severity: Severity;
-	}>({
-		text: "",
-		visible: false,
-		severity: "error",
 	});
 
 	const navigate = useNavigate();
@@ -41,11 +33,7 @@ const Login = (): JSX.Element => {
 			const data: loginResponse = await api.loginUser(loginBody);
 			if (data.error) {
 				console.error("Login failed: ", data.error);
-				setAlertDetails({
-					text: data.error,
-					visible: true,
-					severity: "error",
-				});
+				showAlert(data.error, "error");
 			} else {
 				if (data.user) {
 					const token = data.token ?? "";
@@ -60,11 +48,7 @@ const Login = (): JSX.Element => {
 					// Navigate to the home page after successful login
 					navigate("/");
 				} else {
-					setAlertDetails({
-						text: "Something has gone wrong. Please refresh",
-						visible: true,
-						severity: "error",
-					});
+					showAlert("Something has gone wrong. Please refresh", "error");
 				}
 			}
 		} catch (error) {

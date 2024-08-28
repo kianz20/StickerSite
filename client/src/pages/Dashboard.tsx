@@ -3,15 +3,17 @@ import NavigationBar from "../components/NavigationBar";
 import { useAuth } from "../hooks/useAuth";
 import styles from "../styles/Dashboard.module.css";
 import { TextField } from "@mui/material";
-import { productDetails } from "../models/productDetails";
+import { productDetails } from "../models/ProductDetails";
 import { useEffect, useState } from "react";
 import * as api from "../apiControllers/productController";
 import PrimaryButton from "../components/PrimaryButton";
-import AlertMessage, { Severity } from "../components/AlertMessage";
+import AlertMessage from "../components/AlertMessage";
 import ThinComponent from "../components/ThinComponent";
+import { useAlert } from "../hooks/useAlert";
 
 const Dashboard = (): JSX.Element => {
 	const { isAuthenticated, userRole, userToken } = useAuth();
+	const { alertDetails, showAlert, clearAlert } = useAlert();
 
 	// Contains the details used when adding new products
 	const [newProductDetails, setNewProductDetails] = useState<productDetails>({
@@ -23,38 +25,23 @@ const Dashboard = (): JSX.Element => {
 
 	const [productDetails, setProductDetails] = useState<productDetails[]>();
 
-	// Contains the error shown to the user
-	const [alertDetails, setAlertDetails] = useState<{
-		text: string;
-		visible: boolean;
-		severity: Severity;
-	}>({
-		text: "",
-		visible: false,
-		severity: "error",
-	});
-
 	const getProductData = async () => {
+		if (!userToken) {
+			showAlert("Your session has expired. Please log in again", "error");
+			return;
+		}
 		try {
-			const data = await api.getProducts(userToken!);
+			const data = await api.getProducts(userToken);
 			if (data.error) {
 				console.error("Fetch products failed: ", data.error);
-				setAlertDetails({
-					text: data.error,
-					visible: true,
-					severity: "error",
-				});
+				showAlert(data.error, "error");
 			} else {
 				setProductDetails(data.products);
 				console.log("Products fetched successfully: ", data.products);
 			}
 		} catch (error) {
 			console.error("Error retreiving products:", error);
-			setAlertDetails({
-				text: "Something went wrong",
-				visible: true,
-				severity: "error",
-			});
+			showAlert("Something went wrong", "error");
 		}
 	};
 
@@ -77,30 +64,22 @@ const Dashboard = (): JSX.Element => {
 	// Sends the request to create a new product
 	const handleAddProduct = async () => {
 		if (!userToken) {
-			setAlertDetails({
-				text: "Your session has expired. Please log in again",
-				visible: true,
-				severity: "error",
-			});
+			showAlert("Your session has expired. Please log in again", "error");
 			return;
 		}
-
-		const data = await api.addProduct(newProductDetails, userToken);
-		if (data.error) {
-			console.error("Add product failed: ", data.error);
-			setAlertDetails({
-				text: data.error,
-				visible: true,
-				severity: "error",
-			});
-		} else {
-			console.log("Product added successfully: ", data.message);
-			setAlertDetails({
-				text: "Product has been added",
-				visible: true,
-				severity: "success",
-			});
-			getProductData();
+		try {
+			const data = await api.addProduct(newProductDetails, userToken);
+			if (data.error) {
+				console.error("Add product failed: ", data.error);
+				showAlert(data.error, "error");
+			} else {
+				console.log("Product added successfully: ", data.message);
+				showAlert("Product has been added", "success");
+				getProductData();
+			}
+		} catch (error) {
+			console.error("Error retreiving products:", error);
+			showAlert("Something went wrong", "error");
 		}
 	};
 
@@ -116,20 +95,12 @@ const Dashboard = (): JSX.Element => {
 
 	const handlePageChange = (page: string) => {
 		setPage(page);
-		setAlertDetails({
-			text: "",
-			visible: false,
-			severity: "error",
-		});
+		clearAlert();
 	};
 
 	const handleRemoveProduct = async (id: string) => {
 		if (!userToken) {
-			setAlertDetails({
-				text: "Your session has expired. Please log in again",
-				visible: true,
-				severity: "error",
-			});
+			showAlert("Your session has expired. Please log in again", "error");
 			return;
 		}
 		try {

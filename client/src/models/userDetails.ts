@@ -1,4 +1,4 @@
-export interface userDetails {
+export interface UserDetails {
 	email: string;
 	mailingList: boolean;
 }

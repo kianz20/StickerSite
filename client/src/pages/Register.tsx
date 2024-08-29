@@ -1,25 +1,21 @@
-import { useState } from "react";
-import styles from "../styles/Login.module.css"; // Import the CSS file
-import PrimaryButton from "../components/PrimaryButton"; // Import your button component
-import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
 import {
 	Checkbox,
-	TextField,
-	FormGroup,
 	FormControlLabel,
+	FormGroup,
+	TextField,
 } from "@mui/material";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
 import * as api from "../apiControllers/userController";
-import NavigationBar from "../components/NavigationBar";
-import { loginResponse } from "../models";
-import { registerBody } from "../models/RegisterBody";
-import AlertMessage from "../components/AlertMessage";
-import { useAlert } from "../hooks/useAlert";
-import { useAuth } from "../hooks/useAuth";
+import { AlertMessage, NavigationBar, PrimaryButton } from "../components/"; // Import your button component
+import { useAlert, useAuth } from "../hooks";
+import { LoginResponse, RegisterBody } from "../models";
+import styles from "../styles/Login.module.css"; // Import the CSS file
 
 const Register = (): JSX.Element => {
 	const { setUserCookies } = useAuth();
 	const { alertDetails, showAlert } = useAlert();
-	const [registerBody, setRegisterBody] = useState<registerBody>({
+	const [registerBody, setRegisterBody] = useState<RegisterBody>({
 		email: "",
 		password: "",
 		mailingList: false,
@@ -30,7 +26,7 @@ const Register = (): JSX.Element => {
 	const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
 		try {
 			event.preventDefault();
-			const data: loginResponse = await api.createUser(registerBody);
+			const data: LoginResponse = await api.createUser(registerBody);
 			if (data.error) {
 				console.error("Register failed: ", data.error);
 				showAlert(data.error, "error");

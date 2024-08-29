@@ -1,29 +1,30 @@
-import { Navigate } from "react-router-dom";
-import NavigationBar from "../components/NavigationBar";
-import { useAuth } from "../hooks/useAuth";
-import styles from "../styles/Dashboard.module.css";
 import { TextField } from "@mui/material";
-import { productDetails } from "../models/ProductDetails";
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import * as api from "../apiControllers/productController";
-import PrimaryButton from "../components/PrimaryButton";
-import AlertMessage from "../components/AlertMessage";
-import ThinComponent from "../components/ThinComponent";
-import { useAlert } from "../hooks/useAlert";
+import {
+	AlertMessage,
+	NavigationBar,
+	PrimaryButton,
+	ThinComponent,
+} from "../components/";
+import { useAlert, useAuth } from "../hooks";
+import { ProductDetails } from "../models";
+import styles from "../styles/Dashboard.module.css";
 
 const Dashboard = (): JSX.Element => {
 	const { isAuthenticated, userRole, userToken } = useAuth();
 	const { alertDetails, showAlert, clearAlert } = useAlert();
 
 	// Contains the details used when adding new products
-	const [newProductDetails, setNewProductDetails] = useState<productDetails>({
+	const [newProductDetails, setNewProductDetails] = useState<ProductDetails>({
 		name: "",
 		price: "",
 		details: "",
 		_id: "",
 	});
 
-	const [productDetails, setProductDetails] = useState<productDetails[]>();
+	const [productDetails, setProductDetails] = useState<ProductDetails[]>();
 
 	const getProductData = async () => {
 		if (!userToken) {

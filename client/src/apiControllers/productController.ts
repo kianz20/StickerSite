@@ -1,4 +1,4 @@
-import { productDetails } from "../models";
+import { ProductDetails } from "../models";
 
 const deployed = false;
 const url = deployed ? "https://deployedURL.com" : "http://localhost:5050";
@@ -10,7 +10,7 @@ interface EditFormDetails {
 }
 
 export const addProduct = async (
-	product: productDetails,
+	product: ProductDetails,
 	token: string
 ): Promise<{ message?: string; error?: string }> => {
 	try {
@@ -42,7 +42,7 @@ export const addProduct = async (
 export const getProducts = async (
 	token: string
 ): Promise<{
-	products?: productDetails[];
+	products?: ProductDetails[];
 	error?: string;
 }> => {
 	try {
@@ -59,7 +59,7 @@ export const getProducts = async (
 			return { error: errorData.error || "Something went wrong" };
 		}
 
-		const products: productDetails[] = await response.json();
+		const products: ProductDetails[] = await response.json();
 		return { products };
 	} catch (error) {
 		return { error: (error as Error).message };
@@ -68,7 +68,7 @@ export const getProducts = async (
 
 export const editProduct = async (
 	productId: string,
-	productDetails: EditFormDetails,
+	ProductDetails: EditFormDetails,
 	token: string
 ): Promise<{ message?: string; error?: string }> => {
 	try {
@@ -78,7 +78,7 @@ export const editProduct = async (
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${token}`,
 			},
-			body: JSON.stringify(productDetails),
+			body: JSON.stringify(ProductDetails),
 		});
 
 		if (!response.ok) {

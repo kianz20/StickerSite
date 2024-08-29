@@ -1,15 +1,13 @@
 import express from "express";
-import Product from "../models/Product"; // Correctly import the User model
 import authenticateToken from "../middleware/authMiddleware";
-
-// const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+import { Product } from "../models";
 
 const router = express.Router();
 
 // Get all products from DB
 router.get("/", async (req, res) => {
 	try {
-		const products = await Product.find(); // Mongoose method to get all users
+		const products = await Product.find();
 		res.status(200).json(products);
 	} catch (error) {
 		res.status(500).json({ error: "Failed to fetch products" + error });
@@ -28,7 +26,8 @@ router.post("/", authenticateToken, async (req, res) => {
 				.json({ error: "name, price, and details args are required" });
 		}
 
-		const existingProduct = await Product.findOne({ name });
+		const query = { name: name.toString };
+		const existingProduct = await Product.findOne(query);
 		if (existingProduct) {
 			return res.status(401).json({ error: "Product name is already in use" });
 		}
@@ -59,11 +58,22 @@ router.put("/edit/:id", authenticateToken, async (req, res) => {
 		if (!id) {
 			return res.status(400).json({ error: "Product ID is required" });
 		}
+
+		const query = { _id: id.toString() };
+		const update = {
+			$set: {
+				name: name.toString(),
+				price: price.toString(),
+				details: details.toString(),
+			},
+		};
+		const options = { new: true };
 		const updatedProduct = await Product.findOneAndUpdate(
-			{ _id: id },
-			{ $set: { name, price, details } },
-			{ new: true } // Return the updated document
+			query,
+			update,
+			options
 		);
+
 		if (!updatedProduct) {
 			return res
 				.status(404)
@@ -87,7 +97,9 @@ router.delete("/:id", authenticateToken, async (req, res) => {
 		if (!id) {
 			return res.status(400).json({ error: "Product ID is required" });
 		}
-		const deletedProduct = await Product.findOneAndDelete({ _id: id });
+
+		const query = { _id: id.toString() };
+		const deletedProduct = await Product.findOneAndDelete(query);
 		if (!deletedProduct) {
 			return res.status(404).json({ error: "Product not found" });
 		}

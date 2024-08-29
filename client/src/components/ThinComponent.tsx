@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { productDetails } from "../models";
-import styles from "../styles/ThinComponent.module.css";
-import { Button, TextField, Typography } from "@mui/material";
-import PrimaryButton from "./PrimaryButton";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import { Button, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
 import * as api from "../apiControllers/productController";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks";
+import { ProductDetails } from "../models";
+import styles from "../styles/ThinComponent.module.css";
 import AlertMessage, { Severity } from "./AlertMessage";
+import PrimaryButton from "./PrimaryButton";
 
 interface EditFormDetails {
 	name: string;
@@ -15,7 +15,7 @@ interface EditFormDetails {
 	details: string;
 }
 
-interface ThinComponentProps extends productDetails {
+interface ThinComponentProps extends ProductDetails {
 	color: string;
 	onRemove: (id: string) => void;
 }

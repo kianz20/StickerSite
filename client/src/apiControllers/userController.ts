@@ -1,11 +1,11 @@
-import { userDetails, loginResponse, loginBody, registerBody } from "../models";
+import { UserDetails, LoginResponse, LoginBody, RegisterBody } from "../models";
 
 const deployed = false;
 const url = deployed ? "https://deployedURL.com" : "http://localhost:5050";
 
 export const createUser = async (
-	user: registerBody
-): Promise<loginResponse> => {
+	user: RegisterBody
+): Promise<LoginResponse> => {
 	try {
 		console.log(user);
 		const response = await fetch(`${url}/api/users/`, {
@@ -21,14 +21,14 @@ export const createUser = async (
 			return { error: errorData.error || "Something went wrong" };
 		}
 
-		const data: loginResponse = await response.json();
+		const data: LoginResponse = await response.json();
 		return data;
 	} catch (error) {
 		return { error: (error as Error).message };
 	}
 };
 
-export const loginUser = async (user: loginBody): Promise<loginResponse> => {
+export const loginUser = async (user: LoginBody): Promise<LoginResponse> => {
 	try {
 		const response = await fetch(`${url}/api/users/login`, {
 			method: "POST",
@@ -43,7 +43,7 @@ export const loginUser = async (user: loginBody): Promise<loginResponse> => {
 			return { error: errorData.error || "Something went wrong" };
 		}
 
-		const data: loginResponse = await response.json();
+		const data: LoginResponse = await response.json();
 		return data;
 	} catch (error) {
 		return { error: (error as Error).message };
@@ -53,7 +53,7 @@ export const loginUser = async (user: loginBody): Promise<loginResponse> => {
 export const getProfileData = async (
 	userID: string,
 	token: string
-): Promise<userDetails> => {
+): Promise<UserDetails> => {
 	try {
 		const response = await fetch(`${url}/api/users/${userID}`, {
 			method: "GET",
@@ -68,7 +68,7 @@ export const getProfileData = async (
 			throw new Error(AlertMessage);
 		}
 
-		const data: userDetails = await response.json();
+		const data: UserDetails = await response.json();
 		return data;
 	} catch (error) {
 		console.error("Error fetching profile data:", error);

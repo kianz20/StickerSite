@@ -9,14 +9,15 @@ import {
 	FormControlLabel,
 } from "@mui/material";
 import * as api from "../apiControllers/userController";
-import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
 import { registerBody } from "../models/RegisterBody";
 import AlertMessage from "../components/AlertMessage";
 import { useAlert } from "../hooks/useAlert";
+import { useAuth } from "../hooks/useAuth";
 
 const Register = (): JSX.Element => {
+	const { setUserCookies } = useAuth();
 	const { alertDetails, showAlert } = useAlert();
 	const [registerBody, setRegisterBody] = useState<registerBody>({
 		email: "",
@@ -26,34 +27,18 @@ const Register = (): JSX.Element => {
 
 	const navigate = useNavigate();
 
-	const setCookie = (name: string, value: string) => {
-		Cookies.set(name, value, {
-			expires: 1,
-			sameSite: "None",
-			secure: true,
-		});
-	};
-
 	const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
 		try {
 			event.preventDefault();
 			const data: loginResponse = await api.createUser(registerBody);
 			if (data.error) {
-				console.error("Login failed: ", data.error);
+				console.error("Register failed: ", data.error);
 				showAlert(data.error, "error");
 			} else {
-				if (data.user && data.token) {
-					const { role, id, email } = data.user;
-					setCookie("token", data.token);
-					setCookie("role", role);
-					setCookie("id", id);
-					setCookie("email", email);
+				setUserCookies(data);
 
-					// Navigate to the home page after successful login
-					navigate("/");
-				} else {
-					showAlert("Something has gone wrong. Please refresh", "error");
-				}
+				// Navigate to the home page after successful login
+				navigate("/");
 			}
 		} catch (error) {
 			console.error("Error during login:", error);

@@ -10,6 +10,7 @@ import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
 import AlertMessage from "../components/AlertMessage";
 import { useAlert } from "../hooks/useAlert";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = (): JSX.Element => {
 	const { alertDetails, showAlert } = useAlert();
@@ -17,16 +18,9 @@ const Login = (): JSX.Element => {
 		email: "",
 		password: "",
 	});
+	const { setUserCookies } = useAuth();
 
 	const navigate = useNavigate();
-
-	const setCookie = (name: string, value: string) => {
-		Cookies.set(name, value, {
-			expires: 1,
-			sameSite: "None",
-			secure: true,
-		});
-	};
 
 	const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
 		try {
@@ -36,18 +30,9 @@ const Login = (): JSX.Element => {
 				console.error("Login failed: ", data.error);
 				showAlert(data.error, "error");
 			} else {
-				if (data.user && data.token) {
-					const { role, id, email } = data.user;
-					setCookie("token", data.token);
-					setCookie("role", role);
-					setCookie("id", id);
-					setCookie("email", email);
-
-					// Navigate to the home page after successful login
-					navigate("/");
-				} else {
-					showAlert("Something has gone wrong. Please refresh", "error");
-				}
+				setUserCookies(data);
+				// Navigate to the home page after successful login
+				navigate("/");
 			}
 		} catch (error) {
 			console.error("Error during login:", error);

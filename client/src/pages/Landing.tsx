@@ -6,8 +6,6 @@ import badgesCategoryPicture from "../resources/badgesCategoryShort.png";
 import SearchBar from "../components/SearchBar";
 
 const Landing = (): JSX.Element => {
-	// const { userToken, userRole } = useAuth();
-
 	return (
 		<>
 			<NavigationBar />
@@ -28,27 +26,6 @@ const Landing = (): JSX.Element => {
 					alt="badges"
 					className={styles.categoryPicture}
 				/>
-				{/* {userToken ? (
-					<>
-						<p>Welcome, {userRole}</p>
-						{userRole === "admin" ? (
-							<>
-								<p>I'm an admin</p>
-							</>
-						) : (
-							<>
-								<p>I'm a user</p>
-							</>
-						)}
-					</>
-				) : (
-					<>
-						<p className={styles.description}>
-							Check out our store or login above
-						</p>
-						<PrimaryButton text="Find out more!" />
-					</>
-				)} */}
 			</div>
 		</>
 	);

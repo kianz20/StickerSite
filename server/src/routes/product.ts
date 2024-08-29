@@ -2,8 +2,6 @@ import express from "express";
 import Product from "../models/Product"; // Correctly import the User model
 import authenticateToken from "../middleware/authMiddleware";
 
-// const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
-
 const router = express.Router();
 
 // Get all products from DB

@@ -9,79 +9,43 @@ import {
 	FormControlLabel,
 } from "@mui/material";
 import * as api from "../apiControllers/userController";
-import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
-import { registerBody } from "../models/registerBody";
-import AlertMessage, { Severity } from "../components/AlertMessage";
+import { registerBody } from "../models/RegisterBody";
+import AlertMessage from "../components/AlertMessage";
+import { useAlert } from "../hooks/useAlert";
+import { useAuth } from "../hooks/useAuth";
 
 const Register = (): JSX.Element => {
+	const { setUserCookies } = useAuth();
+	const { alertDetails, showAlert } = useAlert();
 	const [registerBody, setRegisterBody] = useState<registerBody>({
 		email: "",
 		password: "",
 		mailingList: false,
 	});
 
-	const [alertDetails, setAlertDetails] = useState<{
-		text: string;
-		visible: boolean;
-		severity: Severity;
-	}>({
-		text: "",
-		visible: false,
-		severity: "error",
-	});
-
 	const navigate = useNavigate();
 
-	const setCookie = (name: string, value: string) => {
-		Cookies.set(name, value, {
-			expires: 1,
-			sameSite: "None",
-			secure: true,
-		});
-	};
-
-	const handleRegister = async () => {
+	const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
 		try {
+			event.preventDefault();
 			const data: loginResponse = await api.createUser(registerBody);
 			if (data.error) {
-				console.error("Login failed: ", data.error);
-				setAlertDetails({
-					text: data.error,
-					visible: true,
-					severity: "error",
-				});
+				console.error("Register failed: ", data.error);
+				showAlert(data.error, "error");
 			} else {
-				if (data.user) {
-					const token = data.token ?? "";
-					const role = data.user.role;
-					const id = data.user.id;
-					const email = data.user.email;
-
-					setCookie("token", token);
-					setCookie("role", role);
-					setCookie("id", id);
-					setCookie("email", email);
-					// Navigate to the home page after successful login
-					navigate("/");
-				} else {
-					setAlertDetails({
-						text: "Something has gone wrong. Please refresh",
-						visible: true,
-						severity: "error",
-					});
-				}
+				setUserCookies(data);
+				// Navigate to the home page after successful login
+				navigate("/");
 			}
 		} catch (error) {
-			// Handle any errors that occur during login
 			console.error("Error during login:", error);
+			showAlert("Error during registration. Please try again.", "error");
 		}
 	};
 
-	const handleFormChange = async (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
+	const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value, checked, type } = event.target;
 		setRegisterBody((prevState) => ({
 			...prevState,
@@ -94,7 +58,7 @@ const Register = (): JSX.Element => {
 			<NavigationBar />
 			<div className={styles.loginContainer}>
 				<h2>Register for an Animori Account!</h2>
-				<form>
+				<form onSubmit={handleRegister}>
 					<TextField
 						className={styles.loginField}
 						label="Email"
@@ -106,7 +70,7 @@ const Register = (): JSX.Element => {
 						onChange={handleFormChange}
 					/>
 					<TextField
-						className="login-field"
+						className={styles.loginField}
 						label="Password"
 						type="password"
 						variant="outlined"
@@ -127,7 +91,7 @@ const Register = (): JSX.Element => {
 					</FormGroup>
 					<br />
 					<br />
-					<PrimaryButton text="Register" onClick={handleRegister} />
+					<PrimaryButton text="Register" type="submit" />
 				</form>
 				<br />
 				<Link to="/">

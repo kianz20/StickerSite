@@ -27,8 +27,10 @@ const authenticateToken = (
 		} else {
 			res.status(401).json({ error: "No token provided" });
 		}
-	} catch (error) {
-		res.status(401).json({ error: "Authentication failed: " + error });
+	} catch {
+		res
+			.status(401)
+			.json({ error: "Authentication failed, try logging in again" });
 	}
 };
 

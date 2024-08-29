@@ -6,29 +6,29 @@ import badgesCategoryPicture from "../resources/badgesCategoryShort.png";
 import SearchBar from "../components/SearchBar";
 
 const Landing = (): JSX.Element => {
-    // const { userToken, userRole } = useAuth();
+	// const { userToken, userRole } = useAuth();
 
-    return (
-        <>
-            <NavigationBar />
-            <SearchBar />
-            <div className={styles.categoriesContainer}>
-                <img
-                    src={stickerCategoryPicture}
-                    alt="stickers"
-                    className={styles.categoryPicture}
-                />
-                <img
-                    src={lightupCategoryPicture}
-                    alt="lightUpFrame"
-                    className={styles.categoryPicture}
-                />
-                <img
-                    src={badgesCategoryPicture}
-                    alt="badges"
-                    className={styles.categoryPicture}
-                />
-                {/* {userToken ? (
+	return (
+		<>
+			<NavigationBar />
+			<SearchBar />
+			<div className={styles.categoriesContainer}>
+				<img
+					src={stickerCategoryPicture}
+					alt="stickers"
+					className={styles.categoryPicture}
+				/>
+				<img
+					src={lightupCategoryPicture}
+					alt="lightUpFrame"
+					className={styles.categoryPicture}
+				/>
+				<img
+					src={badgesCategoryPicture}
+					alt="badges"
+					className={styles.categoryPicture}
+				/>
+				{/* {userToken ? (
 					<>
 						<p>Welcome, {userRole}</p>
 						{userRole === "admin" ? (
@@ -49,9 +49,9 @@ const Landing = (): JSX.Element => {
 						<PrimaryButton text="Find out more!" />
 					</>
 				)} */}
-            </div>
-        </>
-    );
+			</div>
+		</>
+	);
 };
 
 export default Landing;

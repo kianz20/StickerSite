@@ -1,6 +1,6 @@
-export type { userDetails } from "./userDetails";
-export type { loginResponse } from "./loginResponse";
-export type { loginBody } from "./loginBody";
-export type { productDetails } from "./productDetails";
-export type { registerBody } from "./registerBody";
-export type { AlertDetails } from "./alertDetails";
+export type { userDetails } from "./UserDetails";
+export type { loginResponse } from "./LoginResponse";
+export type { loginBody } from "./LoginBody";
+export type { productDetails } from "./ProductDetails";
+export type { registerBody } from "./RegisterBody";
+export type { AlertDetails } from "./AlertDetails";

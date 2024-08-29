@@ -3,79 +3,43 @@ import styles from "../styles/Login.module.css";
 import PrimaryButton from "../components/PrimaryButton";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
-import { loginBody } from "../models/loginBody";
+import { loginBody } from "../models/LoginBody";
 import * as api from "../apiControllers/userController";
-import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
-import AlertMessage, { Severity } from "../components/AlertMessage";
+import AlertMessage from "../components/AlertMessage";
+import { useAlert } from "../hooks/useAlert";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = (): JSX.Element => {
+	const { alertDetails, showAlert } = useAlert();
 	const [loginBody, setLoginBody] = useState<loginBody>({
 		email: "",
 		password: "",
 	});
-
-	const [alertDetails, setAlertDetails] = useState<{
-		text: string;
-		visible: boolean;
-		severity: Severity;
-	}>({
-		text: "",
-		visible: false,
-		severity: "error",
-	});
+	const { setUserCookies } = useAuth();
 
 	const navigate = useNavigate();
 
-	const setCookie = (name: string, value: string) => {
-		Cookies.set(name, value, {
-			expires: 1,
-			sameSite: "None",
-			secure: true,
-		});
-	};
-
-	const handleLogin = async () => {
+	const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
 		try {
+			event.preventDefault();
 			const data: loginResponse = await api.loginUser(loginBody);
 			if (data.error) {
 				console.error("Login failed: ", data.error);
-				setAlertDetails({
-					text: data.error,
-					visible: true,
-					severity: "error",
-				});
+				showAlert(data.error, "error");
 			} else {
-				if (data.user) {
-					const token = data.token ?? "";
-					const role = data.user.role;
-					const id = data.user.id;
-					const email = data.user.email;
-
-					setCookie("token", token);
-					setCookie("role", role);
-					setCookie("id", id);
-					setCookie("email", email);
-					// Navigate to the home page after successful login
-					navigate("/");
-				} else {
-					setAlertDetails({
-						text: "Something has gone wrong. Please refresh",
-						visible: true,
-						severity: "error",
-					});
-				}
+				setUserCookies(data);
+				// Navigate to the home page after successful login
+				navigate("/");
 			}
 		} catch (error) {
-			// Handle any errors that occur during login
 			console.error("Error during login:", error);
+			showAlert("Error during login. Please try again.", "error");
 		}
 	};
 
-	const handleFormChange = async (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
+	const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
 		setLoginBody((prevState) => ({
 			...prevState,
@@ -88,9 +52,9 @@ const Login = (): JSX.Element => {
 			<NavigationBar />
 			<div className={styles.loginContainer}>
 				<h1>Login</h1>
-				<form>
+				<form onSubmit={handleLogin}>
 					<TextField
-						className="login-field"
+						className={styles.loginField}
 						label="Email"
 						variant="outlined"
 						fullWidth
@@ -100,7 +64,7 @@ const Login = (): JSX.Element => {
 						onChange={handleFormChange}
 					/>
 					<TextField
-						className="login-field"
+						className={styles.loginField}
 						label="Password"
 						type="password"
 						variant="outlined"
@@ -112,7 +76,7 @@ const Login = (): JSX.Element => {
 					/>
 					<br />
 					<br />
-					<PrimaryButton text="Login" onClick={handleLogin} />
+					<PrimaryButton text="Login" type="submit" />
 				</form>
 				<p>
 					Don&apos;t have an account? <Link to="/register">Register</Link>

@@ -86,7 +86,6 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 			});
 			return;
 		}
-
 		try {
 			const data: { message?: string; error?: string } = await api.editProduct(
 				_id,

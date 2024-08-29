@@ -8,8 +8,7 @@ import {
 	PrimaryButton,
 	ThinComponent,
 } from "../components/";
-import { useAlert } from "../hooks/useAlert";
-import { useAuth } from "../hooks/useAuth";
+import { useAlert, useAuth } from "../hooks";
 import { ProductDetails } from "../models/ProductDetails";
 import styles from "../styles/Dashboard.module.css";
 

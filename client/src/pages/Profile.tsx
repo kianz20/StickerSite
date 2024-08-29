@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import * as api from "../apiControllers/userController";
 import { NavigationBar, SearchBar } from "../components/";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks";
 import { UserDetails } from "../models";
 import styles from "../styles/Profile.module.css";
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import * as api from "../apiControllers/productController";
 import { NavigationBar, SearchBar, SingleProduct } from "../components/";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks";
 import { ProductDetails } from "../models";
 import styles from "../styles/Products.module.css";
 

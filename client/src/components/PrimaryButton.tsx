@@ -6,7 +6,7 @@ interface PrimaryButtonProps {
 	onClick?: () => void;
 	className?: string;
 	text?: string;
-	type?: "button" | "submit" | "reset" | undefined;
+	type?: "button" | "submit" | "reset";
 }
 
 const PrimaryButton: React.FC<PrimaryButtonProps> = ({

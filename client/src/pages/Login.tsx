@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { loginBody } from "../models/LoginBody";
 import * as api from "../apiControllers/userController";
-import Cookies from "js-cookie";
 import NavigationBar from "../components/NavigationBar";
 import { loginResponse } from "../models";
 import AlertMessage from "../components/AlertMessage";

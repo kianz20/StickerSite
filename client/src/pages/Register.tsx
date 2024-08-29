@@ -36,7 +36,6 @@ const Register = (): JSX.Element => {
 				showAlert(data.error, "error");
 			} else {
 				setUserCookies(data);
-
 				// Navigate to the home page after successful login
 				navigate("/");
 			}

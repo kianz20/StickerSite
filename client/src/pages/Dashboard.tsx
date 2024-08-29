@@ -1,15 +1,17 @@
-import { Navigate } from "react-router-dom";
-import NavigationBar from "../components/NavigationBar";
-import { useAuth } from "../hooks/useAuth";
-import styles from "../styles/Dashboard.module.css";
 import { TextField } from "@mui/material";
-import { ProductDetails } from "../models/ProductDetails";
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import * as api from "../apiControllers/productController";
-import PrimaryButton from "../components/PrimaryButton";
-import AlertMessage from "../components/AlertMessage";
-import ThinComponent from "../components/ThinComponent";
+import {
+	AlertMessage,
+	NavigationBar,
+	PrimaryButton,
+	ThinComponent,
+} from "../components/";
 import { useAlert } from "../hooks/useAlert";
+import { useAuth } from "../hooks/useAuth";
+import { ProductDetails } from "../models/ProductDetails";
+import styles from "../styles/Dashboard.module.css";
 
 const Dashboard = (): JSX.Element => {
 	const { isAuthenticated, userRole, userToken } = useAuth();

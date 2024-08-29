@@ -1,14 +1,12 @@
-import { useState } from "react";
-import styles from "../styles/Login.module.css";
-import PrimaryButton from "../components/PrimaryButton";
-import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
-import { LoginBody, LoginResponse } from "../models/";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import * as api from "../apiControllers/userController";
-import NavigationBar from "../components/NavigationBar";
-import AlertMessage from "../components/AlertMessage";
+import { AlertMessage, NavigationBar, PrimaryButton } from "../components/";
 import { useAlert } from "../hooks/useAlert";
 import { useAuth } from "../hooks/useAuth";
+import { LoginBody, LoginResponse } from "../models/";
+import styles from "../styles/Login.module.css";
 
 const Login = (): JSX.Element => {
 	const { alertDetails, showAlert } = useAlert();

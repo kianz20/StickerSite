@@ -1,11 +1,10 @@
-import NavigationBar from "../components/NavigationBar";
-import { useAuth } from "../hooks/useAuth";
+import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import * as api from "../apiControllers/userController";
-import { useEffect, useState } from "react";
+import { NavigationBar, SearchBar } from "../components/";
+import { useAuth } from "../hooks/useAuth";
 import { UserDetails } from "../models";
 import styles from "../styles/Profile.module.css";
-import SearchBar from "../components/SearchBar";
 
 const Profile = (): JSX.Element => {
 	const { isAuthenticated, userID, userToken } = useAuth();

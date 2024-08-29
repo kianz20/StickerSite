@@ -1,9 +1,8 @@
-import NavigationBar from "../components/NavigationBar";
-import styles from "../styles/Landing.module.css";
-import stickerCategoryPicture from "../resources/stickerCategoryShort.png";
-import lightupCategoryPicture from "../resources/lightupFrameCategoryShort.png";
+import { NavigationBar, SearchBar } from "../components/";
 import badgesCategoryPicture from "../resources/badgesCategoryShort.png";
-import SearchBar from "../components/SearchBar";
+import lightupCategoryPicture from "../resources/lightupFrameCategoryShort.png";
+import stickerCategoryPicture from "../resources/stickerCategoryShort.png";
+import styles from "../styles/Landing.module.css";
 
 const Landing = (): JSX.Element => {
 	return (

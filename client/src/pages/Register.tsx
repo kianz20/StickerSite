@@ -1,20 +1,18 @@
-import { useState } from "react";
-import styles from "../styles/Login.module.css"; // Import the CSS file
-import PrimaryButton from "../components/PrimaryButton"; // Import your button component
-import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
 import {
 	Checkbox,
-	TextField,
-	FormGroup,
 	FormControlLabel,
+	FormGroup,
+	TextField,
 } from "@mui/material";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
 import * as api from "../apiControllers/userController";
-import NavigationBar from "../components/NavigationBar";
-import { LoginResponse } from "../models";
-import { RegisterBody } from "../models/RegisterBody";
-import AlertMessage from "../components/AlertMessage";
+import { AlertMessage, NavigationBar, PrimaryButton } from "../components/"; // Import your button component
 import { useAlert } from "../hooks/useAlert";
 import { useAuth } from "../hooks/useAuth";
+import { LoginResponse } from "../models";
+import { RegisterBody } from "../models/RegisterBody";
+import styles from "../styles/Login.module.css"; // Import the CSS file
 
 const Register = (): JSX.Element => {
 	const { setUserCookies } = useAuth();

@@ -1,8 +1,8 @@
 import React from "react";
-import { productDetails } from "../models";
+import { ProductDetails } from "../models";
 import styles from "../styles/Products.module.css";
 
-const SingleProduct: React.FC<productDetails> = (product: productDetails) => {
+const SingleProduct: React.FC<ProductDetails> = (product: ProductDetails) => {
 	return (
 		<div className={styles.singleProduct}>
 			<p>{product.name}</p>

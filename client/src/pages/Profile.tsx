@@ -3,7 +3,7 @@ import { useAuth } from "../hooks/useAuth";
 import { Navigate, useParams } from "react-router-dom";
 import * as api from "../apiControllers/userController";
 import { useEffect, useState } from "react";
-import { userDetails } from "../models";
+import { UserDetails } from "../models";
 import styles from "../styles/Profile.module.css";
 import SearchBar from "../components/SearchBar";
 
@@ -13,7 +13,7 @@ const Profile = (): JSX.Element => {
 	const getProfileData = async () => {
 		try {
 			if (userID && userToken) {
-				const data: userDetails = await api.getProfileData(userID, userToken);
+				const data: UserDetails = await api.getProfileData(userID, userToken);
 				setProfileData(data);
 			}
 		} catch (error) {
@@ -21,7 +21,7 @@ const Profile = (): JSX.Element => {
 		}
 	};
 
-	const [profileData, setProfileData] = useState<userDetails>({
+	const [profileData, setProfileData] = useState<UserDetails>({
 		email: "",
 		mailingList: false,
 	});

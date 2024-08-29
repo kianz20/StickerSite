@@ -1,5 +1,5 @@
 import express from "express";
-import Product from "../models/Product"; // Correctly import the User model
+import Product from "../models/Product";
 import authenticateToken from "../middleware/authMiddleware";
 
 const router = express.Router();
@@ -7,7 +7,7 @@ const router = express.Router();
 // Get all products from DB
 router.get("/", async (req, res) => {
 	try {
-		const products = await Product.find(); // Mongoose method to get all users
+		const products = await Product.find();
 		res.status(200).json(products);
 	} catch (error) {
 		res.status(500).json({ error: "Failed to fetch products" + error });

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { productDetails } from "../models";
+import { ProductDetails } from "../models";
 import styles from "../styles/ThinComponent.module.css";
 import { Button, TextField, Typography } from "@mui/material";
 import PrimaryButton from "./PrimaryButton";
@@ -15,7 +15,7 @@ interface EditFormDetails {
 	details: string;
 }
 
-interface ThinComponentProps extends productDetails {
+interface ThinComponentProps extends ProductDetails {
 	color: string;
 	onRemove: (id: string) => void;
 }

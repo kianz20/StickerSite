@@ -2,13 +2,13 @@ import NavigationBar from "../components/NavigationBar";
 import styles from "../styles/Products.module.css";
 import SearchBar from "../components/SearchBar";
 import * as api from "../apiControllers/productController";
-import { productDetails } from "../models";
+import { ProductDetails } from "../models";
 import { useEffect, useState } from "react";
 import SingleProduct from "../components/SingleProduct";
 import { useAuth } from "../hooks/useAuth";
 
 const Products = (): JSX.Element => {
-	const [products, setProducts] = useState<productDetails[]>();
+	const [products, setProducts] = useState<ProductDetails[]>();
 	const { userToken } = useAuth();
 
 	const handleGetAllProducts = async () => {

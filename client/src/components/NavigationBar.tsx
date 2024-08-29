@@ -30,11 +30,9 @@ const NavigationBar: React.FC<{}> = () => {
 				</Link>
 			</div>
 			{userRole === "admin" && (
-				<>
-					<Link to={`/dashboard/${userID}`}>
-						<PrimaryButton text="Admin Dashboard" />
-					</Link>
-				</>
+				<Link to={`/dashboard/${userID}`}>
+					<PrimaryButton text="Admin Dashboard" />
+				</Link>
 			)}
 			{isAuthenticated && (
 				<Button className={styles.logoutButton} onClick={logout}>
@@ -46,7 +44,7 @@ const NavigationBar: React.FC<{}> = () => {
 				className={styles.linkContainer}
 			>
 				<div>
-					<p className={styles.accountName}>{userEmail || "Login"}</p>
+					<p className={styles.accountName}>{userEmail ?? "Login"}</p>
 				</div>
 				<AccountCircleIcon className={styles.accountIcon} />
 			</Link>

@@ -3,17 +3,16 @@ import styles from "../styles/Login.module.css";
 import PrimaryButton from "../components/PrimaryButton";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
-import { loginBody } from "../models/LoginBody";
+import { LoginBody, LoginResponse } from "../models/";
 import * as api from "../apiControllers/userController";
 import NavigationBar from "../components/NavigationBar";
-import { loginResponse } from "../models";
 import AlertMessage from "../components/AlertMessage";
 import { useAlert } from "../hooks/useAlert";
 import { useAuth } from "../hooks/useAuth";
 
 const Login = (): JSX.Element => {
 	const { alertDetails, showAlert } = useAlert();
-	const [loginBody, setLoginBody] = useState<loginBody>({
+	const [loginBody, setLoginBody] = useState<LoginBody>({
 		email: "",
 		password: "",
 	});
@@ -24,7 +23,7 @@ const Login = (): JSX.Element => {
 	const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
 		try {
 			event.preventDefault();
-			const data: loginResponse = await api.loginUser(loginBody);
+			const data: LoginResponse = await api.loginUser(loginBody);
 			if (data.error) {
 				console.error("Login failed: ", data.error);
 				showAlert(data.error, "error");

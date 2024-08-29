@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../models/User"; // Correctly import the User model
+import User from "../models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import authenticateToken from "../middleware/authMiddleware";
@@ -11,7 +11,7 @@ const router = express.Router();
 // Get all users from DB
 router.get("/", authenticateToken, async (req, res) => {
 	try {
-		const users = await User.find(); // Mongoose method to get all users
+		const users = await User.find();
 		res.status(200).json(users);
 	} catch (error) {
 		res.status(500).json({ error: "Failed to fetch users" + error });

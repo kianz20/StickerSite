@@ -64,12 +64,10 @@ export const useAuth = (): AuthData => {
 
 	const setUserCookies = (data: loginResponse): void => {
 		const { user: { role, id, email } = {}, token } = data;
-
 		// Validate that none of the required values are undefined
 		if ([role, id, email, token].some((value) => value === undefined)) {
 			throw new Error("Missing required user information or token.");
 		}
-
 		setCookie("token", token as string);
 		setCookie("role", role as string);
 		setCookie("id", id as string);

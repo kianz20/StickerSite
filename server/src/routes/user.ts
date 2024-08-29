@@ -28,7 +28,8 @@ router.post("/", async (req, res) => {
 			return res.status(400).json({ error: "Email and Password are required" });
 		}
 
-		const existingUser = await User.findOne({ email });
+		const query = { email: email.toString() };
+		const existingUser = await User.findOne(query);
 		if (existingUser) {
 			return res.status(401).json({ error: "Email is already in use" });
 		}
@@ -78,6 +79,7 @@ router.post("/login", async (req, res) => {
 				.json({ error: "Email and password are required!" });
 		}
 		// Find user by username
+
 		const user = await User.findOne({ email });
 		if (!user) {
 			return res.status(401).json({ error: "Invalid username or password" });

@@ -28,7 +28,8 @@ router.post("/", authenticateToken, async (req, res) => {
 				.json({ error: "name, price, and details args are required" });
 		}
 
-		const existingProduct = await Product.findOne({ name });
+		const query = { name: name.toString };
+		const existingProduct = await Product.findOne(query);
 		if (existingProduct) {
 			return res.status(401).json({ error: "Product name is already in use" });
 		}
@@ -59,11 +60,22 @@ router.put("/edit/:id", authenticateToken, async (req, res) => {
 		if (!id) {
 			return res.status(400).json({ error: "Product ID is required" });
 		}
+
+		const query = { _id: id.toString() };
+		const update = {
+			$set: {
+				name: name.toString(),
+				price: price.toString(),
+				details: details.toString(),
+			},
+		};
+		const options = { new: true };
 		const updatedProduct = await Product.findOneAndUpdate(
-			{ _id: id },
-			{ $set: { name, price, details } },
-			{ new: true } // Return the updated document
+			query,
+			update,
+			options
 		);
+
 		if (!updatedProduct) {
 			return res
 				.status(404)
@@ -87,7 +99,9 @@ router.delete("/:id", authenticateToken, async (req, res) => {
 		if (!id) {
 			return res.status(400).json({ error: "Product ID is required" });
 		}
-		const deletedProduct = await Product.findOneAndDelete({ _id: id });
+
+		const query = { _id: id.toString() };
+		const deletedProduct = await Product.findOneAndDelete(query);
 		if (!deletedProduct) {
 			return res.status(404).json({ error: "Product not found" });
 		}

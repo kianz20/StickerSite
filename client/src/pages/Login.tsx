@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as api from "../apiControllers/userController";
 import { AlertMessage, NavigationBar, PrimaryButton } from "../components/";
 import { useAlert, useAuth } from "../hooks";
-import { LoginBody, LoginResponse } from "../models/";
+import { LoginBody, LoginResponse } from "../models";
 import styles from "../styles/Login.module.css";
 
 const Login = (): JSX.Element => {

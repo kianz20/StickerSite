@@ -9,7 +9,7 @@ import {
 	ThinComponent,
 } from "../components/";
 import { useAlert, useAuth } from "../hooks";
-import { ProductDetails } from "../models/ProductDetails";
+import { ProductDetails } from "../models";
 import styles from "../styles/Dashboard.module.css";
 
 const Dashboard = (): JSX.Element => {

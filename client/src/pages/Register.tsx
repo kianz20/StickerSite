@@ -9,8 +9,7 @@ import { Link, useNavigate } from "react-router-dom"; // Import Link for navigat
 import * as api from "../apiControllers/userController";
 import { AlertMessage, NavigationBar, PrimaryButton } from "../components/"; // Import your button component
 import { useAlert, useAuth } from "../hooks";
-import { LoginResponse } from "../models";
-import { RegisterBody } from "../models/RegisterBody";
+import { LoginResponse, RegisterBody } from "../models";
 import styles from "../styles/Login.module.css"; // Import the CSS file
 
 const Register = (): JSX.Element => {

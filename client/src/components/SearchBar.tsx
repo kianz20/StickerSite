@@ -38,46 +38,66 @@ const SearchBar: React.FC<{}> = () => {
     }, []);
 
     return (
-        <div className={styles.searchBarContainer}>
-            <TextField
-                variant="filled"
-                select
-                id="categoryPicker"
-                className={styles.categorySelect}
-                value={category}
-                onChange={handleCategoryChange}
-                hiddenLabel
-            >
-                <MenuItem value="all">All Categories</MenuItem>
-                <MenuItem value="sticker">Stickers</MenuItem>
-                <MenuItem value="frames">Frames</MenuItem>
-                <MenuItem value="pinsBadges">Pins and Badges</MenuItem>
-            </TextField>
+        <div>
+            <div className={styles.searchBanner}>
+                <div className={styles.searchBarContainer}>
+                    <TextField
+                        variant="filled"
+                        select
+                        id="categoryPicker"
+                        className={styles.categorySelect}
+                        value={category}
+                        onChange={handleCategoryChange}
+                        hiddenLabel
+                    >
+                        <MenuItem value="all">All Categories</MenuItem>
+                        <MenuItem value="sticker">Stickers</MenuItem>
+                        <MenuItem value="frames">Frames</MenuItem>
+                        <MenuItem value="pinsBadges">Pins and Badges</MenuItem>
+                    </TextField>
 
-            <TextField
-                className={styles.searchBar}
-                inputProps={{
-                    style: {
-                        fontSize: 16,
-                    },
-                }}
-                variant="filled"
-                onChange={(event) => setSearchQuery(event.target.value)}
-                hiddenLabel
-            ></TextField>
-            <Button
-                aria-label="search"
-                variant="contained"
-                className={styles.searchButton}
-            >
-                <SearchIcon fontSize="large" />
-            </Button>
-            {searchQuery &&
-                productDetails
-                    ?.filter((product) => product.name.includes(searchQuery))
-                    ?.map((product) => (
-                        <SingleSearchResult key={product._id} {...product} />
-                    ))}
+                    <TextField
+                        className={styles.searchEntry}
+                        variant="filled"
+                        placeholder="Search"
+                        onChange={(event) => setSearchQuery(event.target.value)}
+                        hiddenLabel
+                    ></TextField>
+                </div>
+            </div>
+
+            <div className={styles.empty}>
+                <div className={styles.searchResultsContainer}>
+                    {searchQuery &&
+                        productDetails
+                            ?.filter((product) =>
+                                product.name.includes(searchQuery)
+                            )
+                            ?.slice(0, 8)
+                            .map((product) => (
+                                <SingleSearchResult
+                                    key={product._id}
+                                    {...product}
+                                />
+                            ))}
+                    <div className={styles.seeAllButton}>
+                        <Button
+                            className={styles.buttonText}
+                            onClick={() => {
+                                alert("functionality does not exist yet");
+                            }}
+                            aria-label="View All Search
+                            Results"
+                        >
+                            View All Results &emsp;&emsp;
+                            <SearchIcon
+                                fontSize="large"
+                                sx={{ color: "black" }}
+                            />
+                        </Button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

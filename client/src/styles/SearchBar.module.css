@@ -1,18 +1,54 @@
-.searchBarContainer {
-	padding: 10px;
+.searchBanner {
+	display: flex;
+	justify-content: center;
+	width: 100%;
 	background-color: rgb(224, 216, 255);
 }
 
-.searchButton {
-	height: 56px;
+.searchBarContainer {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: 40%;
 }
 
-.searchBar {
-	width: 500px;
+.categorySelect {
+	width: 25%;
+}
+
+.searchEntry {
+	width: 75%;
 	padding-left: 10px;
 	background-color: white;
 }
 
-.categorySelect {
-	width: 180px;
+.searchResultsContainer {
+	position: absolute; /* Results sit on top of the page. */
+	left: 0; 
+	right: 0;
+	margin: auto; /* Centering using available area. */
+	padding: 10px;
+	display: grid;
+	grid-template: auto auto / repeat(4, 1fr); /* Explicitly create a 4x2 grid. */
+	column-gap: 10px;
+	row-gap: 15px;
+	background-color: rgba(224, 216, 255, 0.7);
+	border-radius: 0px 0px 20px 20px;
+	width: 40%;
+	box-sizing: border-box; /* Prevent padding from changing overall component size. */
 }
+
+.seeAllButton {
+	grid-column: span 4; /* Let the button be long. */
+	border: 2px solid black;
+	border-radius: 20px;
+	background-color: rgb(190, 175, 248);
+}
+
+.buttonText {
+	width: 100%;
+}
+
+.empty:not(:has(:nth-child(3))) {
+	display: none; /* If nothing is entered in the search bar, hide the "See All" button. */
+}
+

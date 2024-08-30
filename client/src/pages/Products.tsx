@@ -18,7 +18,7 @@ const Products = (): JSX.Element => {
 
 	useEffect(() => {
 		handleGetAllProducts();
-	}, []);
+	}, [userToken]);
 
 	return (
 		<>

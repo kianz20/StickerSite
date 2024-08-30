@@ -11,7 +11,7 @@
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	overflow-x: hidden;
+	/* overflow-x: hidden; */
 }
 
 a {
@@ -29,7 +29,7 @@ body {
 	flex-direction: column; /* Ensures children stack vertically */
 	min-width: 320px;
 	min-height: 100vh;
-	width: 100vw; /* Ensures body takes up the full width of the viewport */
+	width: 100%; /* Ensures body takes up the full width of the viewport */
 	box-sizing: border-box; /* Include padding and border in the element's width and height */
 }
 

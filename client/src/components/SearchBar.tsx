@@ -11,12 +11,12 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 
 const SearchBar: React.FC<{}> = () => {
-    const [categories, setCategories] = useState<string[]>([]);
-    const [searchQuery, setSearchQuery] = useState("all");
+    const categoryList = ["Stickers", "Frames", "Pins and Badges"];
+
+    const [categories, setCategories] = useState<string[]>(categoryList);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const [productDetails, setProductDetails] = useState<productDetails[]>();
-
-    const categoryList = ["Stickers", "Frames", "Pins and Badges"];
 
     const handleCategorySelect = (
         event: SelectChangeEvent<typeof categories>

@@ -7,7 +7,7 @@ import {
 	NavigationBar,
 	ThemedButton,
 	ThemedInput,
-} from "../components/"; // Import your button component
+} from "../components/";
 import { useAlert, useAuth } from "../hooks";
 import { LoginResponse, RegisterBody } from "../models";
 import styles from "../styles/Login.module.css"; // Import the CSS file

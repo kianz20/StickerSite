@@ -1,18 +1,19 @@
 import { Button, styled } from "@mui/material";
 import React from "react";
 
-// Define custom styles for the Button
-const StyledButton = styled(Button)(() => ({
+const StyledButton = styled(Button)<{
+	customBackgroundColor?: string;
+	customTextColor?: string;
+}>(({ customBackgroundColor, customTextColor }) => ({
 	// Default styles for the button
-	border: "1px solid #000", // Default border color
-	color: "#000", // Default text color
+	color: customTextColor || "#fff", // Use prop for text color or fallback to default
 
 	"&.MuiButton-outlined": {
 		borderColor: "#000", // Border color for 'outlined' variant
 	},
 	"&.MuiButton-contained": {
-		backgroundColor: "#000", // Background color for 'contained' variant
-		color: "#fff", // Text color for 'contained' variant
+		backgroundColor: customBackgroundColor || "var(--animori-theme-colour)", // Use prop for background color
+		color: customTextColor || "#fff", // Use prop for text color or fallback to default
 	},
 	"&:hover": {
 		borderColor: "var(--dark-animori-theme-colour)", // Border color on hover
@@ -31,14 +32,18 @@ interface ThemedButtonProps {
 	className?: string;
 	text?: string;
 	type?: "button" | "submit" | "reset";
+	backgroundColor?: string;
+	textColor?: string;
 }
 
 const ThemedButton: React.FC<ThemedButtonProps> = ({
-	variant = "outlined",
+	variant = "contained",
 	onClick,
 	className = "",
 	text,
 	type,
+	backgroundColor,
+	textColor,
 }) => {
 	return (
 		<StyledButton
@@ -46,6 +51,8 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
 			onClick={onClick}
 			className={`primary-button ${className}`}
 			type={type}
+			customBackgroundColor={backgroundColor} // Pass the background color prop
+			customTextColor={textColor} // Pass the text color prop
 		>
 			{text}
 		</StyledButton>

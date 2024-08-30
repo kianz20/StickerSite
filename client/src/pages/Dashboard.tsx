@@ -1,11 +1,11 @@
-import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import * as api from "../apiControllers/productController";
 import {
 	AlertMessage,
 	NavigationBar,
-	PrimaryButton,
+	ThemedButton,
+	ThemedInput,
 	ThinComponent,
 } from "../components/";
 import { useAlert, useAuth } from "../hooks";
@@ -125,11 +125,11 @@ const Dashboard = (): JSX.Element => {
 			<p>Dashboard</p>
 			<div className={styles.dashboardUtils}>
 				<div className={styles.topButtons}>
-					<PrimaryButton
+					<ThemedButton
 						text="Add Product"
 						onClick={() => handlePageChange("add")}
 					/>
-					<PrimaryButton
+					<ThemedButton
 						className={styles.viewProductsButton}
 						text="View Products"
 						onClick={() => handlePageChange("view")}
@@ -140,8 +140,7 @@ const Dashboard = (): JSX.Element => {
 				{page === "add" && (
 					<div className={styles.addProduct}>
 						<form onSubmit={handleAddProduct}>
-							<TextField
-								className={styles.addProductField}
+							<ThemedInput
 								label="Product Name"
 								variant="outlined"
 								fullWidth
@@ -151,8 +150,7 @@ const Dashboard = (): JSX.Element => {
 								value={newProductDetails.name}
 								onChange={handleFormChange}
 							/>
-							<TextField
-								className={styles.addProductField}
+							<ThemedInput
 								label="Price"
 								variant="outlined"
 								fullWidth
@@ -162,9 +160,7 @@ const Dashboard = (): JSX.Element => {
 								value={newProductDetails.price}
 								onChange={handleFormChange}
 							/>
-
-							<TextField
-								className={styles.addProductField}
+							<ThemedInput
 								label="Details"
 								variant="outlined"
 								fullWidth
@@ -176,7 +172,7 @@ const Dashboard = (): JSX.Element => {
 								value={newProductDetails.details}
 								onChange={handleFormChange}
 							/>
-							<PrimaryButton text="Add Product" type="submit" />
+							<ThemedButton text="Add Product" type="submit" />
 						</form>
 						<br />
 						<br />

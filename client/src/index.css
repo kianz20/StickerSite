@@ -2,24 +2,23 @@
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
 	font-weight: 400;
-
-	color-scheme: light dark;
-	color: rgba(255, 255, 255, 0.87);
-	background-color: #ffffff;
-
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}
 
-a {
-	font-weight: 500;
-	color: #646cff;
-	text-decoration: inherit;
-}
-a:hover {
-	color: #535bf2;
+	background-color: #ffffff; /* Background color of site */
+	--animori-theme-colour: #aea3ff;
+	--dark-animori-theme-colour: #646cff;
+
+	--grey-content-box-background-colour: #ededed;
+	--grey-content-box-shadow-colour: #aea3ff97;
+
+	/* Note - if you change the navbar color, the image will need 
+	to be changed to match this: /resources/navbarStarter.png */
+	--navbar-text-colour: #260a4b;
+
+	--product-list-bottom-border-colour: #32a1ce;
 }
 
 body {

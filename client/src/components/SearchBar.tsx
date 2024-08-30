@@ -1,7 +1,8 @@
-import { Button, MenuItem, TextField } from "@mui/material";
-import styles from "../styles/SearchBar.module.css";
 import SearchIcon from "@mui/icons-material/Search";
+import { Button, MenuItem } from "@mui/material";
 import { useState } from "react";
+import { ThemedInput } from "../components";
+import styles from "../styles/SearchBar.module.css";
 
 const SearchBar: React.FC<{}> = () => {
 	const [category, setCategory] = useState("all");
@@ -13,7 +14,7 @@ const SearchBar: React.FC<{}> = () => {
 
 	return (
 		<div className={styles.searchBarContainer}>
-			<TextField
+			<ThemedInput
 				variant="filled"
 				select
 				id="categoryPicker"
@@ -26,9 +27,9 @@ const SearchBar: React.FC<{}> = () => {
 				<MenuItem value="sticker">Stickers</MenuItem>
 				<MenuItem value="frames">Frames</MenuItem>
 				<MenuItem value="pinsBadges">Pins and Badges</MenuItem>
-			</TextField>
+			</ThemedInput>
 
-			<TextField
+			<ThemedInput
 				className={styles.searchBar}
 				inputProps={{
 					style: {
@@ -37,7 +38,7 @@ const SearchBar: React.FC<{}> = () => {
 				}}
 				variant="filled"
 				hiddenLabel
-			></TextField>
+			></ThemedInput>
 			<Button
 				aria-label="search"
 				variant="contained"

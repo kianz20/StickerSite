@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../hooks";
 import animoriLogo from "../resources/animori-logo.png";
 import styles from "../styles/NavigationBar.module.css";
-import PrimaryButton from "./PrimaryButton";
+import ThemedButton from "./ThemedButton";
 
 const NavigationBar: React.FC<{}> = () => {
 	const { isAuthenticated, userRole, userID, userEmail, logout } = useAuth();
@@ -31,7 +31,7 @@ const NavigationBar: React.FC<{}> = () => {
 			</div>
 			{userRole === "admin" && (
 				<Link to={`/dashboard/${userID}`}>
-					<PrimaryButton text="Admin Dashboard" />
+					<ThemedButton text="Admin Dashboard" />
 				</Link>
 			)}
 			{isAuthenticated && (

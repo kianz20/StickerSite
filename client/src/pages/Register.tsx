@@ -1,13 +1,13 @@
-import {
-	Checkbox,
-	FormControlLabel,
-	FormGroup,
-	TextField,
-} from "@mui/material";
+import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
 import * as api from "../apiControllers/userController";
-import { AlertMessage, NavigationBar, PrimaryButton } from "../components/"; // Import your button component
+import {
+	AlertMessage,
+	NavigationBar,
+	ThemedButton,
+	ThemedInput,
+} from "../components/"; // Import your button component
 import { useAlert, useAuth } from "../hooks";
 import { LoginResponse, RegisterBody } from "../models";
 import styles from "../styles/Login.module.css"; // Import the CSS file
@@ -55,8 +55,7 @@ const Register = (): JSX.Element => {
 			<div className={styles.loginContainer}>
 				<h2>Register for an Animori Account!</h2>
 				<form onSubmit={handleRegister}>
-					<TextField
-						className={styles.loginField}
+					<ThemedInput
 						label="Email"
 						variant="outlined"
 						fullWidth
@@ -65,8 +64,7 @@ const Register = (): JSX.Element => {
 						name="email"
 						onChange={handleFormChange}
 					/>
-					<TextField
-						className={styles.loginField}
+					<ThemedInput
 						label="Password"
 						type="password"
 						variant="outlined"
@@ -87,14 +85,14 @@ const Register = (): JSX.Element => {
 					</FormGroup>
 					<br />
 					<br />
-					<PrimaryButton text="Register" type="submit" />
+					<ThemedButton text="Register" type="submit" />
 				</form>
 				<br />
 				<Link to="/">
-					<PrimaryButton text="Back to main menu" />
+					<ThemedButton text="Back to main menu" />
 				</Link>
 				<Link to="/login">
-					<PrimaryButton text="Back to login page" />
+					<ThemedButton text="Back to login page" />
 				</Link>
 				<br />
 				<br />

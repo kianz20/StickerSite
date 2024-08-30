@@ -8,8 +8,8 @@
 	width: 100%; /* Makes the nav bar span the entire width of the viewport */
 	box-sizing: border-box; /* Ensure padding and border are included in the width */
 
-	background: #aea3ff url("../resources/navbarStarter.png") no-repeat left
-		center;
+	background: var(--animori-theme-colour) url("../resources/navbarStarter.png")
+		no-repeat left center;
 }
 
 .animoriLogo {
@@ -36,7 +36,7 @@
 }
 
 .accountName {
-	color: #260a4b;
+	color: var(--navbar-text-colour);
 	position: relative;
 	margin: 16px 20px 20px auto;
 }

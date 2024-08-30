@@ -1,13 +1,14 @@
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import React, { useState } from "react";
 import * as api from "../apiControllers/productController";
+import { ThemedInput } from "../components";
 import { useAuth } from "../hooks";
 import { ProductDetails } from "../models";
 import styles from "../styles/ThinComponent.module.css";
 import AlertMessage, { Severity } from "./AlertMessage";
-import PrimaryButton from "./PrimaryButton";
+import ThemedButton from "./ThemedButton";
 
 interface EditFormDetails {
 	name: string;
@@ -166,7 +167,7 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 									<Typography className={styles.nameDetail}>
 										<b>Name:</b>
 									</Typography>
-									<TextField
+									<ThemedInput
 										name="name"
 										value={formState.name}
 										onChange={handleFormChange}
@@ -176,7 +177,7 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 									<Typography className={styles.productDetail}>
 										<b>Price:</b>
 									</Typography>
-									<TextField
+									<ThemedInput
 										name="price"
 										value={formState.price}
 										onChange={handleFormChange}
@@ -186,7 +187,7 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 									<Typography className={styles.productDetail}>
 										<b>Description:</b>
 									</Typography>
-									<TextField
+									<ThemedInput
 										name="details"
 										multiline
 										rows={3}
@@ -215,30 +216,30 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 						</Button>
 						{editMode ? (
 							<div className={styles.buttons}>
-								<PrimaryButton text="Cancel Edit" onClick={cancelEdit} />
-								<PrimaryButton text="Save Changes" onClick={editProduct} />
+								<ThemedButton text="Cancel Edit" onClick={cancelEdit} />
+								<ThemedButton text="Save Changes" onClick={editProduct} />
 							</div>
 						) : (
 							<div className={styles.buttons}>
 								{removeState ? (
 									<>
 										<Typography color={"red"}>Are you sure?</Typography>
-										<PrimaryButton
+										<ThemedButton
 											text="Confirm Removal"
 											onClick={removeProduct}
 										/>
-										<PrimaryButton
+										<ThemedButton
 											text="Cancel Remove"
 											onClick={() => setRemoveState(false)}
 										/>
 									</>
 								) : (
 									<>
-										<PrimaryButton
+										<ThemedButton
 											text="Edit"
 											onClick={() => setEditMode(true)}
 										/>
-										<PrimaryButton
+										<ThemedButton
 											text="Remove"
 											onClick={() => setRemoveState(true)}
 										/>

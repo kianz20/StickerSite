@@ -1,22 +1,39 @@
 import { Button, MenuItem, TextField } from "@mui/material";
 import styles from "../styles/SearchBar.module.css";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { productDetails } from "../models";
 import * as api from "../apiControllers/productController";
 import SingleSearchResult from "./SingleSearchResult";
+import FormControl from "@mui/material/FormControl";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
 
 const SearchBar: React.FC<{}> = () => {
-    const [category, setCategory] = useState("all");
+    const [categories, setCategories] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState("all");
 
     const [productDetails, setProductDetails] = useState<productDetails[]>();
 
-    const handleCategoryChange = (
-        event: React.ChangeEvent<HTMLInputElement>
+    const categoryList = ["Stickers", "Frames", "Pins and Badges"];
+
+    const handleCategorySelect = (
+        event: SelectChangeEvent<typeof categories>
     ) => {
-        const { value } = event.target;
-        setCategory(value);
+        const {
+            target: { value },
+        } = event;
+        if (
+            value.length === categoryList.length + 1 &&
+            value.includes("Select All")
+        ) {
+            setCategories([]);
+        } else if (value.includes("Select All")) {
+            setCategories(categoryList);
+        } else {
+            setCategories(typeof value === "string" ? value.split(",") : value);
+        }
     };
 
     const getProductData = async () => {
@@ -41,20 +58,25 @@ const SearchBar: React.FC<{}> = () => {
         <div>
             <div className={styles.searchBanner}>
                 <div className={styles.searchBarContainer}>
-                    <TextField
-                        variant="filled"
-                        select
-                        id="categoryPicker"
-                        className={styles.categorySelect}
-                        value={category}
-                        onChange={handleCategoryChange}
-                        hiddenLabel
-                    >
-                        <MenuItem value="all">All Categories</MenuItem>
-                        <MenuItem value="sticker">Stickers</MenuItem>
-                        <MenuItem value="frames">Frames</MenuItem>
-                        <MenuItem value="pinsBadges">Pins and Badges</MenuItem>
-                    </TextField>
+                    <FormControl className={styles.categorySelect}>
+                        <InputLabel id="user-category-selection-prompt">
+                            Category
+                        </InputLabel>
+                        <Select
+                            labelId="user-category-selection-prompt"
+                            multiple
+                            value={categories}
+                            onChange={handleCategorySelect}
+                            input={<OutlinedInput label="Category" />}
+                        >
+                            <MenuItem value="Select All">Select All</MenuItem>
+                            {categoryList.map((category) => (
+                                <MenuItem key={category} value={category}>
+                                    {category}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
                     <TextField
                         className={styles.searchEntry}
@@ -70,8 +92,10 @@ const SearchBar: React.FC<{}> = () => {
                 <div className={styles.searchResultsContainer}>
                     {searchQuery &&
                         productDetails
-                            ?.filter((product) =>
-                                product.name.includes(searchQuery)
+                            ?.filter(
+                                (product) =>
+                                    product.name.includes(searchQuery) &&
+                                    categories.includes(product.category)
                             )
                             ?.slice(0, 8)
                             .map((product) => (

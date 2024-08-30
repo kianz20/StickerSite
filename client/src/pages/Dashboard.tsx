@@ -16,6 +16,7 @@ const Dashboard = (): JSX.Element => {
     // Contains the details used when adding new products
     const [newProductDetails, setNewProductDetails] = useState<productDetails>({
         name: "",
+        category: "",
         price: "",
         description: "",
         _id: "",

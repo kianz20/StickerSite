@@ -3,8 +3,8 @@
 	width: 50vw;
 	height: 50vh;
 	text-align: left;
-	background-color: #ededed;
-	box-shadow: 12px 12px 2px 1px #aea3ff97;
+	background-color: var(--grey-content-box-background-colour);
+	box-shadow: 12px 12px 2px 1px var(--grey-content-box-shadow-colour);
 	padding: 50px;
 	color: black;
 }

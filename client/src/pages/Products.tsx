@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import * as api from "../apiControllers/productController";
-import NavigationBar from "../components/NavigationBar";
-import SearchBar from "../components/SearchBar";
-import SingleProduct from "../components/SingleProduct";
-import { useAuth } from "../hooks/useAuth";
-import { productDetails } from "../models";
+import { NavigationBar, SearchBar, SingleProduct } from "../components/";
+import { useAuth } from "../hooks";
+import { ProductDetails } from "../models";
 import styles from "../styles/Products.module.css";
 
 const Products = (): JSX.Element => {
-	const [products, setProducts] = useState<productDetails[]>();
+	const [products, setProducts] = useState<ProductDetails[]>();
 	const { userToken } = useAuth();
 
 	const handleGetAllProducts = async () => {
@@ -20,7 +18,7 @@ const Products = (): JSX.Element => {
 
 	useEffect(() => {
 		handleGetAllProducts();
-	}, []);
+	}, [userToken]);
 
 	return (
 		<>

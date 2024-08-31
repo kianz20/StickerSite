@@ -1,11 +1,11 @@
 # Instructions
 
-in base directory, client, and server, type the following:
+in base directory, type the following:
 
-`npm i`
+`npm run setup`
 
-then enter .env details (secret) and finally to run
+then enter .env details (secret) into the serve folder root, and finally run
 
-`npm run dev`
+`npm run dev` 
 
 This will run the client and server concurrently

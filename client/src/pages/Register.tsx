@@ -1,87 +1,47 @@
+import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { useState } from "react";
-import styles from "../styles/Login.module.css"; // Import the CSS file
-import PrimaryButton from "../components/PrimaryButton"; // Import your button component
 import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
-import {
-	Checkbox,
-	TextField,
-	FormGroup,
-	FormControlLabel,
-} from "@mui/material";
 import * as api from "../apiControllers/userController";
-import Cookies from "js-cookie";
-import NavigationBar from "../components/NavigationBar";
-import { loginResponse } from "../models";
-import { registerBody } from "../models/registerBody";
-import AlertMessage, { Severity } from "../components/AlertMessage";
+import {
+	AlertMessage,
+	NavigationBar,
+	ThemedButton,
+	ThemedInput,
+} from "../components/";
+import { useAlert, useAuth } from "../hooks";
+import { LoginResponse, RegisterBody } from "../models";
+import styles from "../styles/Login.module.css"; // Import the CSS file
 
 const Register = (): JSX.Element => {
-	const [registerBody, setRegisterBody] = useState<registerBody>({
+	const { setUserCookies } = useAuth();
+	const { alertDetails, showAlert } = useAlert();
+	const [registerBody, setRegisterBody] = useState<RegisterBody>({
 		email: "",
 		password: "",
 		mailingList: false,
 	});
 
-	const [alertDetails, setAlertDetails] = useState<{
-		text: string;
-		visible: boolean;
-		severity: Severity;
-	}>({
-		text: "",
-		visible: false,
-		severity: "error",
-	});
-
 	const navigate = useNavigate();
 
-	const setCookie = (name: string, value: string) => {
-		Cookies.set(name, value, {
-			expires: 1,
-			sameSite: "None",
-			secure: true,
-		});
-	};
-
-	const handleRegister = async () => {
+	const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
 		try {
-			const data: loginResponse = await api.createUser(registerBody);
+			event.preventDefault();
+			const data: LoginResponse = await api.createUser(registerBody);
 			if (data.error) {
-				console.error("Login failed: ", data.error);
-				setAlertDetails({
-					text: data.error,
-					visible: true,
-					severity: "error",
-				});
+				console.error("Register failed: ", data.error);
+				showAlert(data.error, "error");
 			} else {
-				if (data.user) {
-					const token = data.token ?? "";
-					const role = data.user.role;
-					const id = data.user.id;
-					const email = data.user.email;
-
-					setCookie("token", token);
-					setCookie("role", role);
-					setCookie("id", id);
-					setCookie("email", email);
-					// Navigate to the home page after successful login
-					navigate("/");
-				} else {
-					setAlertDetails({
-						text: "Something has gone wrong. Please refresh",
-						visible: true,
-						severity: "error",
-					});
-				}
+				setUserCookies(data);
+				// Navigate to the home page after successful login
+				navigate("/");
 			}
 		} catch (error) {
-			// Handle any errors that occur during login
 			console.error("Error during login:", error);
+			showAlert("Error during registration. Please try again.", "error");
 		}
 	};
 
-	const handleFormChange = async (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
+	const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value, checked, type } = event.target;
 		setRegisterBody((prevState) => ({
 			...prevState,
@@ -94,9 +54,8 @@ const Register = (): JSX.Element => {
 			<NavigationBar />
 			<div className={styles.loginContainer}>
 				<h2>Register for an Animori Account!</h2>
-				<form>
-					<TextField
-						className={styles.loginField}
+				<form onSubmit={handleRegister}>
+					<ThemedInput
 						label="Email"
 						variant="outlined"
 						fullWidth
@@ -105,8 +64,7 @@ const Register = (): JSX.Element => {
 						name="email"
 						onChange={handleFormChange}
 					/>
-					<TextField
-						className="login-field"
+					<ThemedInput
 						label="Password"
 						type="password"
 						variant="outlined"
@@ -127,14 +85,14 @@ const Register = (): JSX.Element => {
 					</FormGroup>
 					<br />
 					<br />
-					<PrimaryButton text="Register" onClick={handleRegister} />
+					<ThemedButton text="Register" type="submit" />
 				</form>
 				<br />
 				<Link to="/">
-					<PrimaryButton text="Back to main menu" />
+					<ThemedButton text="Back to main menu" />
 				</Link>
 				<Link to="/login">
-					<PrimaryButton text="Back to login page" />
+					<ThemedButton text="Back to login page" />
 				</Link>
 				<br />
 				<br />

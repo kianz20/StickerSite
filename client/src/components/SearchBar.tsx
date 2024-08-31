@@ -10,7 +10,6 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import React, { useEffect, useState } from "react";
 import * as api from "../apiControllers/productController";
-import { productDetails } from "../models";
 import styles from "../styles/SearchBar.module.css";
 import SingleSearchResult from "./SingleSearchResult";
 

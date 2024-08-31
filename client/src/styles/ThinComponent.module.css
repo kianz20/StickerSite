@@ -1,6 +1,6 @@
 .container {
 	margin-bottom: 10px; /* Ensure some space around the component */
-	border-bottom: thick double #32a1ce;
+	border-bottom: thick double var(--product-list-bottom-border-colour);
 	border-radius: 15px;
 }
 
@@ -33,14 +33,12 @@
 	gap: 10px;
 	align-items: flex-end; /* Align items to the bottom of the container */
 	justify-content: space-between;
-	flex-direction: column; /* Ensure items stack vertically */
+	flex-direction: column;
 	height: 100%;
 }
 
 .moreDetails {
-	display: block;
 	padding: 10px;
-	background-color: #f0f0f0; /* Slightly different background for more details */
 	border-radius: 0 0 15px 15px; /* Rounded corners to match the parent */
 }
 

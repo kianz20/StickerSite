@@ -1,15 +1,29 @@
-import React from "react";
-import { productDetails } from "../models";
+import React, { useState } from "react";
+import { ProductDetails } from "../models";
 import styles from "../styles/Products.module.css";
 
-const SingleProduct: React.FC<productDetails> = (product: productDetails) => {
-    return (
-        <div className={styles.singleProduct}>
-            <p>{product.name}</p>
-            <p>{product.description}</p>
-            <p>{product.price}</p>
-        </div>
-    );
+const SingleProduct: React.FC<ProductDetails> = ({
+	name,
+	price,
+	description,
+}) => {
+	const [isLoaded, setIsLoaded] = useState(false);
+
+	return (
+		<div className={styles.singleProduct}>
+			<div className={styles.singleProductText}>{name}</div>
+			<div className={styles.singleProductText}>${price}</div>
+			<div className={styles.imageContainer}>
+				<img
+					onLoad={() => setIsLoaded(true)}
+					src="https://picsum.photos/600/500"
+					alt={`Image of ${name}`}
+				/>
+				{!isLoaded && <div className={styles.skeletonImg}></div>}
+			</div>
+			<div className={styles.singleProductText}>{description}</div>
+		</div>
+	);
 };
 
 export default SingleProduct;

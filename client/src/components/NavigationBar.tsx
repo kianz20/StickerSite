@@ -1,12 +1,11 @@
-import styles from "../styles/NavigationBar.module.css";
-import animoriLogo from "../resources/animori-logo.png";
-import { Link } from "react-router-dom";
-import PrimaryButton from "./PrimaryButton";
-import { useAuth } from "../hooks/useAuth";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import { useAuth } from "../hooks";
+import animoriLogo from "../resources/animori-logo.png";
+import styles from "../styles/NavigationBar.module.css";
+import ThemedButton from "./ThemedButton";
 
 const NavigationBar: React.FC<{}> = () => {
 	const { isAuthenticated, userRole, userID, userEmail, logout } = useAuth();
@@ -30,23 +29,25 @@ const NavigationBar: React.FC<{}> = () => {
 				</Link>
 			</div>
 			{userRole === "admin" && (
-				<>
-					<Link to={`/dashboard/${userID}`}>
-						<PrimaryButton text="Admin Dashboard" />
-					</Link>
-				</>
+				<Link to={`/dashboard/${userID}`}>
+					<ThemedButton text="Admin Dashboard" backgroundColor="black" />
+				</Link>
 			)}
 			{isAuthenticated && (
-				<Button className={styles.logoutButton} onClick={logout}>
-					logout
-				</Button>
+				<ThemedButton
+					text="Logout"
+					className={styles.logoutButton}
+					onClick={logout}
+					backgroundColor="white"
+					textColor="black"
+				/>
 			)}
 			<Link
 				to={isAuthenticated ? `/profile/${userID}` : "/login"}
 				className={styles.linkContainer}
 			>
 				<div>
-					<p className={styles.accountName}>{userEmail || "Login"}</p>
+					<p className={styles.accountName}>{userEmail ?? "Login"}</p>
 				</div>
 				<AccountCircleIcon className={styles.accountIcon} />
 			</Link>

@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
+import { useCallback, useEffect, useState } from "react";
+import { LoginResponse } from "../models";
 
 interface AuthData {
 	isAuthenticated: boolean;
@@ -8,7 +9,16 @@ interface AuthData {
 	userToken: string | undefined;
 	userEmail: string | undefined;
 	logout: () => void;
+	setUserCookies: (data: LoginResponse) => void;
 }
+
+const setCookie = (name: string, value: string) => {
+	Cookies.set(name, value, {
+		expires: 1,
+		sameSite: "None",
+		secure: true,
+	});
+};
 
 export const useAuth = (): AuthData => {
 	const [authData, setAuthData] = useState<{
@@ -52,5 +62,17 @@ export const useAuth = (): AuthData => {
 		});
 	}, []);
 
-	return { ...authData, logout };
+	const setUserCookies = (data: LoginResponse): void => {
+		const { user: { role, id, email } = {}, token } = data;
+		// Validate that none of the required values are undefined
+		if ([role, id, email, token].some((value) => value === undefined)) {
+			throw new Error("Missing required user information or token.");
+		}
+		setCookie("token", token as string);
+		setCookie("role", role as string);
+		setCookie("id", id as string);
+		setCookie("email", email as string);
+	};
+
+	return { ...authData, logout, setUserCookies };
 };

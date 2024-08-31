@@ -1,8 +1,8 @@
-import express from "express";
-import User from "../models/User"; // Correctly import the User model
 import bcrypt from "bcryptjs";
+import express from "express";
 import jwt from "jsonwebtoken";
 import authenticateToken from "../middleware/authMiddleware";
+import { User } from "../models";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 
@@ -11,7 +11,7 @@ const router = express.Router();
 // Get all users from DB
 router.get("/", authenticateToken, async (req, res) => {
 	try {
-		const users = await User.find(); // Mongoose method to get all users
+		const users = await User.find();
 		res.status(200).json(users);
 	} catch (error) {
 		res.status(500).json({ error: "Failed to fetch users" + error });
@@ -28,7 +28,8 @@ router.post("/", async (req, res) => {
 			return res.status(400).json({ error: "Email and Password are required" });
 		}
 
-		const existingUser = await User.findOne({ email });
+		const query = { email: email.toString() };
+		const existingUser = await User.findOne(query);
 		if (existingUser) {
 			return res.status(401).json({ error: "Email is already in use" });
 		}
@@ -78,6 +79,7 @@ router.post("/login", async (req, res) => {
 				.json({ error: "Email and password are required!" });
 		}
 		// Find user by username
+
 		const user = await User.findOne({ email });
 		if (!user) {
 			return res.status(401).json({ error: "Invalid username or password" });

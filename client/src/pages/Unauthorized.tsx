@@ -1,5 +1,4 @@
-import NavigationBar from "../components/NavigationBar";
-import SearchBar from "../components/SearchBar";
+import { NavigationBar, SearchBar } from "../components/";
 
 const Unauthorized = (): JSX.Element => {
 	return (

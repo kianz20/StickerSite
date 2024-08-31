@@ -7,11 +7,16 @@ import styles from "../styles/SingleSearchResult.module.css";
 const SingleSearchResult: React.FC<ProductDetails> = (
 	product: ProductDetails
 ) => {
-	const { _id, name, price } = product;
+	const { name, price } = product;
 
 	return (
 		<div className={styles.productContainer}>
-			<img className={styles.productDisplayImage} src={image}></img>
+			<img
+				className={styles.productDisplayImage}
+				src={image}
+				alt={`Image of ${name}`}
+			/>
+
 			<Typography className={styles.productName} variant="subtitle1">
 				{name}
 			</Typography>

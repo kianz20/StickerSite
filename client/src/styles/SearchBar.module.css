@@ -26,32 +26,32 @@
 }
 
 .searchResultsContainer {
-	position: absolute; /* Results sit on top of the page. */
+	position: absolute;
 	left: 0;
 	right: 0;
-	margin: auto; /* Centering using available area. */
+	margin: auto;
 	padding: 10px;
-	display: grid;
-	grid-template: auto auto / repeat(4, 1fr); /* Explicitly create a 4x2 grid. */
-	column-gap: 10px;
-	row-gap: 15px;
 	background-color: rgba(224, 216, 255, 0.7);
 	border-radius: 0px 0px 20px 20px;
 	width: 40%;
-	box-sizing: border-box; /* Prevent padding from changing overall component size. */
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.productsGrid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	column-gap: 10px;
+	row-gap: 15px;
+	width: 100%;
+	margin-bottom: 10px;
 }
 
 .seeAllButton {
-	grid-column: span 4; /* Let the button be long. */
+	width: 100%;
 	border: 2px solid black;
 	border-radius: 20px;
 	background-color: rgb(190, 175, 248);
-}
-
-.buttonText {
-	width: 100%;
-}
-
-.empty:not(:has(:nth-child(3))) {
-	display: none; /* If nothing is entered in the search bar, hide the "See All" button. */
 }

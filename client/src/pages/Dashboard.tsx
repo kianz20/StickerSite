@@ -19,8 +19,9 @@ const Dashboard = (): JSX.Element => {
 	// Contains the details used when adding new products
 	const [newProductDetails, setNewProductDetails] = useState<ProductDetails>({
 		name: "",
+		category: "",
 		price: "",
-		details: "",
+		description: "",
 		_id: "",
 	});
 
@@ -32,7 +33,7 @@ const Dashboard = (): JSX.Element => {
 			return;
 		}
 		try {
-			const data = await api.getProducts(userToken);
+			const data = await api.getProducts();
 			if (data.error) {
 				console.error("Fetch products failed: ", data.error);
 				showAlert(data.error, "error");
@@ -81,8 +82,9 @@ const Dashboard = (): JSX.Element => {
 				setNewProductDetails({
 					name: "",
 					price: "",
-					details: "",
+					description: "",
 					_id: "",
+					category: "",
 				});
 			}
 		} catch (error) {
@@ -161,15 +163,15 @@ const Dashboard = (): JSX.Element => {
 								onChange={handleFormChange}
 							/>
 							<ThemedInput
-								label="Details"
+								label="Description"
 								variant="outlined"
 								fullWidth
 								margin="normal"
 								required
-								name="details"
+								name="description"
 								multiline={true}
 								rows={4}
-								value={newProductDetails.details}
+								value={newProductDetails.description}
 								onChange={handleFormChange}
 							/>
 							<ThemedButton text="Add Product" type="submit" />

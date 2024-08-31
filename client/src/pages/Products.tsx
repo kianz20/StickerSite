@@ -11,7 +11,7 @@ const Products = (): JSX.Element => {
 
 	const handleGetAllProducts = async () => {
 		if (userToken) {
-			const data = await api.getProducts(userToken);
+			const data = await api.getProducts();
 			setProducts(data.products);
 		}
 	};

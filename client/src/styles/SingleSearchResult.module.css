@@ -1,0 +1,46 @@
+.productContainer {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	min-width: 0;
+	padding-top: 2.5%;
+    background-color: aliceblue;
+	border: 2px solid black;
+	border-radius: 15px;
+}
+
+.productDisplayImage {
+	margin: auto;
+    width: 95%;
+	border-radius: 10px;
+}
+
+.productName {
+	line-clamp: 1; /* Cut the title off after one line. */
+	padding-left: 2.5%;
+	padding-right: 2.5%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: center;
+    color: black;
+}
+
+.infoBar {
+	display: flex;
+	flex-direction: row;
+	overflow: visible;
+	margin: auto;
+	padding-bottom: 1%;
+}
+
+.productPrice {
+	padding-right: 2.5%;
+	text-align: left;
+    color: darkslategrey;
+}
+
+.productRatingCount {
+	padding-left: 2.5%;
+	color: darkslategrey;
+}

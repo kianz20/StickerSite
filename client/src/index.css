@@ -7,6 +7,8 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
+	--searchbar-height: 7vh;
+
 	background-color: #ffffff; /* Background color of site */
 	--animori-theme-colour: #aea3ff;
 	--dark-animori-theme-colour: #646cff;

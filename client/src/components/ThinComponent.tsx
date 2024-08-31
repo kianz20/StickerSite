@@ -13,7 +13,7 @@ import ThemedButton from "./ThemedButton";
 interface EditFormDetails {
 	name: string;
 	price: string;
-	details: string;
+	description: string;
 }
 
 interface ThinComponentProps extends ProductDetails {
@@ -23,12 +23,12 @@ interface ThinComponentProps extends ProductDetails {
 
 const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 	const { userToken } = useAuth();
-	const { _id, name, details, price, color, onRemove } = props;
+	const { _id, name, description, price, color, onRemove } = props;
 
 	const [formState, setFormState] = useState<EditFormDetails>({
 		name: name,
 		price: price,
-		details: details,
+		description: description,
 	});
 
 	// Contains the error shown to the user
@@ -188,10 +188,10 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 										<b>Description:</b>
 									</Typography>
 									<ThemedInput
-										name="details"
+										name="description"
 										multiline
 										rows={3}
-										value={formState.details}
+										value={formState.description}
 										onChange={handleFormChange}
 									/>
 								</div>
@@ -205,7 +205,7 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 									<b>Price:</b> {price}
 								</Typography>
 								<Typography className={styles.productDetail}>
-									<b>Description:</b> {details}
+									<b>Description:</b> {description}
 								</Typography>
 							</>
 						)}

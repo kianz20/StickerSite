@@ -64,7 +64,7 @@ router.put("/edit/:id", authenticateToken, async (req, res) => {
 			$set: {
 				name: name.toString(),
 				price: price.toString(),
-				details: details.toString(),
+				details: description.toString(),
 			},
 		};
 		const options = { new: true };

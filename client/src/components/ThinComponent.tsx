@@ -188,10 +188,10 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 										<b>Description:</b>
 									</Typography>
 									<ThemedInput
-										name="details"
+										name="description"
 										multiline
 										rows={3}
-										value={formState.details}
+										value={formState.description}
 										onChange={handleFormChange}
 									/>
 								</div>
@@ -205,7 +205,7 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 									<b>Price:</b> {price}
 								</Typography>
 								<Typography className={styles.productDetail}>
-									<b>Description:</b> {details}
+									<b>Description:</b> {description}
 								</Typography>
 							</>
 						)}

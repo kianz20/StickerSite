@@ -10,6 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import React, { useEffect, useState } from "react";
 import * as api from "../apiControllers/productController";
+import { ProductDetails } from "../models";
 import styles from "../styles/SearchBar.module.css";
 import SingleSearchResult from "./SingleSearchResult";
 
@@ -20,7 +21,7 @@ const SearchBar: React.FC<{}> = () => {
 		useState<string[]>(categoryList);
 	const [searchQuery, setSearchQuery] = useState("");
 
-	const [productDetails, setProductDetails] = useState<productDetails[]>();
+	const [productDetails, setProductDetails] = useState<ProductDetails[]>();
 
 	const handleCategorySelect = (event: SelectChangeEvent<string[]>) => {
 		const { value } = event.target;

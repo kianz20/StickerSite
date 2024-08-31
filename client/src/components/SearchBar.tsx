@@ -1,129 +1,131 @@
-import { Button, MenuItem, TextField } from "@mui/material";
-import styles from "../styles/SearchBar.module.css";
 import SearchIcon from "@mui/icons-material/Search";
-import React, { useState, useEffect } from "react";
-import { productDetails } from "../models";
-import * as api from "../apiControllers/productController";
-import SingleSearchResult from "./SingleSearchResult";
+import {
+	Button,
+	Checkbox,
+	ListItemText,
+	MenuItem,
+	TextField,
+} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
+import React, { useEffect, useState } from "react";
+import * as api from "../apiControllers/productController";
+import { productDetails } from "../models";
+import styles from "../styles/SearchBar.module.css";
+import SingleSearchResult from "./SingleSearchResult";
 
 const SearchBar: React.FC<{}> = () => {
-    const categoryList = ["Stickers", "Frames", "Pins and Badges"];
+	const categoryList = ["Stickers", "Frames", "Pins and Badges"];
 
-    const [categories, setCategories] = useState<string[]>(categoryList);
-    const [searchQuery, setSearchQuery] = useState("");
+	const [selectedCategories, setSelectedCategories] =
+		useState<string[]>(categoryList);
+	const [searchQuery, setSearchQuery] = useState("");
 
-    const [productDetails, setProductDetails] = useState<productDetails[]>();
+	const [productDetails, setProductDetails] = useState<productDetails[]>();
 
-    const handleCategorySelect = (
-        event: SelectChangeEvent<typeof categories>
-    ) => {
-        const {
-            target: { value },
-        } = event;
-        if (
-            value.length === categoryList.length + 1 &&
-            value.includes("Select All")
-        ) {
-            setCategories([]);
-        } else if (value.includes("Select All")) {
-            setCategories(categoryList);
-        } else {
-            setCategories(typeof value === "string" ? value.split(",") : value);
-        }
-    };
+	const handleCategorySelect = (event: SelectChangeEvent<string[]>) => {
+		const { value } = event.target;
+		if (value.includes("selectAll")) {
+			setSelectedCategories(
+				value.length === categoryList.length + 1 ? [] : categoryList
+			);
+		} else {
+			setSelectedCategories(value as string[]);
+		}
+	};
 
-    const getProductData = async () => {
-        try {
-            const data = await api.getProducts();
-            if (data.error) {
-                console.error("Fetch products failed: ", data.error);
-            } else {
-                setProductDetails(data.products);
-                console.log("Products fetched successfully: ", data.products);
-            }
-        } catch (error) {
-            console.error("Error retreiving products:", error);
-        }
-    };
+	const getProductData = async () => {
+		try {
+			const data = await api.getProducts();
+			if (data.error) {
+				console.error("Fetch products failed: ", data.error);
+			} else {
+				setProductDetails(data.products);
+				console.log("Products fetched successfully: ", data.products);
+			}
+		} catch (error) {
+			console.error("Error retrieving products:", error);
+		}
+	};
 
-    useEffect(() => {
-        getProductData();
-    }, []);
+	useEffect(() => {
+		getProductData();
+	}, []);
 
-    return (
-        <div>
-            <div className={styles.searchBanner}>
-                <div className={styles.searchBarContainer}>
-                    <FormControl className={styles.categorySelect}>
-                        <InputLabel id="user-category-selection-prompt">
-                            Category
-                        </InputLabel>
-                        <Select
-                            labelId="user-category-selection-prompt"
-                            multiple
-                            value={categories}
-                            onChange={handleCategorySelect}
-                            input={<OutlinedInput label="Category" />}
-                        >
-                            <MenuItem value="Select All">Select All</MenuItem>
-                            {categoryList.map((category) => (
-                                <MenuItem key={category} value={category}>
-                                    {category}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+	return (
+		<div>
+			<div className={styles.searchBanner}>
+				<div className={styles.searchBarContainer}>
+					<FormControl className={styles.categorySelect}>
+						<Select
+							multiple
+							value={selectedCategories}
+							onChange={handleCategorySelect}
+							displayEmpty={true}
+							renderValue={(selected) => {
+								if (selected.length === 0) return "Select Categories";
+								if (selected.length === 1) return selected;
+								if (selected.length === categoryList.length)
+									return "All Categories";
+								return `Multiple Categories`;
+							}}
+						>
+							<MenuItem value="selectAll">
+								<Checkbox
+									checked={selectedCategories.length === categoryList.length}
+								/>
+								<ListItemText primary="Select All" />
+							</MenuItem>
+							{categoryList.map((category) => (
+								<MenuItem key={category} value={category}>
+									<Checkbox
+										checked={selectedCategories.indexOf(category) > -1}
+									/>
+									<ListItemText primary={category} />
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
 
-                    <TextField
-                        className={styles.searchEntry}
-                        variant="filled"
-                        placeholder="Search"
-                        onChange={(event) => setSearchQuery(event.target.value)}
-                        hiddenLabel
-                    ></TextField>
-                </div>
-            </div>
+					<TextField
+						className={styles.searchEntry}
+						variant="filled"
+						placeholder="Search"
+						onChange={(event) => setSearchQuery(event.target.value)}
+						hiddenLabel
+					></TextField>
+				</div>
+			</div>
 
-            <div className={styles.empty}>
-                <div className={styles.searchResultsContainer}>
-                    {searchQuery &&
-                        productDetails
-                            ?.filter(
-                                (product) =>
-                                    product.name.includes(searchQuery) &&
-                                    categories.includes(product.category)
-                            )
-                            ?.slice(0, 8)
-                            .map((product) => (
-                                <SingleSearchResult
-                                    key={product._id}
-                                    {...product}
-                                />
-                            ))}
-                    <div className={styles.seeAllButton}>
-                        <Button
-                            className={styles.buttonText}
-                            onClick={() => {
-                                alert("functionality does not exist yet");
-                            }}
-                            aria-label="View All Search
-                            Results"
-                        >
-                            View All Results &emsp;&emsp;
-                            <SearchIcon
-                                fontSize="large"
-                                sx={{ color: "black" }}
-                            />
-                        </Button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+			<div className={styles.empty}>
+				<div className={styles.searchResultsContainer}>
+					{searchQuery &&
+						productDetails
+							?.filter(
+								(product) =>
+									product.name.includes(searchQuery) &&
+									selectedCategories.includes(product.category)
+							)
+							?.slice(0, 8)
+							.map((product) => (
+								<SingleSearchResult key={product._id} {...product} />
+							))}
+					<div className={styles.seeAllButton}>
+						<Button
+							className={styles.buttonText}
+							onClick={() => {
+								alert("functionality does not exist yet");
+							}}
+							aria-label="View All Search Results"
+						>
+							View All Results &emsp;&emsp;
+							<SearchIcon fontSize="large" sx={{ color: "black" }} />
+						</Button>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default SearchBar;

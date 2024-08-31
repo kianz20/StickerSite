@@ -12,7 +12,7 @@
 }
 
 .categorySelect {
-	width: 25%;
+	width: 30%;
 }
 
 .selectAll {
@@ -20,14 +20,14 @@
 }
 
 .searchEntry {
-	width: 75%;
+	width: 70%;
 	padding-left: 10px;
 	background-color: white;
 }
 
 .searchResultsContainer {
 	position: absolute; /* Results sit on top of the page. */
-	left: 0; 
+	left: 0;
 	right: 0;
 	margin: auto; /* Centering using available area. */
 	padding: 10px;
@@ -55,4 +55,3 @@
 .empty:not(:has(:nth-child(3))) {
 	display: none; /* If nothing is entered in the search bar, hide the "See All" button. */
 }
-

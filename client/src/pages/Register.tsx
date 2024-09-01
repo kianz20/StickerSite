@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
-import * as api from "../apiControllers/userController";
+import * as api from "../api/userController";
 import {
 	AlertMessage,
 	NavigationBar,

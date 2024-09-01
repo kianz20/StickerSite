@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import * as api from "../apiControllers/productController";
+import * as api from "../api/productController";
 import { NavigationBar, SearchBar, SingleProduct } from "../components/";
 import { useAuth } from "../hooks";
 import { ProductDetails } from "../models";

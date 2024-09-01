@@ -26,6 +26,6 @@ export default [
     plugins: {
       '@typescript-eslint': tseslint,
     },
-    ignores: ["vite.config.ts"], // Exclude specific files
+    ignores: ["vite.config.ts", "jest.config.ts"], // Exclude specific files 
   },
 ];

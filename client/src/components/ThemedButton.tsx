@@ -1,28 +1,31 @@
 import { Button, styled } from "@mui/material";
 import React from "react";
 
-const StyledButton = styled(Button)<{
+// Create a styled button with custom props
+const StyledButton = styled(Button, {
+	// Use shouldForwardProp to filter out custom props
+	shouldForwardProp: (prop) =>
+		prop !== "customBackgroundColor" && prop !== "customTextColor",
+})<{
 	customBackgroundColor?: string;
 	customTextColor?: string;
 }>(({ customBackgroundColor, customTextColor }) => ({
-	// Default styles for the button
-	color: customTextColor || "#fff", // Use prop for text color or fallback to default
-
+	color: customTextColor || "#fff",
 	"&.MuiButton-outlined": {
-		borderColor: "#000", // Border color for 'outlined' variant
+		borderColor: "#000",
 	},
 	"&.MuiButton-contained": {
-		backgroundColor: customBackgroundColor || "var(--animori-theme-colour)", // Use prop for background color
-		color: customTextColor || "#fff", // Use prop for text color or fallback to default
+		backgroundColor: customBackgroundColor || "var(--animori-theme-colour)",
+		color: customTextColor || "#fff",
 	},
 	"&:hover": {
-		borderColor: "var(--dark-animori-theme-colour)", // Border color on hover
+		borderColor: "var(--dark-animori-theme-colour)",
 	},
 	"&.MuiButton-contained:hover": {
-		backgroundColor: "var(--dark-animori-theme-colour)", // Background color on hover for 'contained' variant
+		backgroundColor: "var(--dark-animori-theme-colour)",
 	},
 	"&.MuiButton-outlined:hover": {
-		borderColor: "var(--dark-animori-theme-colour)", // Border color on hover for 'outlined' variant
+		borderColor: "var(--dark-animori-theme-colour)",
 	},
 }));
 
@@ -53,8 +56,8 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
 			onClick={onClick}
 			className={`primary-button ${className}`}
 			type={type}
-			customBackgroundColor={backgroundColor} // Pass the background color prop
-			customTextColor={textColor} // Pass the text color prop
+			customBackgroundColor={backgroundColor}
+			customTextColor={textColor}
 		>
 			{text}
 			{children}

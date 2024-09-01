@@ -3,7 +3,6 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks";
-import animoriLogo from "../resources/animori-logo.png";
 import styles from "../styles/NavigationBar.module.css";
 import ThemedButton from "./ThemedButton";
 
@@ -14,7 +13,7 @@ const NavigationBar: React.FC<{}> = () => {
 		<div className={styles.topNavigation}>
 			<Link to="/">
 				<img
-					src={animoriLogo}
+					// src={animoriLogo}
 					alt="Animori Logo"
 					className={styles.animoriLogo}
 				/>

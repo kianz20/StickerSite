@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import * as api from "../apiControllers/productController";
+import * as api from "../api/productController";
 import {
 	AlertMessage,
 	NavigationBar,

@@ -2,7 +2,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { Button, Typography } from "@mui/material";
 import React, { useState } from "react";
-import * as api from "../apiControllers/productController";
+import * as api from "../api/productController";
 import { ThemedInput } from "../components";
 import { useAuth } from "../hooks";
 import { ProductDetails } from "../models";

@@ -6,7 +6,7 @@ import {
 	NavigationBar,
 	ThemedButton,
 	ThemedInput,
-	ThinComponent,
+	ThinProductDetails,
 } from "../components/";
 import { useAlert, useAuth } from "../hooks";
 import { ProductDetails } from "../models";
@@ -186,7 +186,7 @@ const Dashboard = (): JSX.Element => {
 						<div className={styles.productGrid}>
 							<br />
 							{productDetails?.map((product, index) => (
-								<ThinComponent
+								<ThinProductDetails
 									key={product._id}
 									color={index % 2 === 0 ? "#ccc5e3" : "#d9d7e0"} // Alternates between red and blue
 									{...product}

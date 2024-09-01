@@ -6,7 +6,7 @@ import * as api from "../api/productController";
 import { ThemedInput } from "../components";
 import { useAuth } from "../hooks";
 import { ProductDetails } from "../models";
-import styles from "../styles/ThinComponent.module.css";
+import styles from "../styles/ThinProductDetails.module.css";
 import AlertMessage, { Severity } from "./AlertMessage";
 import ThemedButton from "./ThemedButton";
 
@@ -16,12 +16,12 @@ interface EditFormDetails {
 	description: string;
 }
 
-interface ThinComponentProps extends ProductDetails {
+interface ThinProductDetailsProps extends ProductDetails {
 	color: string;
 	onRemove: (id: string) => void;
 }
 
-const ThinComponent: React.FC<ThinComponentProps> = (props) => {
+const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 	const { userToken } = useAuth();
 	const { _id, name, description, price, color, onRemove } = props;
 
@@ -267,4 +267,4 @@ const ThinComponent: React.FC<ThinComponentProps> = (props) => {
 	);
 };
 
-export default ThinComponent;
+export default ThinProductDetails;

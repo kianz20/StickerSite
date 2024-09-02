@@ -1,11 +1,5 @@
 import SearchIcon from "@mui/icons-material/Search";
-import {
-	Button,
-	Checkbox,
-	ListItemText,
-	MenuItem,
-	TextField,
-} from "@mui/material";
+import { Checkbox, ListItemText, MenuItem, Typography } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import React, { useEffect, useState } from "react";
@@ -13,6 +7,8 @@ import * as api from "../apiControllers/productController";
 import { ProductDetails } from "../models";
 import styles from "../styles/SearchBar.module.css";
 import SingleSearchResult from "./SingleSearchResult";
+import ThemedButton from "./ThemedButton";
+import ThemedInput from "./ThemedInput";
 
 const SearchBar: React.FC<{}> = () => {
 	const categoryList = ["Stickers", "Frames", "Pins and Badges"];
@@ -47,6 +43,13 @@ const SearchBar: React.FC<{}> = () => {
 			console.error("Error retrieving products:", error);
 		}
 	};
+
+	const filteredProducts =
+		productDetails?.filter(
+			(product) =>
+				product.name.includes(searchQuery) &&
+				selectedCategories.includes(product.category)
+		) || [];
 
 	useEffect(() => {
 		getProductData();
@@ -87,43 +90,41 @@ const SearchBar: React.FC<{}> = () => {
 						</Select>
 					</FormControl>
 
-					<TextField
+					<ThemedInput
 						className={styles.searchEntry}
 						variant="filled"
 						placeholder="Search"
 						onChange={(event) => setSearchQuery(event.target.value)}
 						hiddenLabel
-					></TextField>
+					></ThemedInput>
 				</div>
 			</div>
-
-			<div className={styles.empty}>
+			{searchQuery && (
 				<div className={styles.searchResultsContainer}>
-					{searchQuery &&
-						productDetails
-							?.filter(
-								(product) =>
-									product.name.includes(searchQuery) &&
-									selectedCategories.includes(product.category)
-							)
-							?.slice(0, 8)
-							.map((product) => (
-								<SingleSearchResult key={product._id} {...product} />
-							))}
-					<div className={styles.seeAllButton}>
-						<Button
-							className={styles.buttonText}
-							onClick={() => {
-								alert("functionality does not exist yet");
-							}}
-							aria-label="View All Search Results"
-						>
-							View All Results &emsp;&emsp;
-							<SearchIcon fontSize="large" sx={{ color: "black" }} />
-						</Button>
-					</div>
+					{filteredProducts.length > 0 ? (
+						<>
+							<div className={styles.productsGrid}>
+								{filteredProducts.slice(0, 8).map((product) => (
+									<SingleSearchResult key={product._id} {...product} />
+								))}
+							</div>
+
+							<ThemedButton
+								className={styles.seeAllButton}
+								onClick={() => {
+									alert("Functionality does not exist yet");
+								}}
+								aria-label="View All Search Results"
+							>
+								View All Results &emsp;&emsp;
+								<SearchIcon fontSize="large" sx={{ color: "black" }} />
+							</ThemedButton>
+						</>
+					) : (
+						<Typography className={styles.noResultsText}>No Results</Typography>
+					)}
 				</div>
-			</div>
+			)}
 		</div>
 	);
 };

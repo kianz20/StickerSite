@@ -34,6 +34,7 @@ interface ThemedButtonProps {
 	type?: "button" | "submit" | "reset";
 	backgroundColor?: string;
 	textColor?: string;
+	children?: React.ReactNode;
 }
 
 const ThemedButton: React.FC<ThemedButtonProps> = ({
@@ -44,6 +45,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
 	type,
 	backgroundColor,
 	textColor,
+	children,
 }) => {
 	return (
 		<StyledButton
@@ -55,6 +57,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
 			customTextColor={textColor} // Pass the text color prop
 		>
 			{text}
+			{children}
 		</StyledButton>
 	);
 };

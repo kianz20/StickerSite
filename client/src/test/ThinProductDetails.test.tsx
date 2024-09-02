@@ -58,7 +58,7 @@ test("renders the detailed view after expand button is pressed", () => {
 	render(<ThinProductDetails {...defaultProps} />);
 	const expandButton = screen.getByTestId(testIds.expandButton);
 	fireEvent.click(expandButton);
-	const expandedViewComponent = screen.getByTestId("ExpandedView");
+	const expandedViewComponent = screen.getByTestId(testIds.expandedView);
 	expect(expandedViewComponent).toBeInTheDocument();
 });
 
@@ -66,7 +66,7 @@ test("does not render the summary after expand button is pressed", () => {
 	render(<ThinProductDetails {...defaultProps} />);
 	const expandButton = screen.getByTestId(testIds.expandButton);
 	fireEvent.click(expandButton);
-	const summaryViewComponent = screen.queryByTestId("SummaryView");
+	const summaryViewComponent = screen.queryByTestId(testIds.summaryView);
 	expect(summaryViewComponent).not.toBeInTheDocument();
 });
 

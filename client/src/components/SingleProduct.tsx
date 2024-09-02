@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ProductDetails } from "../models";
 import styles from "../styles/Products.module.css";
+import ThemedButton from "./ThemedButton";
 
 const SingleProduct: React.FC<ProductDetails> = ({
 	name,
@@ -21,7 +22,14 @@ const SingleProduct: React.FC<ProductDetails> = ({
 				/>
 				{!isLoaded && <div className={styles.skeletonImg}></div>}
 			</div>
-			<div className={styles.singleProductText}>{description}</div>
+			<div className={styles.singleProductDesc}>{description}</div>
+			<div>
+				<ThemedButton
+					className={styles.addCartButton}
+					text="Add to cart"
+					fullWidth
+				/>
+			</div>
 		</div>
 	);
 };

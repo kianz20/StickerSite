@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import * as api from "../apiControllers/userController";
+import * as api from "../api/userController";
 import { NavigationBar, SearchBar } from "../components/";
 import { useAuth } from "../hooks";
 import { UserDetails } from "../models";

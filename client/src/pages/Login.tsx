@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import * as api from "../apiControllers/userController";
+import * as api from "../api/userController";
 import {
 	AlertMessage,
 	NavigationBar,

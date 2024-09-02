@@ -12,17 +12,20 @@ const SingleProduct: React.FC<ProductDetails> = ({
 
 	return (
 		<div className={styles.singleProduct}>
-			<div className={styles.singleProductText}>{name}</div>
-			<div className={styles.singleProductText}>${price}</div>
-			<div className={styles.imageContainer}>
-				<img
-					onLoad={() => setIsLoaded(true)}
-					src="https://picsum.photos/600/500"
-					alt={`Image of ${name}`}
-				/>
-				{!isLoaded && <div className={styles.skeletonImg}></div>}
+			<div className={styles.productDetails}>
+				<div className={styles.singleProductText}>{name}</div>
+
+				<div className={styles.singleProductDesc}>{description}</div>
+				<div className={styles.imageContainer}>
+					<img
+						onLoad={() => setIsLoaded(true)}
+						src="https://picsum.photos/600/500"
+						alt={`Image of ${name}`}
+					/>
+					{!isLoaded && <div className={styles.skeletonImg}></div>}
+				</div>
+				<div className={styles.singleProductText}>${price}</div>
 			</div>
-			<div className={styles.singleProductDesc}>{description}</div>
 			<div>
 				<ThemedButton
 					className={styles.addCartButton}

@@ -2,6 +2,6 @@ export interface ProductDetails {
 	name: string;
 	category: string;
 	description: string;
-	price: string;
+	price: number;
 	_id: string;
 }

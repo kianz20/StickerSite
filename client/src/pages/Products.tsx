@@ -1,5 +1,5 @@
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { Typography } from "@mui/material";
+import { MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import * as api from "../api/productController";
 import {
@@ -7,7 +7,6 @@ import {
 	SearchBar,
 	SingleProduct,
 	ThemedButton,
-	ThemedInput,
 } from "../components/";
 import { useAuth } from "../hooks";
 import { ProductDetails } from "../models";
@@ -23,6 +22,7 @@ interface FilterOptions {
 const Products = (): JSX.Element => {
 	const [products, setProducts] = useState<ProductDetails[]>();
 	const [filters, setFilters] = useState<FilterOptions>();
+	const [sortBy, setSortBy] = useState("mostPopular");
 	const { userToken } = useAuth();
 
 	const handleGetAllProducts = async () => {
@@ -31,6 +31,20 @@ const Products = (): JSX.Element => {
 			setProducts(data.products);
 		}
 	};
+
+	const handleSortByChange = (event: SelectChangeEvent<string>) => {
+		const { value } = event.target;
+		setSortBy(value);
+	};
+
+	const sortedProducts = products?.slice().sort((a, b) => {
+		if (sortBy === "priceAsc") {
+			return a.price - b.price;
+		} else if (sortBy === "priceDesc") {
+			return b.price - a.price;
+		}
+		return 0;
+	});
 
 	useEffect(() => {
 		handleGetAllProducts();
@@ -46,11 +60,22 @@ const Products = (): JSX.Element => {
 				<ThemedButton variant="text">
 					<FilterAltIcon className={styles.filterIcon} />
 				</ThemedButton>
-				<Typography> Sort By: </Typography>
-				<ThemedInput select />
+				<Typography className={styles.sortByText}> Sort By: </Typography>
+				<Select
+					variant="standard"
+					value={sortBy}
+					onChange={handleSortByChange}
+					displayEmpty={true}
+					className={styles.sortBySelect}
+				>
+					<MenuItem value="mostPopular">Most Popular</MenuItem>
+					<MenuItem value="highestRated">Highest Rated</MenuItem>
+					<MenuItem value="priceAsc">Price Asc.</MenuItem>
+					<MenuItem value="priceDesc">Price Desc.</MenuItem>
+				</Select>
 			</div>
 			<div className={styles.productGrid}>
-				{products?.map((product) => (
+				{sortedProducts?.map((product) => (
 					<SingleProduct {...product} key={product._id} />
 				))}
 			</div>

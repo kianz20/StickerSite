@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ProductDetails } from "../models";
-import styles from "../styles/Products.module.css";
+import styles from "../styles/SingleProduct.module.css";
 import ThemedButton from "./ThemedButton";
 
 const SingleProduct: React.FC<ProductDetails> = ({

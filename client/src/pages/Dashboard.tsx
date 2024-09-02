@@ -20,7 +20,7 @@ const Dashboard = (): JSX.Element => {
 	const [newProductDetails, setNewProductDetails] = useState<ProductDetails>({
 		name: "",
 		category: "",
-		price: "",
+		price: 0,
 		description: "",
 		_id: "",
 	});
@@ -81,7 +81,7 @@ const Dashboard = (): JSX.Element => {
 				getProductData();
 				setNewProductDetails({
 					name: "",
-					price: "",
+					price: 0,
 					description: "",
 					_id: "",
 					category: "",

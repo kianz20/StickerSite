@@ -1,3 +1,4 @@
+import { Rating, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { ProductDetails } from "../models";
 import styles from "../styles/SingleProduct.module.css";
@@ -13,9 +14,10 @@ const SingleProduct: React.FC<ProductDetails> = ({
 	return (
 		<div className={styles.singleProduct}>
 			<div className={styles.productDetails}>
-				<div className={styles.singleProductText}>{name}</div>
-
-				<div className={styles.singleProductDesc}>{description}</div>
+				<Typography className={styles.singleProductText}>{name}</Typography>
+				<Typography className={styles.singleProductDesc}>
+					{description}
+				</Typography>
 				<div className={styles.imageContainer}>
 					<img
 						onLoad={() => setIsLoaded(true)}
@@ -24,7 +26,21 @@ const SingleProduct: React.FC<ProductDetails> = ({
 					/>
 					{!isLoaded && <div className={styles.skeletonImg}></div>}
 				</div>
-				<div className={styles.singleProductText}>${price}</div>
+				<Typography className={styles.singleProductText}>${price}</Typography>
+				<div className={styles.ratingDetails}>
+					<Rating
+						className={styles.productRating}
+						name="read-only"
+						defaultValue={2.5}
+						// value= need to add to database first
+						precision={0.5}
+						size="small"
+						readOnly
+					/>
+					<Typography className={styles.ratingText} fontSize={"12px"}>
+						- {2} Reviews
+					</Typography>
+				</div>
 			</div>
 			<div>
 				<ThemedButton

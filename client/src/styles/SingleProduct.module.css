@@ -71,3 +71,14 @@
 		background-color: hsl(200, 20%, 95%);
 	}
 }
+
+.ratingDetails {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.ratingText {
+	display: inline;
+	width: 80px;
+}

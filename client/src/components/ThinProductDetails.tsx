@@ -4,10 +4,10 @@ import { Button, Typography } from "@mui/material";
 import React, { useState } from "react";
 import * as api from "../api/productController";
 import { ThemedInput } from "../components";
-import { useAuth } from "../hooks";
+import { useAlert, useAuth } from "../hooks";
 import { ProductDetails } from "../models";
 import styles from "../styles/ThinProductDetails.module.css";
-import AlertMessage, { Severity } from "./AlertMessage";
+import AlertMessage from "./AlertMessage";
 import ThemedButton from "./ThemedButton";
 
 interface EditFormDetails {
@@ -21,8 +21,16 @@ interface ThinProductDetailsProps extends ProductDetails {
 	onRemove: (id: string) => void;
 }
 
+export const testIds = {
+	expandButton: "expand-button",
+	minifyButton: "minify-button",
+	summaryView: "summary-view",
+	expandedView: "expanded-view",
+};
+
 const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 	const { userToken } = useAuth();
+	const { alertDetails, showAlert } = useAlert();
 	const { _id, name, description, price, color, onRemove } = props;
 
 	const [formState, setFormState] = useState<EditFormDetails>({
@@ -30,34 +38,6 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 		price: price,
 		description: description,
 	});
-
-	// Contains the error shown to the user
-	const [alertDetails, setAlertDetails] = useState<{
-		text: string;
-		visible: boolean;
-		severity: Severity;
-	}>({
-		text: "",
-		visible: false,
-		severity: "error",
-	});
-
-	const showAlert = (text: string, severity: Severity) => {
-		setAlertDetails({
-			text,
-			visible: true,
-			severity,
-		});
-
-		// Reset the alert after 3 seconds
-		setTimeout(() => {
-			setAlertDetails({
-				text: "",
-				visible: false,
-				severity: "error",
-			});
-		}, 3000); // 3 seconds
-	};
 
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [editMode, setEditMode] = useState(false);
@@ -80,11 +60,7 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 
 	const editProduct = async () => {
 		if (!userToken) {
-			setAlertDetails({
-				text: "Your session has expired. Please log in again",
-				visible: true,
-				severity: "error",
-			});
+			showAlert("Your session has expired. Please log in again", "error");
 			return;
 		}
 		try {
@@ -94,42 +70,26 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 				userToken
 			);
 			if (data.error) {
-				setAlertDetails({
-					text: data.error,
-					visible: true,
-					severity: "error",
-				});
+				showAlert(data.error, "error");
 			} else {
 				showAlert("Product has been edited", "success");
 			}
 		} catch (error) {
 			console.error("Error editing products:", error);
-			setAlertDetails({
-				text: "Something went wrong",
-				visible: true,
-				severity: "error",
-			});
+			showAlert("Something went wrong", "error");
 		}
 	};
 
 	const removeProduct = async () => {
 		if (!userToken) {
-			setAlertDetails({
-				text: "Your session has expired. Please log in again",
-				visible: true,
-				severity: "error",
-			});
+			showAlert("Your session has expired. Please log in again", "error");
 			return;
 		}
 		try {
 			const data: { message?: string; error?: string } =
 				await api.removeProduct(_id, userToken);
 			if (data.error) {
-				setAlertDetails({
-					text: data.error,
-					visible: true,
-					severity: "error",
-				});
+				showAlert(data.error, "error");
 			} else {
 				showAlert("Product has been removed", "success");
 				setTimeout(() => {
@@ -138,11 +98,7 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 			}
 		} catch (error) {
 			console.error("Error removing product:", error);
-			setAlertDetails({
-				text: "Something went wrong",
-				visible: true,
-				severity: "error",
-			});
+			showAlert("Something went wrong", "error");
 		}
 	};
 
@@ -159,7 +115,10 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 	return (
 		<div className={styles.container} style={{ backgroundColor: color }}>
 			{isExpanded ? (
-				<div className={styles.productLineExpanded}>
+				<div
+					className={styles.productLineExpanded}
+					data-testid={testIds.expandedView}
+				>
 					<div className={styles.expandedDetails}>
 						{editMode ? (
 							<>
@@ -211,7 +170,11 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 						)}
 					</div>
 					<div className={styles.buttonDiv}>
-						<Button variant="text" onClick={hideDetails}>
+						<Button
+							variant="text"
+							onClick={hideDetails}
+							data-testid={testIds.minifyButton}
+						>
 							<ArrowDropUpIcon />
 						</Button>
 						{editMode ? (
@@ -250,14 +213,18 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 					</div>
 				</div>
 			) : (
-				<div className={styles.productLine}>
+				<div className={styles.productLine} data-testid={testIds.summaryView}>
 					<Typography className={styles.nameDetail}>
 						<b>Name:</b> {name}
 					</Typography>
 					<Typography className={styles.productDetail}>
 						<b>Price:</b> {price}
 					</Typography>
-					<Button variant="text" onClick={showDetails}>
+					<Button
+						variant="text"
+						onClick={showDetails}
+						data-testid={testIds.expandButton}
+					>
 						<ArrowDropDownIcon />
 					</Button>
 				</div>

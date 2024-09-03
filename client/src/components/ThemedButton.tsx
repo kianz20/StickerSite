@@ -32,9 +32,7 @@ const StyledButton = styled(Button, {
 		borderColor: "var(--dark-animori-theme-colour)",
 	},
 	"&.MuiButton-text:hover": {
-		backgroundColor: customBackgroundColor
-			? "rgba(0, 0, 0, 0.1)"
-			: "rgba(0, 0, 0, 0.1)", // Customize hover effect as needed
+		backgroundColor: customBackgroundColor,
 		color: customTextColor || "#fff",
 	},
 }));

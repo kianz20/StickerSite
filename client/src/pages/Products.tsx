@@ -76,7 +76,7 @@ const Products = (): JSX.Element => {
 
 	useEffect(() => {
 		const params = new URLSearchParams(location.search);
-		const searchQuery = params.get("searchQuery") || "";
+		const searchQuery = params.get("searchQuery") ?? "";
 		setQuery(searchQuery);
 	}, [location.search]);
 

@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import * as api from "../api/productController";
 import {
 	NavigationBar,
-	SearchBar,
 	SingleProduct,
 	ThemedButton,
 	ThemedInput,
@@ -29,6 +28,8 @@ const Products = (): JSX.Element => {
 	});
 	const [minPrice, setMinPrice] = useState<string>("");
 	const [maxPrice, setMaxPrice] = useState<string>("");
+
+	const [query, setQuery] = useState("");
 
 	const [filtersOpen, setFiltersOpen] = useState(false);
 	const [sortBy, setSortBy] = useState("mostPopular");
@@ -74,6 +75,12 @@ const Products = (): JSX.Element => {
 	}, [userToken]);
 
 	useEffect(() => {
+		const params = new URLSearchParams(location.search);
+		const searchQuery = params.get("searchQuery") || "";
+		setQuery(searchQuery);
+	}, [location.search]);
+
+	useEffect(() => {
 		document.addEventListener("mousedown", handleClickOutside);
 		return () => {
 			document.removeEventListener("mousedown", handleClickOutside);
@@ -86,8 +93,11 @@ const Products = (): JSX.Element => {
 			const withinPriceRange =
 				(filters.minPrice === undefined || product.price >= filters.minPrice) &&
 				(filters.maxPrice === undefined || product.price <= filters.maxPrice);
+			const matchesQuery = query
+				? product.name.toLowerCase().includes(query.toLowerCase())
+				: true;
 
-			return inCategory && withinPriceRange;
+			return inCategory && withinPriceRange && matchesQuery;
 		})
 		.slice()
 		.sort((a, b) => {
@@ -98,6 +108,10 @@ const Products = (): JSX.Element => {
 			}
 			return 0;
 		});
+
+	const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setQuery(event.target.value);
+	};
 
 	const handleCheckboxChange = (category: string) => {
 		setFilters((prevFilters) => {
@@ -114,16 +128,30 @@ const Products = (): JSX.Element => {
 	return (
 		<>
 			<NavigationBar />
-			<SearchBar />
-
 			<div className={styles.filterProductsBar}>
+				<ThemedInput
+					size="small"
+					placeholder="Search Query"
+					value={query}
+					onChange={handleQueryChange}
+				/>
 				<Typography> {sortedProducts?.length} Items</Typography>
-				<ThemedButton variant="text" onClick={toggleFilterOpen}>
+				<ThemedButton
+					backgroundColor="#ededed"
+					variant="text"
+					onClick={toggleFilterOpen}
+				>
 					<FilterAltIcon className={styles.filterIcon} />
 				</ThemedButton>
 				{filtersOpen && (
 					<div className={styles.filterMenu} ref={filterMenuRef}>
-						<Typography className={styles.filtersTitle}>Filters</Typography>
+						<Typography
+							className={styles.filtersTitle}
+							fontWeight={"fontWeightBold"}
+						>
+							Filters
+						</Typography>
+						<br />
 						<div className={styles.priceFilterContainer}>
 							<Typography className={styles.filtersTitle}>Price:</Typography>
 							<ThemedInput

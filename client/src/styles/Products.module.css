@@ -22,18 +22,19 @@
 
 .filterMenu {
 	position: absolute;
-	top: 17%;
+	top: 135px;
 	width: 400px;
 	height: 300px;
 	background-color: var(--grey-content-box-background-colour);
 	box-shadow: 12px 12px 2px 1px var(--animori-theme-colour);
 	left: 50%;
-	transform: translateX(calc(-50% - 90px));
+	transform: translateX(calc(-50% + 30px));
 	z-index: 9999;
 }
 
 .priceFilterContainer {
 	display: flex;
+	justify-content: space-around;
 }
 
 .priceSelector {

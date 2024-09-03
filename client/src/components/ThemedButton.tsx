@@ -18,6 +18,10 @@ const StyledButton = styled(Button, {
 		backgroundColor: customBackgroundColor || "var(--animori-theme-colour)",
 		color: customTextColor || "#fff",
 	},
+	"&.MuiButton-text": {
+		backgroundColor: customBackgroundColor || "transparent", // Use the prop or default to transparent
+		color: customTextColor || "#fff",
+	},
 	"&:hover": {
 		borderColor: "var(--dark-animori-theme-colour)",
 	},
@@ -26,6 +30,12 @@ const StyledButton = styled(Button, {
 	},
 	"&.MuiButton-outlined:hover": {
 		borderColor: "var(--dark-animori-theme-colour)",
+	},
+	"&.MuiButton-text:hover": {
+		backgroundColor: customBackgroundColor
+			? "rgba(0, 0, 0, 0.1)"
+			: "rgba(0, 0, 0, 0.1)", // Customize hover effect as needed
+		color: customTextColor || "#fff",
 	},
 }));
 

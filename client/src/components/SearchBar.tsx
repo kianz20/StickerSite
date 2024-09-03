@@ -3,6 +3,7 @@ import { Checkbox, ListItemText, MenuItem, Typography } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as api from "../api/productController";
 import { ProductDetails } from "../models";
 import styles from "../styles/SearchBar.module.css";
@@ -29,6 +30,8 @@ const SearchBar: React.FC<{}> = () => {
 			setSelectedCategories(value as string[]);
 		}
 	};
+
+	const navigate = useNavigate();
 
 	const getProductData = async () => {
 		try {
@@ -112,7 +115,7 @@ const SearchBar: React.FC<{}> = () => {
 							<ThemedButton
 								className={styles.seeAllButton}
 								onClick={() => {
-									alert("Functionality does not exist yet");
+									navigate(`/products/?searchQuery=${searchQuery}`);
 								}}
 								aria-label="View All Search Results"
 							>

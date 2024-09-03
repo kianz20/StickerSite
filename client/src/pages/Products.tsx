@@ -49,7 +49,6 @@ const Products = (): JSX.Element => {
 			minPrice: minPrice ? parseFloat(minPrice) : undefined,
 			maxPrice: maxPrice ? parseFloat(maxPrice) : undefined,
 		}));
-		console.log(filters);
 	};
 
 	const handleSortByChange = (event: SelectChangeEvent<string>) => {
@@ -77,6 +76,13 @@ const Products = (): JSX.Element => {
 	useEffect(() => {
 		const params = new URLSearchParams(location.search);
 		const searchQuery = params.get("searchQuery") ?? "";
+		const searchCategories = (params.get("categories") ?? "").split(",");
+		if (searchCategories[0] !== "") {
+			setFilters((prevFilters) => ({
+				...prevFilters,
+				category: searchCategories,
+			}));
+		}
 		setQuery(searchQuery);
 	}, [location.search]);
 

@@ -1,6 +1,6 @@
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as api from "../api/productController";
 import {
 	NavigationBar,
@@ -33,6 +33,8 @@ const Products = (): JSX.Element => {
 	const [filtersOpen, setFiltersOpen] = useState(false);
 	const [sortBy, setSortBy] = useState("mostPopular");
 
+	const filterMenuRef = useRef<HTMLDivElement>(null);
+
 	const handleGetAllProducts = async () => {
 		if (userToken) {
 			const data = await api.getProducts();
@@ -57,6 +59,26 @@ const Products = (): JSX.Element => {
 	const toggleFilterOpen = () => {
 		setFiltersOpen(!filtersOpen);
 	};
+
+	const handleClickOutside = (event: MouseEvent) => {
+		if (
+			filterMenuRef.current &&
+			!filterMenuRef.current.contains(event.target as Node)
+		) {
+			setFiltersOpen(false);
+		}
+	};
+
+	useEffect(() => {
+		handleGetAllProducts();
+	}, [userToken]);
+
+	useEffect(() => {
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
 
 	const sortedProducts = products
 		?.filter((product) => {
@@ -89,10 +111,6 @@ const Products = (): JSX.Element => {
 		});
 	};
 
-	useEffect(() => {
-		handleGetAllProducts();
-	}, [userToken]);
-
 	return (
 		<>
 			<NavigationBar />
@@ -104,7 +122,7 @@ const Products = (): JSX.Element => {
 					<FilterAltIcon className={styles.filterIcon} />
 				</ThemedButton>
 				{filtersOpen && (
-					<div className={styles.filterMenu}>
+					<div className={styles.filterMenu} ref={filterMenuRef}>
 						<Typography className={styles.filtersTitle}>Filters</Typography>
 						<div className={styles.priceFilterContainer}>
 							<Typography className={styles.filtersTitle}>Price:</Typography>

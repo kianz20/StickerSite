@@ -8,11 +8,12 @@
 .searchBarContainer {
 	padding-top: 10px;
 	padding-bottom: 10px;
-	width: 40%;
+	width: 70%;
+	min-width: 500px;
 }
 
 .categorySelect {
-	width: 30%;
+	width: 180px !important;
 }
 
 .selectAll {
@@ -20,7 +21,7 @@
 }
 
 .searchEntry {
-	width: 70%;
+	width: 60%;
 	padding-left: 10px;
 	background-color: white;
 }

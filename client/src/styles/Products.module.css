@@ -20,6 +20,30 @@
 	color: black;
 }
 
+.filterMenu {
+	position: absolute;
+	top: 17%;
+	width: 400px;
+	height: 300px;
+	background-color: var(--grey-content-box-background-colour);
+	box-shadow: 12px 12px 2px 1px var(--animori-theme-colour);
+	left: 50%;
+	transform: translateX(calc(-50% - 90px));
+	z-index: 9999;
+}
+
+.priceFilterContainer {
+	display: flex;
+}
+
+.priceSelector {
+	width: 100px !important;
+}
+
+.filtersTitle {
+	padding-top: 5px;
+}
+
 .sortByText {
 	padding-right: 10px;
 }

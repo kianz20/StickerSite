@@ -37,12 +37,30 @@
 	justify-content: space-around;
 }
 
+.filtersTitle {
+	padding-top: 5px;
+}
+
 .priceSelector {
 	width: 100px !important;
 }
 
-.filtersTitle {
-	padding-top: 5px;
+.categorySelector {
+	display: flex;
+	flex-direction: column;
+	left: 35%;
+	position: relative;
+}
+
+.categoryCheckbox {
+	display: flex;
+	align-items: center;
+	width: 200px;
+}
+
+.checkboxLabel {
+	margin-left: 8px;
+	width: auto;
 }
 
 .sortByText {

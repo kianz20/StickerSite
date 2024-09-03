@@ -7,7 +7,7 @@ const defaultProps: ProductDetails = {
 	name: "Test Title",
 	category: "Test Category",
 	description: "Test Description",
-	price: "3.99",
+	price: 3.99,
 	_id: "",
 };
 

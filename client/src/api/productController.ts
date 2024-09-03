@@ -5,7 +5,7 @@ const url = deployed ? "https://deployedURL.com" : "http://localhost:5050";
 
 interface EditFormDetails {
 	name: string;
-	price: string;
+	price: number;
 	description: string;
 }
 
@@ -39,8 +39,7 @@ export const addProduct = async (
 	}
 };
 
-export const getProducts = async (
-): Promise<{
+export const getProducts = async (): Promise<{
 	products?: ProductDetails[];
 	error?: string;
 }> => {

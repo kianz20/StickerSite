@@ -38,6 +38,7 @@ interface ThemedButtonProps {
 	backgroundColor?: string;
 	textColor?: string;
 	children?: React.ReactNode;
+	fullWidth?: boolean;
 }
 
 const ThemedButton: React.FC<ThemedButtonProps> = ({
@@ -49,6 +50,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
 	backgroundColor,
 	textColor,
 	children,
+	fullWidth,
 }) => {
 	return (
 		<StyledButton
@@ -58,6 +60,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
 			type={type}
 			customBackgroundColor={backgroundColor}
 			customTextColor={textColor}
+			fullWidth={fullWidth}
 		>
 			{text}
 			{children}

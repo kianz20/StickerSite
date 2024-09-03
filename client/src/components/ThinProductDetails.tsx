@@ -12,7 +12,7 @@ import ThemedButton from "./ThemedButton";
 
 interface EditFormDetails {
 	name: string;
-	price: string;
+	price: number;
 	description: string;
 }
 

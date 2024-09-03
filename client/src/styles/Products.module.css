@@ -1,68 +1,53 @@
 .productGrid {
-	display: flex;
-	padding: 2rem;
-	margin-left: 5rem;
-	margin-right: 5rem;
+	display: grid;
+	width: 95%;
+	grid-template-columns: repeat(auto-fit, 280px);
+	padding-left: 50px;
+	padding-right: 50px;
 	flex-wrap: wrap;
 	justify-content: center;
 }
 
-.singleProduct {
-	background-color: #ccc5ff;
-	color: black;
-	border-radius: 20px;
-	margin: 1rem;
-	padding: 1rem;
-	max-width: 300px;
-	cursor: pointer;
-	border: 2px solid transparent;
-}
-
-.singleProduct:hover {
-	border: 2px solid purple;
-}
-
-.singleProduct:hover .imageContainer {
-	transform: scale(1.03);
-}
-
-.imageContainer {
+.filterProductsBar {
+	width: 100%;
+	height: 75px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100%;
-	min-height: 250px;
-	transition: all 0.2s ease-in-out;
 }
 
-.singleProduct img {
-	margin-top: 0.5rem;
-	margin-bottom: 0.5rem;
-	height: 100%;
-	width: 100%;
-	object-fit: contain;
-	border-radius: 10px;
+.filterIcon {
+	color: black;
 }
 
-.skeletonImg {
-	animation: skeleton-loading 1s linear infinite alternate;
-	min-width: 100%;
-	min-height: 250px;
-	margin-top: 0.5rem;
-	margin-bottom: 0.5rem;
+.filterMenu {
+	position: absolute;
+	top: 17%;
+	width: 400px;
+	height: 300px;
+	background-color: var(--grey-content-box-background-colour);
+	box-shadow: 12px 12px 2px 1px var(--animori-theme-colour);
+	left: 50%;
+	transform: translateX(calc(-50% - 90px));
+	z-index: 9999;
 }
 
-@keyframes skeleton-loading {
-	0% {
-		background-color: hsl(200, 20%, 80%);
-	}
-	100% {
-		background-color: hsl(200, 20%, 95%);
-	}
-}
-
-.singleProductText {
+.priceFilterContainer {
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+}
+
+.priceSelector {
+	width: 100px !important;
+}
+
+.filtersTitle {
+	padding-top: 5px;
+}
+
+.sortByText {
+	padding-right: 10px;
+}
+
+.sortBySelect {
+	width: 160px;
 }

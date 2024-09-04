@@ -1,4 +1,4 @@
-import { UserDetails, LoginResponse, LoginBody, RegisterBody } from "../models";
+import { LoginBody, LoginResponse, RegisterBody, UserDetails } from "../models";
 
 const deployed = false;
 const url = deployed ? "https://deployedURL.com" : "http://localhost:5050";
@@ -7,7 +7,6 @@ export const createUser = async (
 	user: RegisterBody
 ): Promise<LoginResponse> => {
 	try {
-		console.log(user);
 		const response = await fetch(`${url}/api/users/`, {
 			method: "POST",
 			headers: {

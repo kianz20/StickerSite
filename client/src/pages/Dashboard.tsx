@@ -39,7 +39,6 @@ const Dashboard = (): JSX.Element => {
 				showAlert(data.error, "error");
 			} else {
 				setProductDetails(data.products);
-				console.log("Products fetched successfully: ", data.products);
 			}
 		} catch (error) {
 			console.error("Error retreiving products:", error);
@@ -76,7 +75,6 @@ const Dashboard = (): JSX.Element => {
 				console.error("Add product failed: ", data.error);
 				showAlert(data.error, "error");
 			} else {
-				console.log("Product added successfully: ", data.message);
 				showAlert("Product has been added", "success");
 				getProductData();
 				setNewProductDetails({

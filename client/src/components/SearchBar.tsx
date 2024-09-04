@@ -40,7 +40,6 @@ const SearchBar: React.FC<{}> = () => {
 				console.error("Fetch products failed: ", data.error);
 			} else {
 				setProductDetails(data.products);
-				console.log("Products fetched successfully: ", data.products);
 			}
 		} catch (error) {
 			console.error("Error retrieving products:", error);

@@ -1,5 +1,11 @@
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
+import {
+	Checkbox,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	Typography,
+} from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import * as api from "../api/productController";
 import {
@@ -49,7 +55,6 @@ const Products = (): JSX.Element => {
 			minPrice: minPrice ? parseFloat(minPrice) : undefined,
 			maxPrice: maxPrice ? parseFloat(maxPrice) : undefined,
 		}));
-		console.log(filters);
 	};
 
 	const handleSortByChange = (event: SelectChangeEvent<string>) => {
@@ -77,6 +82,13 @@ const Products = (): JSX.Element => {
 	useEffect(() => {
 		const params = new URLSearchParams(location.search);
 		const searchQuery = params.get("searchQuery") ?? "";
+		const searchCategories = (params.get("categories") ?? "").split(",");
+		if (searchCategories[0] !== "") {
+			setFilters((prevFilters) => ({
+				...prevFilters,
+				category: searchCategories,
+			}));
+		}
 		setQuery(searchQuery);
 	}, [location.search]);
 
@@ -171,17 +183,17 @@ const Products = (): JSX.Element => {
 							/>
 							<ThemedButton text="Apply" onClick={applyFilters} />
 						</div>
+						<br />
 						<div className={styles.categorySelector}>
 							{categoryList.map((category) => (
-								<div key={category}>
-									<label>
-										<input
-											type="checkbox"
-											checked={filters.category?.includes(category)}
-											onChange={() => handleCheckboxChange(category)}
-										/>
+								<div key={category} className={styles.categoryCheckbox}>
+									<Checkbox
+										checked={!!filters.category?.includes(category)}
+										onChange={() => handleCheckboxChange(category)}
+									/>
+									<Typography className={styles.checkboxLabel}>
 										{category}
-									</label>
+									</Typography>
 								</div>
 							))}
 						</div>

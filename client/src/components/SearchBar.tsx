@@ -115,7 +115,9 @@ const SearchBar: React.FC<{}> = () => {
 							<ThemedButton
 								className={styles.seeAllButton}
 								onClick={() => {
-									navigate(`/products/?searchQuery=${searchQuery}`);
+									navigate(
+										`/products/?searchQuery=${searchQuery}&categories=${selectedCategories}`
+									);
 								}}
 								aria-label="View All Search Results"
 							>

@@ -19,3 +19,8 @@
 	gap: 10px;
 	justify-content: space-around;
 }
+
+.productGrid {
+	max-height: 60vh;
+	overflow: scroll;
+}

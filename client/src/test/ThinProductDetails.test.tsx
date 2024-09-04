@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import ThinProductDetails, { testIds } from "../components/ThinProductDetails";
+import ThinProductDetails from "../components/ThinProductDetails";
+import testIds from "../constants/testIds";
 import { ProductDetails } from "../models";
 
 interface ThinProductDetailsProps extends ProductDetails {

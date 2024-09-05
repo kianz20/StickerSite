@@ -10,6 +10,8 @@
 
 	background: var(--animori-theme-colour) url("../resources/navbarStarter.png")
 		no-repeat left center;
+
+	z-index: 99999;
 }
 
 .animoriLogo {
@@ -44,9 +46,10 @@
 .linkContainer {
 	display: flex;
 	align-items: center;
-	text-decoration: none; /* Remove underline from the link */
+	text-decoration: none;
+	margin-left: 20px;
 }
 
-.logoutButton {
-	margin-left: 20px;
+.buttonContainer {
+	display: grid;
 }

@@ -67,9 +67,7 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 				showAlert(data.error, "error");
 			} else {
 				showAlert("Product has been edited", "success");
-				setTimeout(() => {
-					setEditMode(false);
-				}, 3000);
+				setEditMode(false);
 			}
 		} catch (error) {
 			console.error("Error editing products:", error);

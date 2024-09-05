@@ -34,7 +34,7 @@ const uri: string = process.env.ATLAS_URI || "";
 
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/upload", uploadRoutes); // Use upload routes
+app.use("/api/uploads", uploadRoutes); // Use upload routes
 
 const PORT: string | number = process.env.PORT || 3000;
 

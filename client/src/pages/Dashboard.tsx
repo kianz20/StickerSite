@@ -1,7 +1,8 @@
 import { Input, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import * as api from "../api/productController";
+import * as uploadApi from "../api/uploadController";
 import {
 	AlertMessage,
 	NavigationBar,
@@ -16,6 +17,7 @@ import styles from "../styles/Dashboard.module.css";
 const Dashboard = (): JSX.Element => {
 	const { isAuthenticated, userRole, userToken } = useAuth();
 	const { alertDetails, showAlert, clearAlert } = useAlert();
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	// Contains the details used when adding new products
 	const [newProductDetails, setNewProductDetails] = useState<ProductDetails>({
@@ -68,15 +70,58 @@ const Dashboard = (): JSX.Element => {
 		return <Navigate to="/unauthorized" />;
 	}
 
+	const handleFileUpload = async (): Promise<string> => {
+		if (!userToken) {
+			showAlert("Your session has expired. Please log in again", "error");
+			return "error";
+		}
+
+		if (!productImg) {
+			showAlert("At least one product image is required", "error");
+			return "error";
+		}
+
+		const images = new FormData();
+		images.append("productPicture", productImg);
+
+		try {
+			const data = await uploadApi.uploadProductPicture(images, userToken);
+			if (data.error) {
+				showAlert(data.error, "error");
+				return "error";
+			}
+			console.log(data);
+			return data.imgUrl || "error";
+		} catch (error) {
+			console.error("Error uploading picture:", error);
+			showAlert("Something went wrong", "error");
+			return "error";
+		}
+	};
+
 	// Sends the request to create a new product
 	const handleAddProduct = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
 		if (!userToken) {
 			showAlert("Your session has expired. Please log in again", "error");
 			return;
 		}
+
+		const fileUrl = await handleFileUpload();
+
+		if (fileUrl === "error") {
+			return;
+		}
+
+		const updatedProductDetails = {
+			...newProductDetails,
+			imgPath: fileUrl,
+		};
+
+		console.log(fileUrl);
+
 		try {
-			event.preventDefault();
-			const data = await api.addProduct(newProductDetails, userToken);
+			const data = await api.addProduct(updatedProductDetails, userToken);
 			if (data.error) {
 				console.error("Add product failed: ", data.error);
 				showAlert(data.error, "error");
@@ -93,9 +138,13 @@ const Dashboard = (): JSX.Element => {
 					stockCount: 0,
 					franchise: "",
 				});
+				setProductImg(null);
+				if (fileInputRef.current) {
+					fileInputRef.current.value = "";
+				}
 			}
 		} catch (error) {
-			console.error("Error retreiving products:", error);
+			console.error("Error adding product:", error);
 			showAlert("Something went wrong", "error");
 		}
 	};
@@ -202,6 +251,7 @@ const Dashboard = (): JSX.Element => {
 								disableUnderline
 								name="picture"
 								onChange={handleFileChange}
+								ref={fileInputRef}
 							></Input>
 							<ThemedInput
 								label="Stock Count"

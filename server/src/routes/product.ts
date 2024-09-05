@@ -28,10 +28,17 @@ router.post("/", authenticateToken, async (req, res) => {
 			franchise,
 		} = req.body;
 		// Validate the input
-		if (!name || !price || !description || category || franchise) {
+		if (
+			!name ||
+			!price ||
+			!description ||
+			!category ||
+			!franchise ||
+			!stockCount ||
+			!imgPath
+		) {
 			return res.status(400).json({
-				error:
-					"name, price, description, category, franchise args are required",
+				error: "Missing details",
 			});
 		}
 

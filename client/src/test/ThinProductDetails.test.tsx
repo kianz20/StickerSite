@@ -15,6 +15,9 @@ const defaultProps: ThinProductDetailsProps = {
 	description: "Test Description",
 	price: 3.99,
 	_id: "",
+	imgPath: "",
+	stockCount: 0,
+	franchise: "",
 	color: "#aea3ff",
 	onRemove: jest.fn(),
 };

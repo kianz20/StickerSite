@@ -9,6 +9,9 @@ const defaultProps: ProductDetails = {
 	description: "Test Description",
 	price: 3.99,
 	_id: "",
+	imgPath: "",
+	stockCount: 0,
+	franchise: "",
 };
 
 test("renders the result with the correct title", () => {

@@ -1,11 +1,11 @@
-import mongoose, { ObjectId, Schema } from "mongoose";
+import mongoose, { Document, ObjectId, Schema } from "mongoose";
 
-interface Review {
+interface Review extends Document {
 	productId: ObjectId;
 	review: string;
 	reviewer: string;
 	stars: number;
-	_id?: ObjectId;
+	_id: ObjectId;
 }
 
 // Mongoose schema for the Product model

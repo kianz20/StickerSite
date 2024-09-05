@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
-		"target": "es2016",
-		"jsx": "preserve",
-		"module": "commonjs",
+		"module": "es2020", // or "esnext", "node16", etc.
+		"target": "es2020",
+		"moduleResolution": "Node",
 		"allowJs": true,
 		"outDir": "./dist",
 		"esModuleInterop": true,
@@ -11,7 +11,11 @@
 		"skipLibCheck": true,
 		"allowSyntheticDefaultImports": true
 	},
-	"include": ["src"],
+	"ts-node": {
+		"esm": true,
+		"experimentalSpecifierResolution": "node"
+	},
+	"include": ["src", "types"],
 	"exclude": ["node_modules", "dist", "client"],
 	"files": ["types/express.d.ts"]
 }

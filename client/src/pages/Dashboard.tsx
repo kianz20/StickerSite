@@ -1,3 +1,4 @@
+import { Input, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import * as api from "../api/productController";
@@ -23,7 +24,12 @@ const Dashboard = (): JSX.Element => {
 		price: 0,
 		description: "",
 		_id: "",
+		imgPath: "",
+		stockCount: 0,
+		franchise: "",
 	});
+
+	const [productImg, setProductImg] = useState<File | null>(null);
 
 	const [productDetails, setProductDetails] = useState<ProductDetails[]>();
 
@@ -79,10 +85,13 @@ const Dashboard = (): JSX.Element => {
 				getProductData();
 				setNewProductDetails({
 					name: "",
-					price: 0,
-					description: "",
-					_id: "",
 					category: "",
+					description: "",
+					price: 0,
+					_id: "",
+					imgPath: "",
+					stockCount: 0,
+					franchise: "",
 				});
 			}
 		} catch (error) {
@@ -99,6 +108,10 @@ const Dashboard = (): JSX.Element => {
 			...prevState,
 			[name]: value,
 		}));
+	};
+
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setProductImg(e.target.files ? e.target.files[0] : null);
 	};
 
 	const handlePageChange = (page: string) => {
@@ -151,13 +164,13 @@ const Dashboard = (): JSX.Element => {
 								onChange={handleFormChange}
 							/>
 							<ThemedInput
-								label="Price"
+								label="Category"
 								variant="outlined"
 								fullWidth
 								margin="normal"
 								required
-								name="price"
-								value={newProductDetails.price}
+								name="category"
+								value={newProductDetails.category}
 								onChange={handleFormChange}
 							/>
 							<ThemedInput
@@ -170,6 +183,44 @@ const Dashboard = (): JSX.Element => {
 								multiline={true}
 								rows={4}
 								value={newProductDetails.description}
+								onChange={handleFormChange}
+							/>
+							<ThemedInput
+								label="Price"
+								variant="outlined"
+								fullWidth
+								margin="normal"
+								required
+								name="price"
+								value={newProductDetails.price}
+								onChange={handleFormChange}
+							/>
+							<Typography> Picture of product: </Typography>
+							<Input
+								type="file"
+								fullWidth
+								disableUnderline
+								name="picture"
+								onChange={handleFileChange}
+							></Input>
+							<ThemedInput
+								label="Stock Count"
+								variant="outlined"
+								fullWidth
+								margin="normal"
+								required
+								name="stockCount"
+								value={newProductDetails.stockCount}
+								onChange={handleFormChange}
+							/>
+							<ThemedInput
+								label="Franchise"
+								variant="outlined"
+								fullWidth
+								margin="normal"
+								required
+								name="franchise"
+								value={newProductDetails.franchise}
 								onChange={handleFormChange}
 							/>
 							<ThemedButton text="Add Product" type="submit" />

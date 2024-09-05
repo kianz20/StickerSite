@@ -28,20 +28,22 @@ const NavigationBar: React.FC<{}> = () => {
 					<InstagramIcon className={styles.socialIcon} />
 				</Link>
 			</div>
-			{userRole === "admin" && (
-				<Link to={`/dashboard/${userID}`}>
-					<ThemedButton text="Admin Dashboard" backgroundColor="black" />
-				</Link>
-			)}
-			{isAuthenticated && (
-				<ThemedButton
-					text="Logout"
-					className={styles.logoutButton}
-					onClick={logout}
-					backgroundColor="white"
-					textColor="black"
-				/>
-			)}
+			<div className={styles.buttonContainer}>
+				{userRole === "admin" && (
+					<Link to={`/dashboard/${userID}`}>
+						<ThemedButton text="Admin Dashboard" backgroundColor="black" />
+					</Link>
+				)}
+				{isAuthenticated && (
+					<ThemedButton
+						text="Logout"
+						className={styles.logoutButton}
+						onClick={logout}
+						backgroundColor="white"
+						textColor="black"
+					/>
+				)}
+			</div>
 			<Link
 				to={isAuthenticated ? `/profile/${userID}` : "/login"}
 				className={styles.linkContainer}

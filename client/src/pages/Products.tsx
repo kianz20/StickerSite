@@ -14,7 +14,6 @@ import {
 	ThemedButton,
 	ThemedInput,
 } from "../components/";
-import { useAuth } from "../hooks";
 import { ProductDetails } from "../models";
 import styles from "../styles/Products.module.css";
 
@@ -26,7 +25,6 @@ interface FilterOptions {
 }
 
 const Products = (): JSX.Element => {
-	const { userToken } = useAuth();
 	const categoryList = ["Stickers", "Frames", "Pins and Badges", "misc"];
 	const [products, setProducts] = useState<ProductDetails[]>();
 	const [filters, setFilters] = useState<FilterOptions>({
@@ -43,10 +41,8 @@ const Products = (): JSX.Element => {
 	const filterMenuRef = useRef<HTMLDivElement>(null);
 
 	const handleGetAllProducts = async () => {
-		if (userToken) {
-			const data = await api.getProducts();
-			setProducts(data.products);
-		}
+		const data = await api.getProducts();
+		setProducts(data.products);
 	};
 
 	const applyFilters = () => {
@@ -77,7 +73,7 @@ const Products = (): JSX.Element => {
 
 	useEffect(() => {
 		handleGetAllProducts();
-	}, [userToken]);
+	}, []);
 
 	useEffect(() => {
 		const params = new URLSearchParams(location.search);

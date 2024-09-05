@@ -4,6 +4,7 @@ import { Button, Typography } from "@mui/material";
 import React, { useState } from "react";
 import * as api from "../api/productController";
 import { ThemedInput } from "../components";
+import testIds from "../constants/testIds";
 import { useAlert, useAuth } from "../hooks";
 import { ProductDetails } from "../models";
 import styles from "../styles/ThinProductDetails.module.css";
@@ -20,13 +21,6 @@ interface ThinProductDetailsProps extends ProductDetails {
 	color: string;
 	onRemove: (id: string) => void;
 }
-
-export const testIds = {
-	expandButton: "expand-button",
-	minifyButton: "minify-button",
-	summaryView: "summary-view",
-	expandedView: "expanded-view",
-};
 
 const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 	const { userToken } = useAuth();
@@ -73,6 +67,7 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 				showAlert(data.error, "error");
 			} else {
 				showAlert("Product has been edited", "success");
+				setEditMode(false);
 			}
 		} catch (error) {
 			console.error("Error editing products:", error);
@@ -215,10 +210,10 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 			) : (
 				<div className={styles.productLine} data-testid={testIds.summaryView}>
 					<Typography className={styles.nameDetail}>
-						<b>Name:</b> {name}
+						<b>Name:</b> {formState.name}
 					</Typography>
 					<Typography className={styles.productDetail}>
-						<b>Price:</b> {price}
+						<b>Price:</b> {formState.price}
 					</Typography>
 					<Button
 						variant="text"

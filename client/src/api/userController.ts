@@ -1,13 +1,11 @@
+import { BACKEND_URL } from "../constants/backendURL";
 import { LoginBody, LoginResponse, RegisterBody, UserDetails } from "../models";
-
-const deployed = false;
-const url = deployed ? "https://deployedURL.com" : "http://localhost:5050";
 
 export const createUser = async (
 	user: RegisterBody
 ): Promise<LoginResponse> => {
 	try {
-		const response = await fetch(`${url}/api/users/`, {
+		const response = await fetch(`${BACKEND_URL}/api/users/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -29,7 +27,7 @@ export const createUser = async (
 
 export const loginUser = async (user: LoginBody): Promise<LoginResponse> => {
 	try {
-		const response = await fetch(`${url}/api/users/login`, {
+		const response = await fetch(`${BACKEND_URL}/api/users/login`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -54,7 +52,7 @@ export const getProfileData = async (
 	token: string
 ): Promise<UserDetails> => {
 	try {
-		const response = await fetch(`${url}/api/users/${userID}`, {
+		const response = await fetch(`${BACKEND_URL}/api/users/${userID}`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

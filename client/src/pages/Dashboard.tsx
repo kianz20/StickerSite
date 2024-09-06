@@ -287,7 +287,7 @@ const Dashboard = (): JSX.Element => {
 							{productDetails?.map((product, index) => (
 								<ThinProductDetails
 									key={product._id}
-									color={index % 2 === 0 ? "#ccc5e3" : "#d9d7e0"} // Alternates between red and blue
+									color={index % 2 === 0 ? "#ccc5e3" : "#d9d7e0"}
 									{...product}
 									onRemove={handleRemoveProduct}
 								/>

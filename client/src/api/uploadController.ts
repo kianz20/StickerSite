@@ -1,14 +1,12 @@
+import { BACKEND_URL } from "../constants/backendURL";
 import { UploadResponse } from "../models";
-
-const deployed = false;
-const url = deployed ? "https://deployedURL.com" : "http://localhost:5050";
 
 export const uploadProductPicture = async (
 	images: FormData,
 	token: string
 ): Promise<UploadResponse> => {
 	try {
-		const response = await fetch(`${url}/api/uploads/productPicture`, {
+		const response = await fetch(`${BACKEND_URL}/api/uploads/productPicture`, {
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${token}`,

@@ -1,5 +1,6 @@
 import { Rating, Typography } from "@mui/material";
 import React from "react";
+import { BACKEND_URL } from "../constants/backendURL";
 import { ProductDetails } from "../models";
 import image from "../resources/productPlaceholder.jpg";
 import styles from "../styles/SingleSearchResult.module.css";
@@ -7,13 +8,13 @@ import styles from "../styles/SingleSearchResult.module.css";
 const SingleSearchResult: React.FC<ProductDetails> = (
 	product: ProductDetails
 ) => {
-	const { name, price } = product;
+	const { name, price, imgPath } = product;
 
 	return (
 		<div className={styles.productContainer}>
 			<img
 				className={styles.productDisplayImage}
-				src={image}
+				src={imgPath ? `${BACKEND_URL}${imgPath}` : image}
 				alt={`Image of ${name}`}
 			/>
 

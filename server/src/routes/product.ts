@@ -74,26 +74,21 @@ router.post("/", authenticateToken, async (req, res) => {
 router.put("/edit/:id", authenticateToken, async (req, res) => {
 	try {
 		const { id } = req.params;
-		const {
-			name,
-			price,
-			description,
-			imgPath,
-			stockCount,
-			category,
-			franchise,
-		} = req.body;
+		const { name, price, description, stockCount, category, franchise } =
+			req.body;
 		if (!id) {
 			return res.status(400).json({ error: "Product ID is required" });
 		}
 
 		const query = { _id: id.toString() };
+
+		console.log(name, price, description, stockCount, category, franchise);
+
 		const update = {
 			$set: {
 				name: name.toString(),
 				price: Number(price),
 				details: description.toString(),
-				imgPath: imgPath.toString(),
 				stockCount: Number(stockCount),
 				category: category.toString(),
 				franchise: franchise.toString(),

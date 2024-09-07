@@ -13,7 +13,7 @@
 }
 
 .productLineExpanded {
-	height: 260px;
+	height: 490px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -46,4 +46,9 @@
 	display: flex;
 	border-radius: 15px;
 	padding: 10px;
+}
+
+.productImg {
+	max-width: 250px;
+	max-height: 250px;
 }

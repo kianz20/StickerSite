@@ -1,4 +1,10 @@
-import { Input, Typography } from "@mui/material";
+import {
+	Input,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	Typography,
+} from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import * as api from "../api/productController";
@@ -10,6 +16,7 @@ import {
 	ThemedInput,
 	ThinProductDetails,
 } from "../components/";
+import categoryList from "../constants/categoryList";
 import { useAlert, useAuth } from "../hooks";
 import { ProductDetails } from "../models";
 import styles from "../styles/Dashboard.module.css";
@@ -90,7 +97,6 @@ const Dashboard = (): JSX.Element => {
 				showAlert(data.error, "error");
 				return "error";
 			}
-			console.log(data);
 			return data.imgUrl || "error";
 		} catch (error) {
 			console.error("Error uploading picture:", error);
@@ -117,8 +123,6 @@ const Dashboard = (): JSX.Element => {
 			...newProductDetails,
 			imgPath: fileUrl,
 		};
-
-		console.log(fileUrl);
 
 		try {
 			const data = await api.addProduct(updatedProductDetails, userToken);
@@ -152,6 +156,14 @@ const Dashboard = (): JSX.Element => {
 	const handleFormChange = async (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
+		const { name, value } = event.target;
+		setNewProductDetails((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+	};
+
+	const handleCategoryChange = (event: SelectChangeEvent<string>) => {
 		const { name, value } = event.target;
 		setNewProductDetails((prevState) => ({
 			...prevState,
@@ -212,16 +224,25 @@ const Dashboard = (): JSX.Element => {
 								value={newProductDetails.name}
 								onChange={handleFormChange}
 							/>
-							<ThemedInput
-								label="Category"
-								variant="outlined"
-								fullWidth
-								margin="normal"
-								required
+							<Select
 								name="category"
+								fullWidth
 								value={newProductDetails.category}
-								onChange={handleFormChange}
-							/>
+								onChange={handleCategoryChange}
+								displayEmpty
+								renderValue={(selected) => {
+									if (selected.length === 0) {
+										return "Category";
+									}
+									return selected;
+								}}
+							>
+								{categoryList.map((category, index) => (
+									<MenuItem key={index} value={category}>
+										{category}
+									</MenuItem>
+								))}
+							</Select>
 							<ThemedInput
 								label="Description"
 								variant="outlined"
@@ -235,13 +256,13 @@ const Dashboard = (): JSX.Element => {
 								onChange={handleFormChange}
 							/>
 							<ThemedInput
-								label="Price"
+								label="Franchise"
 								variant="outlined"
 								fullWidth
 								margin="normal"
 								required
-								name="price"
-								value={newProductDetails.price}
+								name="franchise"
+								value={newProductDetails.franchise}
 								onChange={handleFormChange}
 							/>
 							<Typography> Picture of product: </Typography>
@@ -254,6 +275,16 @@ const Dashboard = (): JSX.Element => {
 								ref={fileInputRef}
 							></Input>
 							<ThemedInput
+								label="Price"
+								variant="outlined"
+								fullWidth
+								margin="normal"
+								required
+								name="price"
+								value={newProductDetails.price}
+								onChange={handleFormChange}
+							/>
+							<ThemedInput
 								label="Stock Count"
 								variant="outlined"
 								fullWidth
@@ -261,16 +292,6 @@ const Dashboard = (): JSX.Element => {
 								required
 								name="stockCount"
 								value={newProductDetails.stockCount}
-								onChange={handleFormChange}
-							/>
-							<ThemedInput
-								label="Franchise"
-								variant="outlined"
-								fullWidth
-								margin="normal"
-								required
-								name="franchise"
-								value={newProductDetails.franchise}
 								onChange={handleFormChange}
 							/>
 							<ThemedButton text="Add Product" type="submit" />

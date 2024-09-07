@@ -33,7 +33,7 @@ const fileFilter = (
 	if (mimetype && extname) {
 		cb(null, true);
 	} else {
-		cb(new Error("Only images (jpg, jpeg, png) are allowed."));
+		cb(new Error("Only jpg, jpeg, or png images are allowed."));
 	}
 };
 

@@ -11,9 +11,9 @@
 
 .productDisplayImage {
 	margin: auto;
-	width: 95%;
 	border-radius: 10px;
 	max-width: 160px;
+	max-height: 160px;
 }
 
 .productName {
@@ -31,8 +31,9 @@
 	display: flex;
 	flex-direction: row;
 	overflow: visible;
-	margin: auto;
-	padding-bottom: 1%;
+	margin-right: auto;
+	margin-left: auto;
+	padding-bottom: 3%;
 }
 
 .productPrice {

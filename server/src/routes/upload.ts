@@ -15,13 +15,13 @@ router.post(
 			if (err instanceof multer.MulterError) {
 				return res
 					.status(400)
-					.json({ message: "File upload error: " + err.message });
+					.json({ error: "File upload error: " + err.message });
 			} else if (err) {
-				return res.status(400).json({ message: "Error: " + err.message });
+				return res.status(400).json({ error: "Error: " + err.message });
 			}
 
 			if (!req.file) {
-				return res.status(400).json({ message: "No file uploaded" });
+				return res.status(400).json({ error: "No file uploaded" });
 			}
 
 			const imgUrl = `/resources/productPictures/${req.file.filename}`;

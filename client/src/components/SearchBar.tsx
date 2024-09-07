@@ -5,6 +5,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as api from "../api/productController";
+import categoryList from "../constants/categoryList";
 import { ProductDetails } from "../models";
 import styles from "../styles/SearchBar.module.css";
 import SingleSearchResult from "./SingleSearchResult";
@@ -12,8 +13,6 @@ import ThemedButton from "./ThemedButton";
 import ThemedInput from "./ThemedInput";
 
 const SearchBar: React.FC<{}> = () => {
-	const categoryList = ["Stickers", "Frames", "Pins and Badges"];
-
 	const [selectedCategories, setSelectedCategories] =
 		useState<string[]>(categoryList);
 	const [searchQuery, setSearchQuery] = useState("");
@@ -49,7 +48,7 @@ const SearchBar: React.FC<{}> = () => {
 	const filteredProducts =
 		productDetails?.filter(
 			(product) =>
-				product.name.includes(searchQuery) &&
+				product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
 				selectedCategories.includes(product.category)
 		) || [];
 
@@ -66,7 +65,7 @@ const SearchBar: React.FC<{}> = () => {
 							multiple
 							value={selectedCategories}
 							onChange={handleCategorySelect}
-							displayEmpty={true}
+							displayEmpty
 							renderValue={(selected) => {
 								if (selected.length === 0) return "Select Categories";
 								if (selected.length === 1) return selected;

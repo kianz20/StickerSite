@@ -9,6 +9,7 @@ const SingleSearchResult: React.FC<ProductDetails> = (
 	product: ProductDetails
 ) => {
 	const { name, price, imgPath } = product;
+	console.log(price);
 
 	return (
 		<div className={styles.productContainer}>
@@ -21,10 +22,10 @@ const SingleSearchResult: React.FC<ProductDetails> = (
 			<Typography className={styles.productName} variant="subtitle1">
 				{name}
 			</Typography>
+			<Typography className={styles.productPrice} variant="body2">
+				{price}
+			</Typography>
 			<div className={styles.infoBar}>
-				<Typography className={styles.productPrice} variant="body2">
-					{price}
-				</Typography>
 				<Rating
 					className={styles.productRating}
 					name="read-only"

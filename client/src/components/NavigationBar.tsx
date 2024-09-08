@@ -1,14 +1,17 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useAuth } from "../hooks";
+import { useAuth, useCart } from "../hooks";
 import animoriLogo from "../resources/animori-logo.png";
 import styles from "../styles/NavigationBar.module.css";
 import ThemedButton from "./ThemedButton";
 
 const NavigationBar: React.FC<{}> = () => {
 	const { isAuthenticated, userRole, userID, userEmail, logout } = useAuth();
+	const { cartCount, cartTotal } = useCart();
 
 	return (
 		<div className={styles.topNavigation}>
@@ -28,6 +31,7 @@ const NavigationBar: React.FC<{}> = () => {
 					<InstagramIcon className={styles.socialIcon} />
 				</Link>
 			</div>
+
 			<div className={styles.buttonContainer}>
 				{userRole === "admin" && (
 					<Link to={`/dashboard/${userID}`}>
@@ -44,6 +48,17 @@ const NavigationBar: React.FC<{}> = () => {
 					/>
 				)}
 			</div>
+
+			<div className={styles.cartContainer}>
+				<div className={styles.cartIcon}>
+					<ShoppingCartIcon />
+					<Typography>
+						{`${cartCount !== 0 ? cartCount : "No"} items`}
+					</Typography>
+				</div>
+				<Typography>{`$${cartTotal.toFixed(2)}`}</Typography>
+			</div>
+
 			<Link
 				to={isAuthenticated ? `/profile/${userID}` : "/login"}
 				className={styles.linkContainer}

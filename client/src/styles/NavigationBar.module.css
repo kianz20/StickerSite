@@ -2,7 +2,7 @@
 	display: flex; /* Enables flexbox */
 	align-items: center; /* Vertically centers items */
 	justify-content: space-between; /* Distributes space between the logo and the icon container */
-	padding: 10px; /* Adds some padding around the navigation bar */
+	padding: 5px; /* Adds some padding around the navigation bar */
 	position: sticky; /* Makes the nav bar sticky at the top */
 	top: 0; /* Positions the nav bar at the very top */
 	width: 100%; /* Makes the nav bar span the entire width of the viewport */
@@ -52,4 +52,14 @@
 
 .buttonContainer {
 	display: grid;
+}
+
+.cartIcon {
+	display: flex;
+	flex-direction: row;
+}
+
+.cartContainer {
+	padding-right: 10px;
+	padding-left: 10px;
 }

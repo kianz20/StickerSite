@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ProductDetails } from "../models";
 
 interface CartItem {
@@ -11,28 +11,39 @@ interface UseCartReturn {
 	addItemToCart: (item: ProductDetails) => void;
 	removeItemFromCart: (item_id: string, amount: number | "all") => void;
 	clearCart: () => void;
-	getCartTotal: () => number;
+	cartTotal: number;
+	cartCount: number;
 }
 
-const useCart = (): UseCartReturn => {
-	const [cartItems, setCartItems] = useState<CartItem[]>([]);
+const LOCAL_STORAGE_KEY = "cartItems";
+
+export const useCart = (): UseCartReturn => {
+	const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+		// Load cart items from local storage, or return an empty array if none are found
+		const savedCartItems = localStorage.getItem(LOCAL_STORAGE_KEY);
+		return savedCartItems ? JSON.parse(savedCartItems) : [];
+	});
+
+	useEffect(() => {
+		// Save cart items to local storage whenever they change
+		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cartItems));
+	}, [cartItems]);
 
 	const addItemToCart = useCallback((item: ProductDetails) => {
 		setCartItems((prevItems) => {
 			const existingItem = prevItems.find(
 				(cartItem) => cartItem.item._id === item._id
 			);
-			if (existingItem) {
-				// If the item exists in the cart, update its quantity
-				return prevItems.map((cartItem) =>
-					cartItem.item._id === item._id
-						? { ...cartItem, quantity: cartItem.quantity + 1 }
-						: cartItem
-				);
-			} else {
-				// If the item does not exist in the cart, add it
-				return [...prevItems, { item, quantity: 1 }];
-			}
+			const updatedItems = existingItem
+				? prevItems.map((cartItem) =>
+						cartItem.item._id === item._id
+							? { ...cartItem, quantity: cartItem.quantity + 1 }
+							: cartItem
+					)
+				: [...prevItems, { item, quantity: 1 }];
+
+			console.log("Updated Cart Items: ", updatedItems); // Debug log
+			return updatedItems;
 		});
 	}, []);
 
@@ -63,7 +74,7 @@ const useCart = (): UseCartReturn => {
 		setCartItems([]);
 	}, []);
 
-	const getCartTotal = useCallback(() => {
+	const cartTotal = useMemo(() => {
 		let total = 0;
 		for (const cartItem of cartItems) {
 			total += cartItem.item.price * cartItem.quantity;
@@ -71,13 +82,20 @@ const useCart = (): UseCartReturn => {
 		return total;
 	}, [cartItems]);
 
+	const cartCount = useMemo(() => {
+		let count = 0;
+		for (const cartItem of cartItems) {
+			count += cartItem.quantity;
+		}
+		return count;
+	}, [cartItems]);
+
 	return {
 		cartItems,
 		addItemToCart,
 		removeItemFromCart,
 		clearCart,
-		getCartTotal,
+		cartTotal,
+		cartCount,
 	};
 };
-
-export default useCart;

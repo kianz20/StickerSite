@@ -224,6 +224,7 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 								<img
 									className={styles.productImg}
 									src={`${BACKEND_URL}${imgPath}`}
+									alt={`Image of ${name}`}
 								/>
 							</>
 						)}

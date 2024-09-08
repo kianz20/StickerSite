@@ -22,6 +22,9 @@ import { ProductDetails } from "../models";
 import styles from "../styles/Dashboard.module.css";
 
 const Dashboard = (): JSX.Element => {
+	type InputEvent =
+		| React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+		| SelectChangeEvent<string>;
 	const { isAuthenticated, userRole, userToken } = useAuth();
 	const { alertDetails, showAlert, clearAlert } = useAlert();
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -97,7 +100,7 @@ const Dashboard = (): JSX.Element => {
 				showAlert(data.error, "error");
 				return "error";
 			}
-			return data.imgUrl || "error";
+			return data.imgUrl ?? "error";
 		} catch (error) {
 			console.error("Error uploading picture:", error);
 			showAlert("Something went wrong", "error");
@@ -153,17 +156,7 @@ const Dashboard = (): JSX.Element => {
 		}
 	};
 
-	const handleFormChange = async (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		const { name, value } = event.target;
-		setNewProductDetails((prevState) => ({
-			...prevState,
-			[name]: value,
-		}));
-	};
-
-	const handleCategoryChange = (event: SelectChangeEvent<string>) => {
+	const handleInputChange = (event: InputEvent) => {
 		const { name, value } = event.target;
 		setNewProductDetails((prevState) => ({
 			...prevState,
@@ -222,13 +215,13 @@ const Dashboard = (): JSX.Element => {
 								required
 								name="name"
 								value={newProductDetails.name}
-								onChange={handleFormChange}
+								onChange={handleInputChange}
 							/>
 							<Select
 								name="category"
 								fullWidth
 								value={newProductDetails.category}
-								onChange={handleCategoryChange}
+								onChange={handleInputChange}
 								displayEmpty
 								renderValue={(selected) => {
 									if (selected.length === 0) {
@@ -237,8 +230,8 @@ const Dashboard = (): JSX.Element => {
 									return selected;
 								}}
 							>
-								{categoryList.map((category, index) => (
-									<MenuItem key={index} value={category}>
+								{categoryList.map((category) => (
+									<MenuItem key={category} value={category}>
 										{category}
 									</MenuItem>
 								))}
@@ -253,7 +246,7 @@ const Dashboard = (): JSX.Element => {
 								multiline={true}
 								rows={4}
 								value={newProductDetails.description}
-								onChange={handleFormChange}
+								onChange={handleInputChange}
 							/>
 							<ThemedInput
 								label="Franchise"
@@ -263,7 +256,7 @@ const Dashboard = (): JSX.Element => {
 								required
 								name="franchise"
 								value={newProductDetails.franchise}
-								onChange={handleFormChange}
+								onChange={handleInputChange}
 							/>
 							<Typography> Picture of product: </Typography>
 							<Input
@@ -282,7 +275,7 @@ const Dashboard = (): JSX.Element => {
 								required
 								name="price"
 								value={newProductDetails.price}
-								onChange={handleFormChange}
+								onChange={handleInputChange}
 							/>
 							<ThemedInput
 								label="Stock Count"
@@ -292,7 +285,7 @@ const Dashboard = (): JSX.Element => {
 								required
 								name="stockCount"
 								value={newProductDetails.stockCount}
-								onChange={handleFormChange}
+								onChange={handleInputChange}
 							/>
 							<ThemedButton text="Add Product" type="submit" />
 						</form>

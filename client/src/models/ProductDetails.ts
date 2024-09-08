@@ -4,4 +4,8 @@ export interface ProductDetails {
 	description: string;
 	price: number;
 	_id: string;
+	imgPath: string;
+	stockCount: number;
+	franchise: string;
+	rating?: string;
 }

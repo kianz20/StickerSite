@@ -18,12 +18,28 @@ router.get("/", async (req, res) => {
 router.post("/", authenticateToken, async (req, res) => {
 	try {
 		// Extract product data from the request body
-		const { name, price, description } = req.body;
+		const {
+			name,
+			price,
+			description,
+			imgPath,
+			stockCount,
+			category,
+			franchise,
+		} = req.body;
 		// Validate the input
-		if (!name || !price || !description) {
-			return res
-				.status(400)
-				.json({ error: "name, price, and description args are required" });
+		if (
+			!name ||
+			!price ||
+			!description ||
+			!category ||
+			!franchise ||
+			!stockCount ||
+			!imgPath
+		) {
+			return res.status(400).json({
+				error: "Missing details",
+			});
 		}
 
 		const query = { name: name.toString };
@@ -36,6 +52,10 @@ router.post("/", authenticateToken, async (req, res) => {
 			name,
 			price,
 			description,
+			imgPath,
+			stockCount,
+			category,
+			franchise,
 		});
 		// Save the new user to the database
 		await newProduct.save();
@@ -54,17 +74,24 @@ router.post("/", authenticateToken, async (req, res) => {
 router.put("/edit/:id", authenticateToken, async (req, res) => {
 	try {
 		const { id } = req.params;
-		const { name, price, description } = req.body;
+		const { name, price, description, stockCount, category, franchise } =
+			req.body;
 		if (!id) {
 			return res.status(400).json({ error: "Product ID is required" });
 		}
 
 		const query = { _id: id.toString() };
+
+		console.log(name, price, description, stockCount, category, franchise);
+
 		const update = {
 			$set: {
 				name: name.toString(),
-				price: price.toString(),
+				price: Number(price),
 				details: description.toString(),
+				stockCount: Number(stockCount),
+				category: category.toString(),
+				franchise: franchise.toString(),
 			},
 		};
 		const options = { new: true };

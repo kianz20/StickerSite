@@ -1,6 +1,14 @@
-import { useEffect, useState } from "react";
+import {
+	Input,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	Typography,
+} from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import * as api from "../api/productController";
+import * as uploadApi from "../api/uploadController";
 import {
 	AlertMessage,
 	NavigationBar,
@@ -8,6 +16,7 @@ import {
 	ThemedInput,
 	ThinProductDetails,
 } from "../components/";
+import categoryList from "../constants/categoryList";
 import { useAlert, useAuth } from "../hooks";
 import { ProductDetails } from "../models";
 import styles from "../styles/Dashboard.module.css";
@@ -15,6 +24,7 @@ import styles from "../styles/Dashboard.module.css";
 const Dashboard = (): JSX.Element => {
 	const { isAuthenticated, userRole, userToken } = useAuth();
 	const { alertDetails, showAlert, clearAlert } = useAlert();
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	// Contains the details used when adding new products
 	const [newProductDetails, setNewProductDetails] = useState<ProductDetails>({
@@ -23,7 +33,12 @@ const Dashboard = (): JSX.Element => {
 		price: 0,
 		description: "",
 		_id: "",
+		imgPath: "",
+		stockCount: 0,
+		franchise: "",
 	});
+
+	const [productImg, setProductImg] = useState<File | null>(null);
 
 	const [productDetails, setProductDetails] = useState<ProductDetails[]>();
 
@@ -62,15 +77,55 @@ const Dashboard = (): JSX.Element => {
 		return <Navigate to="/unauthorized" />;
 	}
 
+	const handleFileUpload = async (): Promise<string> => {
+		if (!userToken) {
+			showAlert("Your session has expired. Please log in again", "error");
+			return "error";
+		}
+
+		if (!productImg) {
+			showAlert("At least one product image is required", "error");
+			return "error";
+		}
+
+		const images = new FormData();
+		images.append("productPicture", productImg);
+
+		try {
+			const data = await uploadApi.uploadProductPicture(images, userToken);
+			if (data.error) {
+				showAlert(data.error, "error");
+				return "error";
+			}
+			return data.imgUrl || "error";
+		} catch (error) {
+			console.error("Error uploading picture:", error);
+			showAlert("Something went wrong", "error");
+			return "error";
+		}
+	};
+
 	// Sends the request to create a new product
 	const handleAddProduct = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
 		if (!userToken) {
 			showAlert("Your session has expired. Please log in again", "error");
 			return;
 		}
+
+		const fileUrl = await handleFileUpload();
+
+		if (fileUrl === "error") {
+			return;
+		}
+
+		const updatedProductDetails = {
+			...newProductDetails,
+			imgPath: fileUrl,
+		};
+
 		try {
-			event.preventDefault();
-			const data = await api.addProduct(newProductDetails, userToken);
+			const data = await api.addProduct(updatedProductDetails, userToken);
 			if (data.error) {
 				console.error("Add product failed: ", data.error);
 				showAlert(data.error, "error");
@@ -79,14 +134,21 @@ const Dashboard = (): JSX.Element => {
 				getProductData();
 				setNewProductDetails({
 					name: "",
-					price: 0,
-					description: "",
-					_id: "",
 					category: "",
+					description: "",
+					price: 0,
+					_id: "",
+					imgPath: "",
+					stockCount: 0,
+					franchise: "",
 				});
+				setProductImg(null);
+				if (fileInputRef.current) {
+					fileInputRef.current.value = "";
+				}
 			}
 		} catch (error) {
-			console.error("Error retreiving products:", error);
+			console.error("Error adding product:", error);
 			showAlert("Something went wrong", "error");
 		}
 	};
@@ -99,6 +161,18 @@ const Dashboard = (): JSX.Element => {
 			...prevState,
 			[name]: value,
 		}));
+	};
+
+	const handleCategoryChange = (event: SelectChangeEvent<string>) => {
+		const { name, value } = event.target;
+		setNewProductDetails((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+	};
+
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setProductImg(e.target.files ? e.target.files[0] : null);
 	};
 
 	const handlePageChange = (page: string) => {
@@ -150,6 +224,56 @@ const Dashboard = (): JSX.Element => {
 								value={newProductDetails.name}
 								onChange={handleFormChange}
 							/>
+							<Select
+								name="category"
+								fullWidth
+								value={newProductDetails.category}
+								onChange={handleCategoryChange}
+								displayEmpty
+								renderValue={(selected) => {
+									if (selected.length === 0) {
+										return "Category";
+									}
+									return selected;
+								}}
+							>
+								{categoryList.map((category, index) => (
+									<MenuItem key={index} value={category}>
+										{category}
+									</MenuItem>
+								))}
+							</Select>
+							<ThemedInput
+								label="Description"
+								variant="outlined"
+								fullWidth
+								margin="normal"
+								required
+								name="description"
+								multiline={true}
+								rows={4}
+								value={newProductDetails.description}
+								onChange={handleFormChange}
+							/>
+							<ThemedInput
+								label="Franchise"
+								variant="outlined"
+								fullWidth
+								margin="normal"
+								required
+								name="franchise"
+								value={newProductDetails.franchise}
+								onChange={handleFormChange}
+							/>
+							<Typography> Picture of product: </Typography>
+							<Input
+								type="file"
+								fullWidth
+								disableUnderline
+								name="picture"
+								onChange={handleFileChange}
+								ref={fileInputRef}
+							></Input>
 							<ThemedInput
 								label="Price"
 								variant="outlined"
@@ -161,15 +285,13 @@ const Dashboard = (): JSX.Element => {
 								onChange={handleFormChange}
 							/>
 							<ThemedInput
-								label="Description"
+								label="Stock Count"
 								variant="outlined"
 								fullWidth
 								margin="normal"
 								required
-								name="description"
-								multiline={true}
-								rows={4}
-								value={newProductDetails.description}
+								name="stockCount"
+								value={newProductDetails.stockCount}
 								onChange={handleFormChange}
 							/>
 							<ThemedButton text="Add Product" type="submit" />
@@ -186,7 +308,7 @@ const Dashboard = (): JSX.Element => {
 							{productDetails?.map((product, index) => (
 								<ThinProductDetails
 									key={product._id}
-									color={index % 2 === 0 ? "#ccc5e3" : "#d9d7e0"} // Alternates between red and blue
+									color={index % 2 === 0 ? "#ccc5e3" : "#d9d7e0"}
 									{...product}
 									onRemove={handleRemoveProduct}
 								/>

@@ -1,6 +1,8 @@
 import { Rating, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { BACKEND_URL } from "../constants/backendURL";
 import { ProductDetails } from "../models";
+import image from "../resources/productPlaceholder.jpg";
 import styles from "../styles/SingleProduct.module.css";
 import ThemedButton from "./ThemedButton";
 
@@ -8,6 +10,7 @@ const SingleProduct: React.FC<ProductDetails> = ({
 	name,
 	price,
 	description,
+	imgPath,
 }) => {
 	const [isLoaded, setIsLoaded] = useState(false);
 
@@ -21,7 +24,7 @@ const SingleProduct: React.FC<ProductDetails> = ({
 				<div className={styles.imageContainer}>
 					<img
 						onLoad={() => setIsLoaded(true)}
-						src="https://picsum.photos/600/500"
+						src={imgPath ? `${BACKEND_URL}${imgPath}` : image}
 						alt={`Image of ${name}`}
 					/>
 					{!isLoaded && <div className={styles.skeletonImg}></div>}

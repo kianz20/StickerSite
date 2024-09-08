@@ -1,7 +1,5 @@
+import { BACKEND_URL } from "../constants/backendURL";
 import { ProductDetails } from "../models";
-
-const deployed = false;
-const url = deployed ? "https://deployedURL.com" : "http://localhost:5050";
 
 interface EditFormDetails {
 	name: string;
@@ -18,7 +16,7 @@ export const addProduct = async (
 			return { error: "All fields are required" };
 		}
 
-		const response = await fetch(`${url}/api/products/`, {
+		const response = await fetch(`${BACKEND_URL}/api/products/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -44,7 +42,7 @@ export const getProducts = async (): Promise<{
 	error?: string;
 }> => {
 	try {
-		const response = await fetch(`${url}/api/products/`, {
+		const response = await fetch(`${BACKEND_URL}/api/products/`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -69,14 +67,17 @@ export const editProduct = async (
 	token: string
 ): Promise<{ message?: string; error?: string }> => {
 	try {
-		const response = await fetch(`${url}/api/products/edit/${productId}`, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-			body: JSON.stringify(ProductDetails),
-		});
+		const response = await fetch(
+			`${BACKEND_URL}/api/products/edit/${productId}`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify(ProductDetails),
+			}
+		);
 
 		if (!response.ok) {
 			const errorData = await response.json();
@@ -95,7 +96,7 @@ export const removeProduct = async (
 	token: string
 ): Promise<{ message?: string; error?: string }> => {
 	try {
-		const response = await fetch(`${url}/api/products/${productId}`, {
+		const response = await fetch(`${BACKEND_URL}/api/products/${productId}`, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",

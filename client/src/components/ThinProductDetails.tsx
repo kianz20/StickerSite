@@ -4,6 +4,7 @@ import { Button, Typography } from "@mui/material";
 import React, { useState } from "react";
 import * as api from "../api/productController";
 import { ThemedInput } from "../components";
+import { BACKEND_URL } from "../constants/backendURL";
 import testIds from "../constants/testIds";
 import { useAlert, useAuth } from "../hooks";
 import { ProductDetails } from "../models";
@@ -15,6 +16,9 @@ interface EditFormDetails {
 	name: string;
 	price: number;
 	description: string;
+	franchise: string;
+	stockCount: number;
+	category: string;
 }
 
 interface ThinProductDetailsProps extends ProductDetails {
@@ -25,12 +29,26 @@ interface ThinProductDetailsProps extends ProductDetails {
 const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 	const { userToken } = useAuth();
 	const { alertDetails, showAlert } = useAlert();
-	const { _id, name, description, price, color, onRemove } = props;
+	const {
+		_id,
+		name,
+		description,
+		price,
+		franchise,
+		category,
+		stockCount,
+		imgPath,
+		color,
+		onRemove,
+	} = props;
 
 	const [formState, setFormState] = useState<EditFormDetails>({
 		name: name,
 		price: price,
 		description: description,
+		franchise: franchise,
+		stockCount: stockCount,
+		category: category,
 	});
 
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -149,6 +167,39 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 										onChange={handleFormChange}
 									/>
 								</div>
+								<div className={styles.editField}>
+									<Typography className={styles.productDetail}>
+										<b>Category:</b>
+									</Typography>
+									<ThemedInput
+										name="category"
+										multiline
+										value={formState.category}
+										onChange={handleFormChange}
+									/>
+								</div>
+								<div className={styles.editField}>
+									<Typography className={styles.productDetail}>
+										<b>Franchise:</b>
+									</Typography>
+									<ThemedInput
+										name="franchise"
+										multiline
+										value={formState.franchise}
+										onChange={handleFormChange}
+									/>
+								</div>
+								<div className={styles.editField}>
+									<Typography className={styles.productDetail}>
+										<b>Stock Count:</b>
+									</Typography>
+									<ThemedInput
+										name="stockCount"
+										multiline
+										value={formState.stockCount}
+										onChange={handleFormChange}
+									/>
+								</div>
 							</>
 						) : (
 							<>
@@ -161,6 +212,19 @@ const ThinProductDetails: React.FC<ThinProductDetailsProps> = (props) => {
 								<Typography className={styles.productDetail}>
 									<b>Description:</b> {description}
 								</Typography>
+								<Typography className={styles.productDetail}>
+									<b>Franchise:</b> {franchise}
+								</Typography>
+								<Typography className={styles.productDetail}>
+									<b>Category:</b> {category}
+								</Typography>
+								<Typography className={styles.productDetail}>
+									<b>Stock Count:</b> {stockCount}
+								</Typography>
+								<img
+									className={styles.productImg}
+									src={`${BACKEND_URL}${imgPath}`}
+								/>
 							</>
 						)}
 					</div>

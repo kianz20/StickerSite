@@ -4,15 +4,16 @@
 	overflow: hidden;
 	min-width: 0;
 	padding-top: 2.5%;
-    background-color: aliceblue;
+	background-color: aliceblue;
 	border: 2px solid black;
 	border-radius: 15px;
 }
 
 .productDisplayImage {
 	margin: auto;
-    width: 95%;
 	border-radius: 10px;
+	max-width: 160px;
+	max-height: 160px;
 }
 
 .productName {
@@ -23,21 +24,22 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	text-align: center;
-    color: black;
+	color: black;
 }
 
 .infoBar {
 	display: flex;
 	flex-direction: row;
 	overflow: visible;
-	margin: auto;
-	padding-bottom: 1%;
+	margin-right: auto;
+	margin-left: auto;
+	padding-bottom: 3%;
 }
 
 .productPrice {
 	padding-right: 2.5%;
 	text-align: left;
-    color: darkslategrey;
+	color: darkslategrey;
 }
 
 .productRatingCount {

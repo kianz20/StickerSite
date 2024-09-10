@@ -28,9 +28,9 @@ const CartItemDisplay: React.FC<CartItemProps> = ({ cartItem }) => {
 		<>
 			<div className={styles.itemDetails}>
 				<Typography>{cartItem.item.name}</Typography>
-				<Typography>Quantity: {cartItem.quantity}</Typography>
+				<Typography>{`Quantity: ${cartItem.quantity}`}</Typography>
 				<Typography>
-					Total Price: ${cartItem.quantity * cartItem.item.price}
+					{`Total Price: $${cartItem.quantity * cartItem.item.price}`}
 				</Typography>
 
 				<div className={styles.removeDialog}>
@@ -56,14 +56,12 @@ const CartItemDisplay: React.FC<CartItemProps> = ({ cartItem }) => {
 							/>
 						</>
 					) : (
-						<>
-							<ThemedButton
-								text="Edit Quantity or Remove"
-								onClick={() => {
-									setEditMode(!editMode);
-								}}
-							/>
-						</>
+						<ThemedButton
+							text="Edit Quantity or Remove"
+							onClick={() => {
+								setEditMode(!editMode);
+							}}
+						/>
 					)}
 				</div>
 			</div>

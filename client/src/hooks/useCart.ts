@@ -42,7 +42,6 @@ export const useCart = (): UseCartReturn => {
 					)
 				: [...prevItems, { item, quantity: 1 }];
 
-			console.log("Updated Cart Items: ", updatedItems); // Debug log
 			return updatedItems;
 		});
 	}, []);

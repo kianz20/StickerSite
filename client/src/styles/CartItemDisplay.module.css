@@ -1,0 +1,8 @@
+.itemDetails {
+	display: grid;
+	min-height: 120px;
+	justify-items: stretch;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	align-content: start;
+	gap: 15px;
+}

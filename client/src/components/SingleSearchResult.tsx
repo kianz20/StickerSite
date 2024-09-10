@@ -9,7 +9,6 @@ const SingleSearchResult: React.FC<ProductDetails> = (
 	product: ProductDetails
 ) => {
 	const { name, price, imgPath } = product;
-	console.log(price);
 
 	return (
 		<div className={styles.productContainer}>

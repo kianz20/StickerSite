@@ -82,8 +82,6 @@ router.put("/edit/:id", authenticateToken, async (req, res) => {
 
 		const query = { _id: id.toString() };
 
-		console.log(name, price, description, stockCount, category, franchise);
-
 		const update = {
 			$set: {
 				name: name.toString(),

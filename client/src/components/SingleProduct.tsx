@@ -1,18 +1,16 @@
 import { Rating, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { BACKEND_URL } from "../constants/backendURL";
+import { useCartContext } from "../contexts/useCartContext";
 import { ProductDetails } from "../models";
 import image from "../resources/productPlaceholder.jpg";
 import styles from "../styles/SingleProduct.module.css";
 import ThemedButton from "./ThemedButton";
 
-const SingleProduct: React.FC<ProductDetails> = ({
-	name,
-	price,
-	description,
-	imgPath,
-}) => {
+const SingleProduct: React.FC<ProductDetails> = (item) => {
+	const { name, description, imgPath, price } = item;
 	const [isLoaded, setIsLoaded] = useState(false);
+	const { addItemToCart } = useCartContext();
 
 	return (
 		<div className={styles.singleProduct}>
@@ -50,6 +48,7 @@ const SingleProduct: React.FC<ProductDetails> = ({
 					className={styles.addCartButton}
 					text="Add to cart"
 					fullWidth
+					onClick={() => addItemToCart(item)}
 				/>
 			</div>
 		</div>

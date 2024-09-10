@@ -48,6 +48,11 @@
 	align-items: center;
 	text-decoration: none;
 	margin-left: 20px;
+	color: black;
+}
+
+.linkContainer :hover {
+	color: darkblue;
 }
 
 .buttonContainer {

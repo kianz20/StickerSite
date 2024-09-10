@@ -1,4 +1,5 @@
 import AlertMessage from "./AlertMessage";
+import CartItemDisplay from "./CartItemDisplay";
 import NavigationBar from "./NavigationBar";
 import SearchBar from "./SearchBar";
 import SingleProduct from "./SingleProduct";
@@ -9,6 +10,7 @@ import ThinProductDetails from "./ThinProductDetails";
 
 export {
 	AlertMessage,
+	CartItemDisplay,
 	NavigationBar,
 	SearchBar,
 	SingleProduct,

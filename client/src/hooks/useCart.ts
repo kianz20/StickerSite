@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ProductDetails } from "../models";
 
-interface CartItem {
+export interface CartItem {
 	item: ProductDetails;
 	quantity: number;
 }
 
-interface UseCartReturn {
+export interface UseCartReturn {
 	cartItems: CartItem[];
 	addItemToCart: (item: ProductDetails) => void;
 	removeItemFromCart: (item_id: string, amount: number | "all") => void;

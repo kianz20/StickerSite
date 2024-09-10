@@ -1,7 +1,7 @@
 import { Rating, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { BACKEND_URL } from "../constants/backendURL";
-import { useCart } from "../hooks";
+import { useCartContext } from "../contexts/useCartContext";
 import { ProductDetails } from "../models";
 import image from "../resources/productPlaceholder.jpg";
 import styles from "../styles/SingleProduct.module.css";
@@ -10,7 +10,7 @@ import ThemedButton from "./ThemedButton";
 const SingleProduct: React.FC<ProductDetails> = (item) => {
 	const { name, description, imgPath, price } = item;
 	const [isLoaded, setIsLoaded] = useState(false);
-	const { addItemToCart } = useCart();
+	const { addItemToCart } = useCartContext();
 
 	return (
 		<div className={styles.singleProduct}>

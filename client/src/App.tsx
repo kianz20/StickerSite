@@ -1,12 +1,13 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import Cart from "./pages/Cart";
+import Dashboard from "./pages/Dashboard";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Profile from "./pages/Profile";
-import Dashboard from "./pages/Dashboard";
-import Unauthorized from "./pages/Unauthorized";
 import Products from "./pages/Products";
-import "./App.css";
+import Profile from "./pages/Profile";
+import Register from "./pages/Register";
+import Unauthorized from "./pages/Unauthorized";
 
 const App = (): JSX.Element => {
 	return (
@@ -19,6 +20,7 @@ const App = (): JSX.Element => {
 				<Route path="/dashboard/:id" element={<Dashboard />} />
 				<Route path="/unauthorized" element={<Unauthorized />} />
 				<Route path="/products" element={<Products />} />
+				<Route path="/cart" element={<Cart />} />
 			</Routes>
 		</BrowserRouter>
 	);

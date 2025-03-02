@@ -12,3 +12,8 @@
 .title {
 	text-align: center;
 }
+
+.submitButton {
+	display: inline-block;
+	align-self: flex-end;
+}

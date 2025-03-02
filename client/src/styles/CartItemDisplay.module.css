@@ -1,8 +1,8 @@
 .itemDetails {
 	display: grid;
 	min-height: 120px;
-	justify-items: stretch;
-	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	justify-items: stretch; /* Ensures items stretch to fill the grid cells */
+	grid-template-columns: repeat(auto-fill, minmax(19vw, 1fr));
 	align-content: start;
 	gap: 15px;
 }

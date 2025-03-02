@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { NavigationBar, SearchBar } from "../components";
+import { NavigationBar, SearchBar, ThemedButton } from "../components";
 import CartItemDisplay from "../components/CartItemDisplay";
 import { useCartContext } from "../contexts/useCartContext";
 import styles from "../styles/Cart.module.css";
@@ -21,6 +21,11 @@ const Cart = (): JSX.Element => {
 						<CartItemDisplay cartItem={cartItem} />
 					</div>
 				))}
+				<ThemedButton
+					className={styles.submitButton}
+					fullWidth
+					text="Checkout"
+				/>
 			</div>
 		</>
 	);
